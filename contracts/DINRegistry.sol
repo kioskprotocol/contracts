@@ -28,18 +28,6 @@ contract DINRegistry {
         _;
     }
 
-    /** @dev Constructor.
-      * @param _genesis The first DIN registered.
-      */
-    function DINRegistry(uint256 _genesis) {
-        genesis = _genesis;
-
-        // Register the genesis DIN to the account that deploys this contract.
-        records[genesis].owner = msg.sender;
-        records[genesis].updated = block.timestamp;
-        NewRegistration(genesis, msg.sender);
-    }
-
     // Logged when the owner of a DIN transfers ownership to a new account.
     event NewOwner(uint256 indexed DIN, address indexed owner);
 
@@ -51,6 +39,18 @@ contract DINRegistry {
 
     // Logged when the DINRegistrar contract changes.
     event NewRegistrar(address indexed registrar);
+
+    /** @dev Constructor.
+      * @param _genesis The first DIN registered.
+      */
+    function DINRegistry(uint256 _genesis) {
+        genesis = _genesis;
+
+        // Register the genesis DIN to the account that deploys this contract.
+        records[genesis].owner = msg.sender;
+        records[genesis].updated = block.timestamp;
+        NewRegistration(genesis, msg.sender);
+    }
 
     // Get the owner of a specified DIN.
     function owner(uint256 DIN) constant returns (address) {
