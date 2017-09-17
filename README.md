@@ -1,2 +1,0 @@
-# DIN
-Decentralized Identification Number
