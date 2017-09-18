@@ -5,8 +5,8 @@ contract DINRegistry {
 
     struct Record {
         address owner;
-        address resolver;
-        uint256 updated;  // Unix timestamp
+        address resolver;  // Address where product information is stored. 
+        uint256 updated;   // Unix timestamp.
     }
 
     // DIN => Record
