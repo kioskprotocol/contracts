@@ -2,7 +2,7 @@ pragma solidity ^0.4.11;
 
 import "./DINRegistry.sol";
 
-/** @title Decentralized Identification Number (DIN) registrar. Registers unowned DINs */
+/** @title Decentralized Identification Number (DIN) registrar. Registers new DINs */
 contract DINRegistrar {
 
     // The DINRegistry contract

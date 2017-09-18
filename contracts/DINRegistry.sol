@@ -6,7 +6,7 @@ contract DINRegistry {
     struct Record {
         address owner;
         address resolver;
-        uint256 updated;  // Timestamp measured in Unix seconds since the epoch (Jan 1, 1970).
+        uint256 updated;  // Unix timestamp
     }
 
     // DIN => Record
