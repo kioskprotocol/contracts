@@ -1,0 +1,10 @@
+{
+  "name": "DIN",
+  "version": "0.0.1",
+  "description": "Decentralized Identification Number (DIN) registry and registrar contracts.",
+  "author": "Rich McAteer",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "chai": "^4.1.2"
+  }
+}
