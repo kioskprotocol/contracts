@@ -8,7 +8,7 @@ const chai = require("chai"),
 contract("DINRegistrar", accounts => {
     let registrar;
     let registry;
-    const alice = accounts[0];
+    const alice = accounts[1];
 
     before(async () => {
         registrar = await DINRegistrar.deployed();
