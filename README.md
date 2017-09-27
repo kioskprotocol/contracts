@@ -10,7 +10,20 @@ A Decentralized Identification Number (DIN) is a globally unique, 10-digit numbe
 
 ### Register a New DIN
 
+In a web3-enabled Javascript environment, type the following:
+```
+> const registrarABI = [{"constant":false,"inputs":[],"name":"registerDIN","outputs":[{"name":"DIN","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"index","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"quantity","type":"uint256"}],"name":"registerDINs","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_QUANTITY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_registry","type":"address"},{"name":"_genesis","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
+> const registrarAddress = "0xcfe8f8dcd29419ba396a496ad2317b784ec23d60"
+> const registrar = web3.eth.contract(registrarABI).at(registrarAddress)
 
+// Register a single DIN
+> registrar.registerDIN((error, result) => { console.log(result) })
+
+// Register multiple DINs (maximum 10 in one transaction)
+> registrar.registerDINs(10, (error, result) => { console.log(result) })
+```
+
+Alternatively, you can use MyEtherWallet (https://www.myetherwallet.com/). Go to the website, click on Contracts, and then paste in the above ABI and address and then select either "registerDIN" or "registerDINs" from the Read / Write Contract dropdown.
 
 ### Resolver
 
@@ -23,7 +36,6 @@ A resolver must implement the following method:
 ```
 function supportsInterface(bytes4 interfaceID) constant returns (bool)
 ```
-
 
 *Coming soon!*
 
