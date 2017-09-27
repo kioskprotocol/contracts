@@ -1,6 +1,6 @@
 # Kiosk
 
-Kiosk is a protocol that uses smart contracts to organize a decentralized, global product database.
+Kiosk is a protocol that uses smart contracts to organize a decentralized, global product registry.
 
 # How It Works
 
@@ -58,8 +58,8 @@ ABI: [{"constant":false,"inputs":[],"name":"registerDIN","outputs":[{"name":"DIN
 ## Roadmap
 
 * Decentralized Identification Number (DIN) ✅
-* Global product database
-  * Resolver contracts *(in progress)*
+* Global product registry
+  * Resolver contracts ✅
   * Javascript API *(in progress)*
   * REST API *(in progress)*
 * Decentralized exchange
