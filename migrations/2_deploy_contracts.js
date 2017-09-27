@@ -1,5 +1,6 @@
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistrar = artifacts.require("DINRegistrar.sol");
+const PublicURLResolver = artifacts.require("PublicURLResolver.sol");
 const genesis = 1000000000; // The first DIN.
 
 module.exports = async deployer => {
@@ -9,5 +10,7 @@ module.exports = async deployer => {
     await deployer.deploy(DINRegistrar, DINRegistry.address, genesis);
     // Set the registrar on DINRegistry
     await DINRegistry.at(DINRegistry.address).setRegistrar(DINRegistrar.address);
+    // Deploy PublicURLResolver
+    await deployer.deploy(PublicURLResolver, DINRegistry.address);
   }) 
 };

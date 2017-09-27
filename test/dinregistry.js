@@ -26,7 +26,7 @@ contract("DINRegistrar", accounts => {
       *  ==================================
       */
 
-    it("should throw if a random account tries to set the resolver of a DIN", async () => {
+    it("should throw if an unauthorized account tries to set the resolver of a DIN", async () => {
         try {
             await registry.setResolver(1000000001, newAddress, { from: bob });
         } catch (error) {
@@ -63,7 +63,7 @@ contract("DINRegistrar", accounts => {
         expect(firstDINOwner).to.equal(alice);
     });
 
-    it("should throw if a random account tries to transfer ownership of a DIN", async () => {
+    it("should throw if an unauthorized account tries to transfer ownership of a DIN", async () => {
         try {
             await registry.setOwner(1000000001, newAddress, { from: bob });
         } catch (error) {
@@ -97,7 +97,7 @@ contract("DINRegistrar", accounts => {
         expect(registrarContract).to.equal(registrar.address);
     });
 
-    it("should throw if a random account tries to set the registrar", async () => {
+    it("should throw if an unauthorized account tries to set the registrar", async () => {
         try {
             await registry.setRegistrar(newAddress, { from: bob });
         } catch (error) {
