@@ -11,7 +11,7 @@ contract("PublicURLResolver", accounts => {
     let registry;
     const alice = accounts[1];
     const bob = accounts[2];
-    const baseURL = "https://www.google.com/";
+    const productURL = "https://www.google.com/";
     const DIN = 1000000001;
 
     before(async () => {
@@ -24,39 +24,41 @@ contract("PublicURLResolver", accounts => {
 
     it("should support the correct interfaces", async () => {
         const interfaceMetaId = web3.sha3("supportsInterface(bytes4)").slice(0, 10);
-        const baseURLInterfaceId = web3.sha3("baseURL(uint256)").slice(0, 10);
+        const productURLInterfaceId = web3.sha3("productURL(uint256)").slice(0, 10);
         const randomInterfaceId = web3.sha3("random(uint256)").slice(0, 10);
 
+        console.log(productURLInterfaceId)
+
         const interfaceMetaBool = await resolver.supportsInterface(interfaceMetaId);
-        const baseURLInterfaceBool = await resolver.supportsInterface(baseURLInterfaceId);
+        const productURLInterfaceBool = await resolver.supportsInterface(productURLInterfaceId);
         const randomInterfaceBool = await resolver.supportsInterface(randomInterfaceId);
 
         expect(interfaceMetaBool).to.equal(true);
-        expect(baseURLInterfaceBool).to.equal(true);
+        expect(productURLInterfaceBool).to.equal(true);
         expect(randomInterfaceBool).to.equal(false);
     });
 
-    it("should let a DIN owner set its base URL", async () => {
+    it("should let a DIN owner set its product URL", async () => {
         const owner = await registry.owner(DIN);
         expect(owner).to.equal(alice);
 
-        const url = await resolver.baseURL(DIN);
+        const url = await resolver.productURL(DIN);
         expect(url).to.equal("");
 
-        await resolver.setBaseURL(DIN, baseURL, { from: alice });
+        await resolver.setProductURL(DIN, productURL, { from: alice });
 
-        const newUrl = await resolver.baseURL(DIN);
-        expect(newUrl).to.equal(baseURL);
+        const newUrl = await resolver.productURL(DIN);
+        expect(newUrl).to.equal(productURL);
     });
 
-    it("should throw if an unauthorized account tries to set the base URL for a DIN", async () => {
+    it("should throw if an unauthorized account tries to set the product URL for a DIN", async () => {
         try {
-            await resolver.setBaseURL(DIN, baseURL, { from: bob });
+            await resolver.setProductURL(DIN, productURL, { from: bob });
         } catch (error) {
             assert.include(
                 error.message,
                 "invalid opcode",
-                "Trying to set the base URL of a DIN you don't own should throw an error."
+                "Trying to set the product URL of a DIN you don't own should throw an error."
             );
         }
     });

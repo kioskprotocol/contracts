@@ -6,9 +6,9 @@ import "../DINRegistry.sol";
 /** @title Resolver contract that specifies an API endpoint where product information can be retrieved */
 contract PublicURLResolver is URLResolver {
     bytes4 constant INTERFACE_META_ID = 0x01ffc9a7;      // bytes4(sha3("supportsInterface(bytes4)"))
-    bytes4 constant BASE_URL_INTERFACE_ID = 0x35460fb2;  // bytes4(sha3("baseURL(uint256)"))
+    bytes4 constant PRODUCT_URL_INTERFACE_ID = 0xaf655719;  // bytes4(sha3("productURL(uint256)"))
 
-    // DIN => Base URL
+    // DIN => Product URL
     mapping (uint256 => string) urls;
 
     DINRegistry registry;
@@ -27,14 +27,14 @@ contract PublicURLResolver is URLResolver {
 
     function supportsInterface(bytes4 interfaceID) public constant returns (bool) {
         return interfaceID == INTERFACE_META_ID ||
-               interfaceID == BASE_URL_INTERFACE_ID;
+               interfaceID == PRODUCT_URL_INTERFACE_ID;
     }
 
-    function baseURL(uint256 DIN) public constant returns (string) {
+    function productURL(uint256 DIN) public constant returns (string) {
         return urls[DIN];
     }
 
-    function setBaseURL(uint256 DIN, string url) public only_owner(DIN) {
+    function setProductURL(uint256 DIN, string url) public only_owner(DIN) {
         urls[DIN] = url;
     }
 
