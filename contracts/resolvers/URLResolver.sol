@@ -4,5 +4,5 @@ import "./Resolver.sol";
 
 /** @title Resolver contract that specifies an API endpoint where product information can be retrieved */
 contract URLResolver is Resolver {
-    function baseURL(uint256 DIN) public constant returns (string);
+    function productURL(uint256 DIN) public constant returns (string);
 }
