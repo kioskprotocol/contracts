@@ -10,24 +10,20 @@ A Decentralized Identification Number (DIN) is a globally unique, 10-digit numbe
 
 ### Register a New DIN
 
-The easiest way to register a new DIN is to use MyEtherWallet (https://www.myetherwallet.com/). Go to the website, click on Contracts, and then paste in the following Contract Address and ABI.
 
-**Contract Address**
-```
-0xcfe8f8dcd29419ba396a496ad2317b784ec23d60
-```
-**ABI**
-```js
-[{"constant":false,"inputs":[],"name":"registerDIN","outputs":[{"name":"DIN","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"index","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"quantity","type":"uint256"}],"name":"registerDINs","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_QUANTITY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_registry","type":"address"},{"name":"_genesis","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
-```
-
-You'll need a small amount of Ether in your account (less than $1) to register a DIN. You can select to register a single DIN or multiple DINs. The maximum amount is 10 for a single transaction.
 
 ### Resolver
 
 A resolver contract is responsible for managing product information.
 
 ### Add a Resolver
+
+A resolver must implement the following method:
+
+```
+function supportsInterface(bytes4 interfaceID) constant returns (bool)
+```
+
 
 *Coming soon!*
 
