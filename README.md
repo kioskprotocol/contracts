@@ -2,7 +2,7 @@
 
 Kiosk is a protocol that uses smart contracts to organize a decentralized, global product database.
 
-## How It Works
+# How It Works
 
 ### DIN
 
@@ -23,6 +23,14 @@ The easiest way to register a new DIN is to use MyEtherWallet (https://www.myeth
 
 You'll need a small amount of Ether in your account (less than $1) to register a DIN. You can select to register a single DIN or multiple DINs. The maximum amount is 10 for a single transaction.
 
+### Resolver
+
+A resolver contract is responsible for managing product information.
+
+### Add a Resolver
+
+*Coming soon!*
+
 ## Deployed Contracts
 
 **[DINRegistry.sol](https://etherscan.io/address/0x79bf32b2c0f9a3f30fbcc4aa1e3e07e3366b34f9#code)**
@@ -38,11 +46,3 @@ Ethereum Main Network Address: 0xcfe8f8dcd29419ba396a496ad2317b784ec23d60
 Kovan Test Network Address: 0xe41d67a3e7866f84bd5db17492a744de23b08df2
 ABI: [{"constant":false,"inputs":[],"name":"registerDIN","outputs":[{"name":"DIN","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"index","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"quantity","type":"uint256"}],"name":"registerDINs","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_QUANTITY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_registry","type":"address"},{"name":"_genesis","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
 ```
-
-### Resolver
-
-A resolver contract is responsible for managing product information.
-
-### Add a Resolver
-
-*Coming soon!*
