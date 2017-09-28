@@ -1,6 +1,11 @@
 # Kiosk
 
-Kiosk is a protocol that uses smart contracts to organize a decentralized, global product registry.
+Kiosk is a protocol for decentralized commerce using Ethereum smart contracts.
+
+The Kiosk protocol will enable product owners to:
+* Register a globally unique product identifier for each of their products
+* Manage product information and pricing in a decentralized product database
+* Sell products with zero transaction fees
 
 # How It Works
 
