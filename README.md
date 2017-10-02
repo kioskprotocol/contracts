@@ -38,13 +38,41 @@ A resolver contract is responsible for managing product information.
 
 ### Add a Resolver
 
-A resolver must implement the following method:
+A resolver must implement the following methods:
 
 ```
 function supportsInterface(bytes4 interfaceID) constant returns (bool)
+function productURL(uint256 DIN) public constant returns (string)
 ```
 
-*Coming soon!*
+For now, only URL resolvers are supported. In the future, we will add support for [IPFS](https://ipfs.io/) and potentially other types of resolvers.
+
+If you are only listing a few products, you should use the [PublicURLResolver](contracts/resolvers/PublicURLResolver.sol). Otherwise, you can deploy your own [URLResolver](contracts/resolvers/URLResolver.sol) contract.
+
+```
+/** @title Resolver contract that specifies an API endpoint where product information can be retrieved */
+contract MyURLResolver is URLResolver {
+    bytes4 constant INTERFACE_META_ID = 0x01ffc9a7;         // bytes4(sha3("supportsInterface(bytes4)"))
+    bytes4 constant PRODUCT_URL_INTERFACE_ID = 0xaf655719;  // bytes4(sha3("productURL(uint256)"))
+    
+    function supportsInterface(bytes4 interfaceID) public constant returns (bool) {
+        return interfaceID == INTERFACE_META_ID ||
+               interfaceID == PRODUCT_URL_INTERFACE_ID;
+    }
+
+    function productURL(uint256 DIN) public constant returns (string) {
+        return "https://www.api.myproducts.com/";
+    }
+
+}
+```
+
+The Kiosk protocol will find the product URL for a given DIN and pass in the DIN as a parameter. For example, if the owner of DIN `1000000001` sets the above resolver for his product, a client should be able to retrieve the relevant product information from:
+
+```
+https://www.api.myproducts.com/?DIN=1000000001
+```
+
 
 ## Deployed Contracts
 
