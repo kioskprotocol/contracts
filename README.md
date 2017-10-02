@@ -71,6 +71,12 @@ The Kiosk protocol will find the product URL for a given DIN and pass in the DIN
 https://www.api.myproducts.com/?DIN=1000000001
 ```
 
+When your resolver is deployed, be sure to update the [DINRegistry](contracts/DINRegistry.sol).
+
+```
+function setResolver(uint256 DIN, address resolver) only_owner(DIN)
+```
+
 ### Response Schema
 
 Your product URL must implement the response schema specified in the [Kiosk API](https://github.com/kioskprotocol/api#example-response). A consistent schema allows clients of the Kiosk protocol to easily parse product information.
