@@ -30,8 +30,6 @@ In a web3-enabled Javascript environment, input the following:
 > registrar.registerDINs(10, (error, result) => { console.log(result) })
 ```
 
-Alternatively, you can use MyEtherWallet (https://www.myetherwallet.com/). Go to the website, click on Contracts, and then paste in the above ABI and address and then select either "registerDIN" or "registerDINs" from the Read / Write Contract dropdown.
-
 ### Resolver
 
 A resolver contract is responsible for managing product information.
