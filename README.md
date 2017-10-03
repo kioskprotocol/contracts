@@ -9,7 +9,7 @@ The protocol enables product owners to:
 
 The protocol allows buyers to:
 * Have a universal shopping cart
-* Purchase products without navigating through the checkout process of an e-commerce website.
+* Purchase products without navigating through the checkout process of an e-commerce website
 
 ## Quick Start
 
