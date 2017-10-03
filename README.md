@@ -70,7 +70,7 @@ contract MyURLResolver is URLResolver {
 The Kiosk protocol will find the product URL for a given DIN and pass in the DIN as a parameter. For example, if the owner of DIN `1000000001` sets the above resolver for his product, a client should be able to retrieve the relevant product information from:
 
 ```
-https://www.api.myproducts.com/?DIN=1000000001
+https://www.api.myproducts.com/1000000001
 ```
 
 When your resolver is deployed, be sure to update the [DINRegistry](contracts/DINRegistry.sol).
