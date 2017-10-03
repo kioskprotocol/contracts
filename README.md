@@ -9,7 +9,11 @@ The protocol enables product owners to:
 
 ## Quick Start
 
-* [Register an identifier](https://gist.github.com/anonymous/a18216ae0c4901dcd5aa18e46a10048a)
+For all tutorials, copy the link, paste it into a new browser tab, select the https://ethereum.github.io link, and paste the  link again in the pop up.
+
+**Register an Identifier**
+
+https://gist.github.com/anonymous/a18216ae0c4901dcd5aa18e46a10048a
 
 ## How It Works
 
