@@ -47,7 +47,7 @@ function supportsInterface(bytes4 interfaceID) constant returns (bool)
 function productURL(uint256 DIN) public constant returns (string)
 ```
 
-For now, only URL resolvers are supported. In the future, we will add support for [IPFS](https://ipfs.io/) and potentially other types of resolvers.
+For now, only URL resolvers are supported. In the future, we may add support for [IPFS](https://ipfs.io/) and other types of resolvers.
 
 If you are only listing a few products, you should use the [PublicURLResolver](contracts/resolvers/PublicURLResolver.sol). Otherwise, you can deploy your own [URLResolver](contracts/resolvers/URLResolver.sol) contract.
 
