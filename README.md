@@ -7,7 +7,7 @@ With the Kiosk protocol, product owners can:
 * Manage product information and pricing in a decentralized product database
 * Sell products directly to buyers with no middlemen and no transaction fees
 
-And buyers can:
+...and buyers can:
 * Add products to a universal shopping cart
 * Purchase products without navigating through the checkout process of an e-commerce website
 
