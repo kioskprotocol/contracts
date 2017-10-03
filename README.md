@@ -7,6 +7,8 @@ The protocol enables product owners to:
 * Manage product information and pricing in a decentralized product database
 * Sell products directly to buyers with no middlemen and no transaction fees
 
+For buyers, the protocol represents a universal shopping cart. Products can be purchased directly via the protocol instead of navigating through the checkout process of an e-commerce website.
+
 ## Quick Start
 
 The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), an online Solidity compiler.
