@@ -1,0 +1,254 @@
+{
+  "contract_name": "Buy",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "DIN",
+          "type": "uint256"
+        },
+        {
+          "name": "quantity",
+          "type": "uint256"
+        },
+        {
+          "name": "totalValue",
+          "type": "uint256"
+        },
+        {
+          "name": "priceValidUntil",
+          "type": "uint256"
+        },
+        {
+          "name": "v",
+          "type": "uint8"
+        },
+        {
+          "name": "r",
+          "type": "bytes32"
+        },
+        {
+          "name": "s",
+          "type": "bytes32"
+        }
+      ],
+      "name": "buy",
+      "outputs": [
+        {
+          "name": "orderID",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "orderIndex",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "registry",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "signer",
+          "type": "address"
+        },
+        {
+          "name": "hash",
+          "type": "bytes32"
+        },
+        {
+          "name": "v",
+          "type": "uint8"
+        },
+        {
+          "name": "r",
+          "type": "bytes32"
+        },
+        {
+          "name": "s",
+          "type": "bytes32"
+        }
+      ],
+      "name": "isValidSignature",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "marketToken",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "name": "_registry",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "errorId",
+          "type": "uint8"
+        }
+      ],
+      "name": "LogError",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "orderID",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "DIN",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "quantity",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewOrder",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x60606040526000600255341561001157fe5b6040516040806105ec8339810160405280516020909101515b60008054600160a060020a03808516600160a060020a03199283161790925560018054928416929091169190911790555b50505b61057f8061006d6000396000f300606060405263ffffffff60e060020a600035041663203f64c5811461004d57806330471fee146100875780637b103999146100a95780638163681e146100d5578063ad48d61114610114575bfe5b341561005557fe5b61007560043560243560443560643560ff6084351660a43560c435610140565b60408051918252519081900360200190f35b341561008f57fe5b610075610457565b60408051918252519081900360200190f35b34156100b157fe5b6100b961045d565b60408051600160a060020a039092168252519081900360200190f35b34156100dd57fe5b610100600160a060020a036004351660243560ff6044351660643560843561046c565b604080519115158252519081900360200190f35b341561011c57fe5b6100b9610524565b60408051600160a060020a039092168252519081900360200190f35b60006000600060006000600060009054906101000a9004600160a060020a0316600160a060020a03166370a08231336000604051602001526040518263ffffffff1660e060020a0281526004018082600160a060020a0316600160a060020a03168152602001915050602060405180830381600087803b15156101bf57fe5b6102c65a03f115156101cd57fe5b5050604051518b111590506102065760005b60405160ff919091169060008051602061053483398151915290600090a260009450610448565b8842111561023c5760016101df565b60405160ff919091169060008051602061053483398151915290600090a260009450610448565b5b8a8a81151561024857fe5b0493508b848a60405180848152602001838152602001828152602001935050505060405180910390209250600160009054906101000a9004600160a060020a0316600160a060020a031663a123c33e8d6000604051602001526040518263ffffffff1660e060020a02815260040180828152602001915050602060405180830381600087803b15156102d657fe5b6102c65a03f115156102e457fe5b50506040515192506102fb905082848a8a8a61046c565b90508015156103325760026101df565b60405160ff919091169060008051602061053483398151915290600090a260009450610448565b600260008154809291906001019190505550600060009054906101000a9004600160a060020a0316600160a060020a03166312c7c1bd33848d6000604051602001526040518463ffffffff1660e060020a0281526004018084600160a060020a0316600160a060020a0316815260200183600160a060020a0316600160a060020a031681526020018281526020019350505050602060405180830381600087803b15156103db57fe5b6102c65a03f115156103e957fe5b5050604080516002548152602081018e90528082018d905242606082015290518e9250600160a060020a038086169233909116917f682fad3e75e7edf7390eb0ffbdee36c3433986e34d93f9b4625585707b587abf9181900360800190a45b50505050979650505050505050565b60025481565b600154600160a060020a031681565b604080517f19457468657265756d205369676e6564204d6573736167653a0a3332000000008152601c8101869052815190819003603c018120600082815260208381018552928401819052835191825260ff8716828401528184018690526060820185905292516001926080808401939192601f1981019281900390910190868661646e5a03f115156104fb57fe5b505060206040510351600160a060020a031686600160a060020a03161490505b95945050505050565b600054600160a060020a03168156000489f2369368f4688acd012107ac5a7d98ca739b913449d852f35d871e433cc3a165627a7a72305820c9c429b89be2cdf93cf19de527bb6e9b4c122d689630ba429655a9fe410b77d80029",
+  "networks": {
+    "1507072009465": {
+      "events": {
+        "0x0489f2369368f4688acd012107ac5a7d98ca739b913449d852f35d871e433cc3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "errorId",
+              "type": "uint8"
+            }
+          ],
+          "name": "LogError",
+          "type": "event"
+        },
+        "0x682fad3e75e7edf7390eb0ffbdee36c3433986e34d93f9b4625585707b587abf": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "orderID",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "seller",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "DIN",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "quantity",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewOrder",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x6b783df47fcc9b1b44a727156c042d730f568f85",
+      "updated_at": 1507072548620
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1507072548620
+}
