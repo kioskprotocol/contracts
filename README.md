@@ -9,7 +9,7 @@ The protocol enables product owners to:
 
 ## Quick Start
 
-The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), a browser-based Solidity compiler. This is the quickest way to interact with the contracts.
+The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), an online Solidity compiler.
 
 * [Register an Identifier](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=a18216ae0c4901dcd5aa18e46a10048a)
 * [Add a Product](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.17+commit.bdeb9e52.js&optimize=undefined&gist=18b724ea3741f01af28faf3c3d8e515b)
