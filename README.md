@@ -9,7 +9,7 @@ The protocol enables product owners to:
 
 ## Quick Start
 
-* [Register an Identifier](https://gist.github.com/anonymous/a18216ae0c4901dcd5aa18e46a10048a)
+* [Register an Identifier](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=a18216ae0c4901dcd5aa18e46a10048a)
 
 ## How It Works
 
