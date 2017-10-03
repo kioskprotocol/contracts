@@ -7,7 +7,11 @@ The protocol enables product owners to:
 * Manage product information and pricing in a decentralized product database
 * Sell products directly to buyers with no middlemen and no transaction fees
 
-# How It Works
+## Quick Start
+
+* [Register an identifier](https://gist.github.com/anonymous/a18216ae0c4901dcd5aa18e46a10048a)
+
+## How It Works
 
 ### DIN
 
