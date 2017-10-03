@@ -20,11 +20,6 @@ module.exports = async (deployer, network, accounts) => {
     // Deploy Buy
     await deployer.deploy(Buy, MarketToken.address, DINRegistry.address);
     // Set the buy contract on MarketToken
-    const owner = await MarketToken.at(MarketToken.address).owner();
-    const totalSupply = await MarketToken.at(MarketToken.address).totalSupply();
-    console.log(owner);
-    console.log(totalSupply);
-
-    // await MarketToken.at(MarketToken.address).setBuy(Buy.address);
+    await MarketToken.at(MarketToken.address).setBuy(Buy.address);
   }) 
 };
