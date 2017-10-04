@@ -1,12 +1,3 @@
-// Before
-// Register a DIN
-
-// Sign off on parameters
-// Test valid signature
-// Test invalid signature
-// Test buy with valid signature
-// Test buy with invalid signature
-
 const Buy = artifacts.require("Buy.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistrar = artifacts.require("DINRegistrar.sol");
@@ -15,7 +6,7 @@ const Promise = require("bluebird");
 const chai = require("chai"),
     expect = chai.expect,
     should = chai.should();
-const utils = require("ethereumjs-util");
+const utils = require('web3-utils');
 
 contract("Buy", accounts => {
     let buy;
@@ -53,7 +44,8 @@ contract("Buy", accounts => {
         DIN = await getDINFromLog();
 
         // Bob signs off on the price of his product
-        hash = web3.sha3(DIN, price, priceValidUntil);
+        // http://web3js.readthedocs.io/en/1.0/web3-utils.html#soliditysha3
+        hash = utils.soliditySha3(DIN, price, priceValidUntil);
         const signature = web3.eth.sign(bob, hash);
 
         // And provides buyers with the elliptic curve signature parameters
@@ -63,6 +55,14 @@ contract("Buy", accounts => {
         const v = "0x" + signature.slice(130, 132);
         ecSignature.v = web3.toDecimal(v) + 27;
     });
+
+    it("should have the correct registry and token", async () => {
+        const buyRegistry = await buy.registry();
+        expect(buyRegistry).to.equal(registry.address);
+
+        const buyToken = await buy.marketToken();
+        expect(buyToken).to.equal(token.address);
+    })
 
     it("should throw if the user does not have enough tokens for a purchase", async () => {
         const result = await buy.buy(
@@ -124,6 +124,28 @@ contract("Buy", accounts => {
             ecSignature.s
         );
         expect(invalid).to.equal(false);
+    });
+
+    it("should allow a purchase with valid parameters", async() => {
+        const orderIndex = await buy.orderIndex();
+        expect(orderIndex.toNumber()).to.equal(0);
+
+        const owner = await registry.owner(DIN);
+        expect(owner).to.equal(bob);
+
+        const result = await buy.buy(
+            DIN,
+            quantity,
+            price,
+            priceValidUntil,
+            ecSignature.v,
+            ecSignature.r,
+            ecSignature.s,
+            { from: alice }
+        );
+
+        const newIndex = await buy.orderIndex();
+        expect(newIndex.toNumber()).to.equal(1);
     });
 
 });
