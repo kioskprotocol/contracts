@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "./URLResolver.sol";
-import "../DINRegistry.sol";
+import "./DINRegistry.sol";
 
 /** @title Resolver contract that specifies an API endpoint where product information can be retrieved */
 contract PublicURLResolver is URLResolver {
