@@ -1,14 +1,10 @@
-pragma solidity ^0.4.11;
-
-import "zeppelin-solidity/contracts/token/StandardToken.sol";
-
-contract TestMarketToken is StandardToken {
+contract MarketToken is StandardToken {
     string public name = "Market Token";            // Set the name for display purposes.
     string public symbol = "MARK";                  // Set the symbol for display purposes.
     uint256 public decimals = 18;                   // Amount of decimals for display purposes.
     address public buy;                             // The address of the Buy contract.
     address public owner;                           // The account that deploys the contract.
-    uint256 public FREE_MARKET_TOKENS = 1000;
+    uint256 public FREE_TOKENS = 1000 * 10 ** 18;   // For testing
 
     modifier only_owner {
         require(owner == msg.sender);
@@ -27,7 +23,7 @@ contract TestMarketToken is StandardToken {
     event NewBuy(address indexed buy);
     
     // Constructor
-    function TestMarketToken(uint256 _totalSupply) {
+    function MarketToken(uint256 _totalSupply) {
         // Give the initial balance to the contract deployer.
         balances[msg.sender] = _totalSupply;
         totalSupply = _totalSupply;            
@@ -50,18 +46,18 @@ contract TestMarketToken is StandardToken {
         return true;
     }
 
-    function setOwner(address _owner) only_owner {
+    function setOwner(address _owner) public only_owner {
         owner = _owner;
     }
 
-    function setBuy(address _buy) only_owner {
+    function setBuy(address _buy) public only_owner {
         buy = _buy;
     }
 
     // For test networks only, allow users to get tokens for free.
     function getTokens() public {
-        balances[msg.sender] += FREE_MARKET_TOKENS;
-        totalSupply += FREE_MARKET_TOKENS;
+        balances[msg.sender] += FREE_TOKENS;
+        totalSupply += FREE_TOKENS;
     }
 
 }
