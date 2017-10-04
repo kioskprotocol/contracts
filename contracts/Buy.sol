@@ -13,7 +13,7 @@ contract Buy {
 
     enum Errors {
         INSUFFICIENT_BALANCE,
-        PRICE_EXPIRED,
+        INVALID_PRICE,
         INVALID_SIGNATURE
     }
 
@@ -64,8 +64,8 @@ contract Buy {
         if (totalValue > marketToken.balanceOf(msg.sender)) {
             LogError(uint8(Errors.INSUFFICIENT_BALANCE));
             return 0;
-        } else if (block.timestamp > priceValidUntil) {
-            LogError(uint8(Errors.PRICE_EXPIRED));
+        } else if (block.timestamp > priceValidUntil || totalValue == 0) {
+            LogError(uint8(Errors.INVALID_PRICE));
             return 0;
         }
 

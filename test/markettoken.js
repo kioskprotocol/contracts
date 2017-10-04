@@ -1,5 +1,3 @@
-// Set owner
-
 const MarketToken = artifacts.require("MarketToken.sol");
 const Buy = artifacts.require("Buy.sol");
 const Promise = require("bluebird");
