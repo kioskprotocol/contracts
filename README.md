@@ -28,6 +28,11 @@ A Decentralized Identification Number (DIN) is a globally unique, 10-digit numbe
 
 You can register a new identifier for your product via the [DINRegistrar](contracts/DINRegistrar.sol) smart contract.
 
+```
+function registerDIN() returns (uint256 DIN)
+function registerDINs(uint256 quantity)
+```
+
 ### Resolver
 
 A resolver contract is responsible for managing product information.
