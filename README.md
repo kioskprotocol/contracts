@@ -13,12 +13,35 @@ With the Kiosk protocol, product owners can:
 
 ## Quick Start
 
-The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), an online Solidity compiler.
+The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), an online [Solidity](https://solidity.readthedocs.io/en/develop/) compiler.
 
 * [Register an Identifier](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=d0bcf511375abcefc6a20dfaf9bc8be1)
 * [Add a Product](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=712a758e7de8b2614d00bd38695de2c3)
 * [Search for Product Information] // TODO
 * [Buy a Product]: // TODO
+
+## Testing
+
+Requirements:
+* Install [Node.js](https://nodejs.org/en/)
+* Install [Truffle](http://truffleframework.com/) 
+* Install [testrpc](https://github.com/ethereumjs/testrpc)
+
+Download the project and install its dependencies.
+```
+git clone https://github.com/kioskprotocol/contracts.git
+npm install
+```
+
+In a separate terminal tab, start testrpc.
+```
+testrpc
+```
+
+Then, in the root directory of the project, run the tests with Truffle.
+```
+truffle test
+```
 
 ## How It Works
 
