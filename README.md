@@ -17,8 +17,7 @@ The following tutorials will prepopulate the relevant smart contracts in [Remix]
 
 * [Register an Identifier](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=d0bcf511375abcefc6a20dfaf9bc8be1)
 * [Add a Product](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=712a758e7de8b2614d00bd38695de2c3)
-* [Search for Product Information] // TODO
-* [Buy a Product]: // TODO
+* [Buy a Product](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.17+commit.bdeb9e52.js&optimize=undefined&gist=8c78f3b79004115d3c4276a554482ee4)
 
 ## Testing
 
