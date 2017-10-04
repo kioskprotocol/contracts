@@ -13,10 +13,35 @@ With the Kiosk protocol, product owners can:
 
 ## Quick Start
 
-The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), an online Solidity compiler.
+The following tutorials will prepopulate the relevant smart contracts in [Remix](http://remix.ethereum.org/), an online [Solidity](https://solidity.readthedocs.io/en/develop/) compiler.
 
-* [Register an Identifier](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=aab2aa7b691611c7ce5c757ebc8da2b1)
-* [Add a Product](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.17+commit.bdeb9e52.js&optimize=undefined&gist=18b724ea3741f01af28faf3c3d8e515b)
+* [Register an Identifier](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=d0bcf511375abcefc6a20dfaf9bc8be1)
+* [Add a Product](https://ethereum.github.io/browser-solidity/#version=soljson-v0.4.16+commit.d7661dd9.js&optimize=undefined&gist=712a758e7de8b2614d00bd38695de2c3)
+* [Search for Product Information] // TODO
+* [Buy a Product]: // TODO
+
+## Testing
+
+Requirements:
+* Install [Node.js](https://nodejs.org/en/)
+* Install [Truffle](http://truffleframework.com/) 
+* Install [testrpc](https://github.com/ethereumjs/testrpc)
+
+Download the project and install its dependencies.
+```
+git clone https://github.com/kioskprotocol/contracts.git
+npm install
+```
+
+In a separate terminal tab, start testrpc.
+```
+testrpc
+```
+
+Then, in the root directory of the project, run the tests with Truffle.
+```
+truffle test
+```
 
 ## How It Works
 
@@ -30,7 +55,7 @@ You can register a new identifier for your product via the [DINRegistrar](contra
 
 ```
 function registerDIN() returns (uint256 DIN)
-function registerDINs(uint256 quantity)
+function registerDINs(uint256 quantity) // Maximum of 10 in a single transaction.
 ```
 
 ### Resolver
@@ -80,7 +105,38 @@ function setResolver(uint256 DIN, address resolver)
 
 ### Response Schema
 
-Your product URL must implement the response schema specified in the [Kiosk API](https://github.com/kioskprotocol/api#example-response). A consistent schema allows clients of the Kiosk protocol to easily parse product information.
+Your product URL must implement a specific JSON schema so that clients of the Kiosk protocol can easily parse product information. The response schema includes the following properties of the schema.org [Product](http://schema.org/Product) and [Offer](http://schema.org/Offer) types: 
+* `name`
+* `image`
+* `description`
+* `brand`
+* `url`
+* `price` denominated in Market Token (MARK) base units
+* `priceValidUntil` Unix timestamp
+
+To make the product available for purchase, you must also add elliptic curve signature parameters to validate that the `price` and `priceValidUntil` properties were set by the account owner as well as a `shippingURL` where a frontend client that implements the Kiosk protocol can `POST` the buyer's delivery address. A tutorial for this will be available soon.
+
+#### Example Response
+
+```
+{
+  "name": "Kiosk T-Shirt",
+  "image": [
+    "https://vangogh.teespring.com/shirt_pic/22611585/23621266/2/6046/480x9999/front.jpg?v=2017-09-27-22-25"
+  ],
+  "description": "A blue T-shirt with the Kiosk logo",
+  "brand": "Kiosk",
+  "url": "https://teespring.com/kiosk-demo#pid=2&cid=6046&sid=front",
+  "price": 1000000000000000000,
+  "priceValidUntil": 1514160000,
+  "shippingURL": "https://www.google.com/",
+  "ecSignature": {
+    "v": 27,
+    "r": "0x4c740f7977d2c78a09806ad2d994884f7a6b8d38ba7a4e1d631b6d2a237487e5",
+    "s": "0x4d4d17af44edaa28cc5ff3ab70f43b20a07be640f2c2b8d9f7444f271e0030d8"
+  }
+}
+```
 
 We will add plug-ins for popular e-commerce platforms like WooCommerce, Shopify, and Magento to make this process as easy as possible. Stay tuned!
 
@@ -114,7 +170,8 @@ ABI:
 
 **[MarketToken.sol](contracts/MarketToken.sol)**
 ```
-// On Kovan, Market Token has an additional method called getTokens for testing purposes. On the main network, tokens will be distributed using a crowdsale contract.
+// On test networks, Market Token has an additional method called getTokens for testing purposes. 
+// When deployed to the Ethereum Main Network, tokens will be distributed using a crowdsale contract.
 
 Kovan Test Network Address: 0xD40892054F345D07c7F7F63F64286875f2d43765
 Kovan ABI:
@@ -124,6 +181,7 @@ Kovan ABI:
 **[Buy.sol](contracts/Buy.sol)**
 ```
 Kovan Test Network Address: 0xE257f2a2FB728B426038FfA5049AE2346351E518
+
 ABI:
 [{"constant":false,"inputs":[{"name":"DIN","type":"uint256"},{"name":"quantity","type":"uint256"},{"name":"totalValue","type":"uint256"},{"name":"priceValidUntil","type":"uint256"},{"name":"v","type":"uint8"},{"name":"r","type":"bytes32"},{"name":"s","type":"bytes32"}],"name":"buy","outputs":[{"name":"orderID","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"orderIndex","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"registry","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"signer","type":"address"},{"name":"hash","type":"bytes32"},{"name":"v","type":"uint8"},{"name":"r","type":"bytes32"},{"name":"s","type":"bytes32"}],"name":"isValidSignature","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"marketToken","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_token","type":"address"},{"name":"_registry","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"errorId","type":"uint8"}],"name":"LogError","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"}],"name":"LogHash","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"orderID","type":"uint256"},{"indexed":true,"name":"buyer","type":"address"},{"indexed":true,"name":"seller","type":"address"},{"indexed":true,"name":"DIN","type":"uint256"},{"indexed":false,"name":"quantity","type":"uint256"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"NewOrder","type":"event"}]
 ```
