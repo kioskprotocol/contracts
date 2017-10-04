@@ -56,7 +56,7 @@ function productURL(uint256 DIN) public constant returns (string)
 
 For now, only URL resolvers are supported. In the future, we may add support for [IPFS](https://ipfs.io/) and other types of resolvers.
 
-If you are only listing a few products, you should use the [PublicURLResolver](contracts/resolvers/PublicURLResolver.sol). Otherwise, you can deploy your own [URLResolver](contracts/resolvers/URLResolver.sol) contract.
+If you are only listing a few products, you should use the [PublicURLResolver](contracts/PublicURLResolver.sol). Otherwise, you can deploy your own [URLResolver](contracts/URLResolver.sol) contract.
 
 ```
 contract MyURLResolver is URLResolver {
@@ -112,7 +112,7 @@ ABI:
 [{"constant":false,"inputs":[],"name":"registerDIN","outputs":[{"name":"DIN","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"index","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"quantity","type":"uint256"}],"name":"registerDINs","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_QUANTITY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_registry","type":"address"},{"name":"_genesis","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
 ```
 
-**[PublicURLResolver.sol](contracts/resolvers/PublicURLResolver.sol)**
+**[PublicURLResolver.sol](contracts/PublicURLResolver.sol)**
 ```
 Kovan Test Network Address: 0xA9b81c7d571717f0817688252EF2C9cCc039B939
 
