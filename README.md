@@ -80,10 +80,10 @@ The Kiosk protocol will find the product URL for a given DIN and pass in the DIN
 https://www.api.myproducts.com/1000000001
 ```
 
-When your resolver is deployed, be sure to update the [DINRegistry](contracts/DINRegistry.sol).
+After your resolver is configured, be sure to update the [DINRegistry](contracts/DINRegistry.sol) with its address.
 
 ```
-function setResolver(uint256 DIN, address resolver) only_owner(DIN)
+function setResolver(uint256 DIN, address resolver)
 ```
 
 ### Response Schema
