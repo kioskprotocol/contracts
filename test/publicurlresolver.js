@@ -27,8 +27,6 @@ contract("PublicURLResolver", accounts => {
         const productURLInterfaceId = web3.sha3("productURL(uint256)").slice(0, 10);
         const randomInterfaceId = web3.sha3("random(uint256)").slice(0, 10);
 
-        console.log(productURLInterfaceId)
-
         const interfaceMetaBool = await resolver.supportsInterface(interfaceMetaId);
         const productURLInterfaceBool = await resolver.supportsInterface(productURLInterfaceId);
         const randomInterfaceBool = await resolver.supportsInterface(randomInterfaceId);
