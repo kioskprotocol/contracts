@@ -20,8 +20,6 @@ contract Buy {
     // Logs Solidity errors
     event LogError(uint8 indexed errorId);
 
-    event LogHash(bytes32 indexed hash);
-
     // Logs new orders
     event NewOrder(
         uint256 orderID,
@@ -75,7 +73,6 @@ contract Buy {
 
         // Calculate the hash of the parameters provided by the buyer.
         bytes32 hash = keccak256(DIN, unitPrice, priceValidUntil);
-        LogHash(hash);
 
         // Get the seller address from the DIN Registry.
         address seller = registry.owner(DIN);
