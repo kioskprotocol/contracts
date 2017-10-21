@@ -17,15 +17,4 @@ contract("Cart", accounts => {
         expect(event).to.equal("AddToCart");
     });
 
-    it("should remove from cart", async () => {
-        const result = await cart.removeFromCart(DIN);
-        const event = result.logs[0].event;
-        expect(event).to.equal("RemoveFromCart");
-    });
-
-    it("should empty cart", async () => {
-        const result = await cart.emptyCart();
-        const event = result.logs[0].event;
-        expect(event).to.equal("EmptyCart");
-    });
 });
