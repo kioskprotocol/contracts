@@ -6,16 +6,16 @@ contract MarketToken is StandardToken {
     string public name = "Market Token";            // Set the name for display purposes.
     string public symbol = "MARK";                  // Set the symbol for display purposes.
     uint256 public decimals = 18;                   // Amount of decimals for display purposes.
-    address public buy;                             // The address of the Buy contract.
-    address public owner;                           // A DAO that can vote on upgrades to the Buy contract.
+    address public checkout;                        // The address of the Checkout contract.
+    address public owner;
 
     modifier only_owner {
         require(owner == msg.sender);
         _;
     }
 
-    modifier only_buy {
-        require(buy == msg.sender);
+    modifier only_checkout {
+        require(checkout == msg.sender);
         _;
     }
 
@@ -33,13 +33,13 @@ contract MarketToken is StandardToken {
         owner = msg.sender;
     }
 
-    function transferFromBuy
+    function transferFromCheckout
     (
         address _from,
         address _to,
         uint256 _value
     ) 
-        only_buy 
+        only_checkout
         returns (bool) 
     {
         // Allow the Buy contract to spend a user's balance.
@@ -53,8 +53,8 @@ contract MarketToken is StandardToken {
         owner = _owner;
     }
 
-    function setBuy(address _buy) only_owner {
-        buy = _buy;
+    function setCheckout(address _checkout) only_owner {
+        checkout = _checkout;
     }
 
 }

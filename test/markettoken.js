@@ -1,5 +1,5 @@
 const MarketToken = artifacts.require("MarketToken.sol");
-const Buy = artifacts.require("Buy.sol");
+const Checkout = artifacts.require("Checkout.sol");
 const Promise = require("bluebird");
 const chai = require("chai"),
     expect = chai.expect,
@@ -7,14 +7,14 @@ const chai = require("chai"),
 
 contract("MarketToken", accounts => {
     let token;
-    let buy;
+    let checkout;
     const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
     const alice = accounts[0];
     const bob = accounts[1];
 
     before(async () => {
         token = await MarketToken.deployed();
-        buy = await Buy.deployed();
+        checkout = await Checkout.deployed();
     });
 
     it("should have the correct total supply", async () => {
@@ -36,44 +36,44 @@ contract("MarketToken", accounts => {
         expect(newBalance.toNumber()).to.equal(amount);
     });
 
-    it("should throw if an account calls transferFromBuy", async () => {
+    it("should throw if an account calls transferFromCheckout", async () => {
         try {
-            await token.transferFromBuy(alice, bob, 50000, { from: alice });
+            await token.transferFromCheckout(alice, bob, 50000, { from: alice });
         } catch (error) {
             assert.include(
                 error.message,
                 "invalid opcode",
-                "Trying to call transferFromBuy should throw an error."
+                "Trying to call transferFromCheckout should throw an error."
             );
         }
     });
 
-    it("should throw if an unauthorized account tries to set the buy contract address", async () => {
+    it("should throw if an unauthorized account tries to set the checkout contract address", async () => {
         const owner = await token.owner();
         expect(owner).to.equal(alice);
 
-        const newBuy = "0x1111111111111111111111111111111111111111";
+        const newCheckout = "0x1111111111111111111111111111111111111111";
 
         try {
-            await token.setBuy(newBuy, { from: bob });
+            await token.setCheckout(newCheckout, { from: bob });
         } catch (error) {
             assert.include(
                 error.message,
                 "invalid opcode",
-                "Trying to set the buy contract from an unauthorized account should throw an error."
+                "Trying to set the checkout contract from an unauthorized account should throw an error."
             );
         }
     });
 
-    it("should let the owner set the buy contract address", async () => {
-        const buyAddr = await token.buy();
-        expect(buyAddr).to.equal(buy.address);
+    it("should let the owner set the checkout contract address", async () => {
+        const checkoutAddr = await token.checkout();
+        expect(checkoutAddr).to.equal(checkout.address);
 
-        const newBuy = "0x1111111111111111111111111111111111111111";
-        await token.setBuy(newBuy, { from: alice });
+        const newCheckout = "0x1111111111111111111111111111111111111111";
+        await token.setCheckout(newCheckout, { from: alice });
 
-        const newBuyAddr = await token.buy();
-        expect(newBuyAddr).to.equal(newBuy);
+        const newCheckoutAddr = await token.checkout();
+        expect(newCheckoutAddr).to.equal(newCheckout);
     });
 
     it("should throw if an unauthorized account tries to set the owner", async () => {

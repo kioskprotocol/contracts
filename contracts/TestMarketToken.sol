@@ -6,8 +6,8 @@ contract MarketToken is StandardToken {
     string public name = "Market Token";            // Set the name for display purposes.
     string public symbol = "MARK";                  // Set the symbol for display purposes.
     uint256 public decimals = 18;                   // Amount of decimals for display purposes.
-    address public buy;                             // The address of the Buy contract.
-    address public owner;                           // The account that deploys the contract.
+    address public checkout;                        // The address of the Checkout contract.
+    address public owner;
     uint256 public FREE_TOKENS = 1000 * 10 ** 18;   // For testing
 
     modifier only_owner {
@@ -15,8 +15,8 @@ contract MarketToken is StandardToken {
         _;
     }
 
-    modifier only_buy {
-        require(buy == msg.sender);
+    modifier only_checkout {
+        require(checkout == msg.sender);
         _;
     }
 
@@ -34,13 +34,13 @@ contract MarketToken is StandardToken {
         owner = msg.sender;
     }
 
-    function transferFromBuy
+    function transferFromCheckout
     (
         address _from,
         address _to,
         uint256 _value
     ) 
-        only_buy 
+        only_checkout
         returns (bool) 
     {
         // Allow the Buy contract to spend a user's balance.
@@ -50,12 +50,12 @@ contract MarketToken is StandardToken {
         return true;
     }
 
-    function setOwner(address _owner) public only_owner {
+    function setOwner(address _owner) only_owner {
         owner = _owner;
     }
 
-    function setBuy(address _buy) public only_owner {
-        buy = _buy;
+    function setCheckout(address _checkout) only_owner {
+        checkout = _checkout;
     }
 
     // For test networks only, allow users to get tokens for free.

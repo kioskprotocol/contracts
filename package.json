@@ -1,10 +1,11 @@
 {
-  "name": "DIN",
+  "name": "Kiosk",
   "version": "0.0.1",
-  "description": "Decentralized Identification Number (DIN) registry and registrar contracts.",
+  "description": "Kiosk protocol contracts",
   "author": "Rich McAteer",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "bignumber.js": "^4.1.0",
     "bluebird": "^3.5.0",
     "chai": "^4.1.2",
     "ethereumjs-util": "^5.1.2",
