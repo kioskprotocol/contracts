@@ -10,8 +10,8 @@ contract StandardResolver is Resolver {
     bytes4 constant MERCHANT_INTERFACE_ID = 0x90a9f8b8;     // bytes4(keccak256("merchant(uint256)"))
 
     DINRegistry public registry;
-    string productURL;
-    address merchant;
+    string url;
+    address merchantAddr;
     address public owner;
 
     modifier only_owner {
@@ -29,8 +29,8 @@ contract StandardResolver is Resolver {
     {
         owner = _owner;
         registry = _registry;
-        productURL = _productURL;
-        merchant = _merchant;
+        url = _productURL;
+        merchantAddr = _merchant;
     }
 
     function supportsInterface(bytes4 interfaceID) public constant returns (bool) {
@@ -40,19 +40,19 @@ contract StandardResolver is Resolver {
     }
 
     function productURL(uint256 DIN) public constant returns (string) {
-        return productURL;
+        return url;
     }
 
     function setProductURL(string _productURL) public only_owner {
-        productURL = _productURL;
+        url = _productURL;
     }
 
     function merchant(uint256 DIN) public constant returns (address) {
-        return merchant;
+        return merchantAddr;
     }
 
     function setMerchant(address _merchant) public only_owner {
-        merchant = _merchant;
+        merchantAddr = _merchant;
     }
 
     function setOwner(address _owner) public only_owner {
