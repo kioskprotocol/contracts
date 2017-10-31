@@ -8,7 +8,7 @@ const Checkout = artifacts.require("Checkout.sol");
 const Cart = artifacts.require("Cart.sol");
 const genesis = 1000000000; // The first DIN.
 const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
-const productURL = "https://www.google.com/"
+const productURL = "https://www.google.com/";
 
 module.exports = async (deployer, network, accounts) => {
     // Deploy DINRegistry
@@ -24,14 +24,30 @@ module.exports = async (deployer, network, accounts) => {
         // Deploy ResolverFactory
         await deployer.deploy(ResolverFactory, DINRegistry.address);
         // Deploy a StandardResolver
-        await deployer.deploy(StandardResolver, DINRegistry.address, accounts[0], productURL, accounts[1]);
+        await deployer.deploy(
+            StandardResolver,
+            DINRegistry.address,
+            accounts[0],
+            productURL,
+            accounts[0]
+        );
         // Deploy MarketToken
         await deployer.deploy(MarketToken, initialSupply);
         // Deploy Checkout
-        await deployer.deploy(Checkout, MarketToken.address, DINRegistry.address);
+        await deployer.deploy(
+            Checkout,
+            MarketToken.address,
+            DINRegistry.address
+        );
         // Set the checkout contract on MarketToken
         await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
         // Deploy Cart
         await deployer.deploy(Cart);
+        // Register 10 DINs
+        await DINRegistrar.at(DINRegistrar.address).registerDINs(10);
+        // Set resolver of first DIN
+        await DINRegistry.at(DINRegistry.address).setResolver(1000000001, StandardResolver.address);
+        // Add an item to the cart
+        await Cart.at(Cart.address).addToCart(1000000001);
     });
 };
