@@ -84,11 +84,13 @@ contract Checkout {
 
         if (block.timestamp > order.priceValidUntil) {
             LogError("Offer expired");
+            msg.sender.transfer(msg.value);
             return 0;
         }
 
         if (order.totalPrice == 0) {
             LogError("Invalid price");
+            msg.sender.transfer(msg.value);
             return 0;
         }
 
@@ -102,6 +104,7 @@ contract Checkout {
 
         if (resolverAddr == address(0x0)) {
             LogError("Invalid resolver");
+            msg.sender.transfer(msg.value);
             return 0;
         }
 
@@ -110,6 +113,7 @@ contract Checkout {
 
         if (merchant == address(0x0)) {
             LogError("Invalid merchant");
+            msg.sender.transfer(msg.value);
             return 0;
         }
 
@@ -121,23 +125,27 @@ contract Checkout {
 
         if (isValid == false) {
             LogError("Invalid signature");
+            msg.sender.transfer(msg.value);
             return 0;
         }
 
         // Transaction is valid. Transfer tokens from buyer to merchant.
         bool success;
 
-        if (order.priceCurrency == address(marketToken)) {
-            success = transferMarketTokens(msg.sender, merchant, order.totalPrice);
-        } else if (order.priceCurrency == address(0x0)) {
+        if (order.priceCurrency == address(0x0)) {
             success = transferEther(msg.sender, merchant, order.totalPrice);
+        } else if (order.priceCurrency == address(marketToken)) {
+            success = transferMarketTokens(msg.sender, merchant, order.totalPrice);
         } else {
-            success = transferERC20(msg.sender, merchant, order.totalPrice, order.priceCurrency);
+            LogError("Invalid token");
+            msg.sender.transfer(msg.value);
+            return 0;
         }
 
         if (success == true) {
             if (order.affiliate == msg.sender) {
                 LogError("Invalid affiliate");
+                msg.sender.transfer(msg.value);
                 return 0;
             }
 
@@ -163,6 +171,7 @@ contract Checkout {
             return orderIndex;
         } else {
             LogError("Transferring tokens failed");
+            msg.sender.transfer(msg.value);
             return 0;
         }
     }
@@ -192,24 +201,10 @@ contract Checkout {
             merchant.transfer(msg.value);
             return true;
         } else {
-            // Return Ether to buyer and log error.
-            buyer.transfer(msg.value);
             LogError("Invalid price");
+            msg.sender.transfer(msg.value);
             return false;
         }
-    }
-
-    function transferERC20(
-        address buyer, 
-        address merchant, 
-        uint256 totalPrice, 
-        address token
-    )
-        private
-        returns (bool success)
-    {
-        LogError("Coming soon!");
-        return false;
     }
 
     /**
