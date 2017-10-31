@@ -41,7 +41,7 @@ contract Checkout {
       * @param _token The Market Token contract address.
       * @param _registry The DIN Registry contract address.
       */
-    function Checkout(MarketToken _token, DINRegistry _registry) {
+    function Checkout(MarketToken _token, DINRegistry _registry) public {
         marketToken = _token;
         registry = _registry;
     }
@@ -133,7 +133,7 @@ contract Checkout {
         bool success;
 
         if (order.priceCurrency == address(0x0)) {
-            success = transferEther(msg.sender, merchant, order.totalPrice);
+            success = transferEther(merchant, order.totalPrice);
         } else if (order.priceCurrency == address(marketToken)) {
             success = transferMarketTokens(msg.sender, merchant, order.totalPrice);
         } else {
@@ -189,7 +189,6 @@ contract Checkout {
     }
 
     function transferEther(
-        address buyer,
         address merchant,
         uint256 totalPrice
     ) 
