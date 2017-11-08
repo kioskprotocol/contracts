@@ -55,7 +55,7 @@ contract Checkout {
         [4] affiliateFee Affiliate reward (optional), denominated in base units of Market Token (MARK).
       * param orderAddresses:
         [0] priceCurrency Address of the token used for pricing. Ether (ETH) is represented by the null address (0x0...).
-        [1] affiliate Address of the affiliate.  
+        [1] affiliate Address of the affiliate. Use null address (0x0...) for no affiliate.
       * @param v ECDSA signature parameter v.
       * @param r ECDSA signature parameter r.
       * @param s ECDSA signature parameter s.

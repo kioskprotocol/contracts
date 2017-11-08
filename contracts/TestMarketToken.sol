@@ -23,8 +23,8 @@ contract MarketToken is StandardToken {
     // Logged when the owner changes.
     event NewOwner(address indexed owner);
 
-    // Logged when the Buy contract changes.
-    event NewBuy(address indexed buy);
+    // Logged when the Checkout contract changes.
+    event NewCheckout(address indexed checkout);
     
     // Constructor
     function MarketToken(uint256 _totalSupply) {
@@ -43,7 +43,7 @@ contract MarketToken is StandardToken {
         only_checkout
         returns (bool) 
     {
-        // Allow the Buy contract to spend a user's balance.
+        // Allow the Checkout contract to spend a user's balance.
         balances[_to] = balances[_to].add(_value);
         balances[_from] = balances[_from].sub(_value);
         Transfer(_from, _to, _value);
