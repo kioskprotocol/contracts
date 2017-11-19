@@ -19,9 +19,9 @@ contract("Checkout", accounts => {
     let resolver;
 
     // Accounts
-    const alice = accounts[0]; // Buyer
-    const bob = accounts[1]; // Seller
-    const carol = accounts[2]; // Affiliate
+    const BUYER = accounts[0];
+    const MERCHANT = accounts[1];
+    const AFFILIATE = accounts[2];
 
     // Errors
     const ERROR_OFFER_EXPIRED = "Offer expired";
@@ -33,7 +33,6 @@ contract("Checkout", accounts => {
 
     // Tokens
     let MARKET_TOKEN_ADDRESS;
-    const JESUS_COIN_ADDRESS = "0x0a1524bfbb8905de0a3b15bdf8d678e7fb9c8c68";
     const NO_LOYALTY_TOKEN = "0x0000000000000000000000000000000000000000";
 
     // Addresses
@@ -53,7 +52,7 @@ contract("Checkout", accounts => {
     const PRICE_TOO_HIGH = 500 * Math.pow(10, 18); // 5,000 ETH
 
     // Affiliate Reward
-    const AFFILIATE_FEE = 1 * Math.pow(10, 18); // 1 MARK
+    const AFFILIATE_REWARD = 1 * Math.pow(10, 18); // 1 MARK
     const NO_AFFILIATE_REWARD = 0;
 
     // Loyalty Reward
@@ -66,9 +65,21 @@ contract("Checkout", accounts => {
     // Constants
     // NOTE: Setting a positive gas price will cause a couple of the tests to be off by a very small margin of error.
     const GAS_PRICE = web3.toWei(0, "gwei");
+    const NONCE_HASH = utils.sha3("TEST");
+
+    // Valid order parameters
+    const ORDER_VALUES = [
+        DIN,
+        QUANTITY_ONE,
+        PRICE,
+        FUTURE_DATE,
+        NO_AFFILIATE_REWARD,
+        NO_LOYALTY_REWARD
+    ];
+    const ORDER_ADDRESSES = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
     const getDINFromLog = async () => {
-        const registrationEvent = registry.NewRegistration({ owner: bob });
+        const registrationEvent = registry.NewRegistration({ owner: MERCHANT });
         const eventAsync = Promise.promisifyAll(registrationEvent);
         const logs = await eventAsync.getAsync();
 
@@ -85,7 +96,7 @@ contract("Checkout", accounts => {
         return hash;
     };
 
-    const getSignature = (values, account = bob) => {
+    const getSignature = (values, account = MERCHANT) => {
         const hash = getHash(values);
         if (IS_DEBUG === true) {
             console.log("HASH: " + hash);
@@ -114,8 +125,8 @@ contract("Checkout", accounts => {
     const getBuyResult = async (
         values,
         addresses,
-        owner = bob,
-        buyer = alice
+        owner = MERCHANT,
+        buyer = BUYER
     ) => {
         const hashValues = [
             values[0], // DIN
@@ -130,6 +141,7 @@ contract("Checkout", accounts => {
         const result = await checkout.buy(
             values,
             addresses,
+            NONCE_HASH,
             signature.v,
             signature.r,
             signature.s,
@@ -153,19 +165,19 @@ contract("Checkout", accounts => {
         MARKET_TOKEN_ADDRESS = marketToken.address;
 
         // Register 3 DINs.
-        await registrar.registerDINs(3, { from: bob });
+        await registrar.registerDINs(3, { from: MERCHANT });
 
         // Set the resolver for the first two DINs.
-        await registry.setResolver(DIN, resolver.address, { from: bob });
+        await registry.setResolver(DIN, resolver.address, { from: MERCHANT });
         await registry.setResolver(DIN_NO_MERCHANT, resolver.address, {
-            from: bob
+            from: MERCHANT
         });
 
-        // Set the merchant for the first DIN. Bob is the DIN owner and merchant.
-        await resolver.setMerchant(DIN, bob, { from: bob });
+        // Set the merchant for the first DIN. MERCHANT is the DIN owner and merchant.
+        await resolver.setMerchant(DIN, MERCHANT, { from: MERCHANT });
 
-        // Give Bob some Market Tokens so he can promote his product by offering affiliate rewards.
-        await marketToken.transfer(bob, AFFILIATE_FEE * 5, { from: alice });
+        // Give MERCHANT some Market Tokens so he can promote his product by offering affiliate rewards.
+        await marketToken.transfer(MERCHANT, AFFILIATE_REWARD * 5, { from: BUYER });
     });
 
     it("should have the correct registry", async () => {
@@ -179,204 +191,243 @@ contract("Checkout", accounts => {
     });
 
     it("should log an error if the expiration time has passed", async () => {
-        const values = [DIN, QUANTITY_ONE, PRICE, EXPIRED_DATE, NO_AFFILIATE_REWARD, NO_LOYALTY_REWARD];
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            EXPIRED_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
         const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
-        console.log(values);
-        console.log(addresses);
-
-        // const result = await getBuyResult(values, addresses);
-        // expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
+        const result = await getBuyResult(values, addresses);
+        expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
     });
 
-    // it("should log an error if the resolver is not set", async () => {
-    //     const values = [
-    //         DIN_NO_RESOLVER,
-    //         QUANTITY_ONE,
-    //         PRICE_ETHER,
-    //         FUTURE_DATE,
-    //         NO_FEE
-    //     ];
-    //     const addresses = [ETHER_ADDRESS, NO_AFFILIATE];
+    it("should log an error if the resolver is not set", async () => {
+        const values = [
+            DIN_NO_RESOLVER,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
-    //     const result = await getBuyResult(values, addresses);
-    //     expect(result.logs[0].args.error).to.equal(ERROR_INVALID_RESOLVER);
-    // });
+        const result = await getBuyResult(values, addresses);
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_RESOLVER);
+    });
 
-    // it("should log an error if the merchant is not set", async () => {
-    //     const values = [
-    //         DIN_NO_MERCHANT,
-    //         QUANTITY_ONE,
-    //         PRICE_ETHER,
-    //         FUTURE_DATE,
-    //         NO_FEE
-    //     ];
-    //     const addresses = [ETHER_ADDRESS, NO_AFFILIATE];
+    it("should log an error if the merchant is not set", async () => {
+        const values = [
+            DIN_NO_MERCHANT,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
-    //     const result = await getBuyResult(values, addresses);
-    //     expect(result.logs[0].args.error).to.equal(ERROR_INVALID_MERCHANT);
-    // });
+        const result = await getBuyResult(values, addresses);
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_MERCHANT);
+    });
 
-    // it("should log an error if the signature is invalid", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, NO_FEE];
-    //     const addresses = [ETHER_ADDRESS, NO_AFFILIATE];
+    it("should log an error if the signature is invalid", async () => {
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
-    //     const result = await checkout.buy(
-    //         values,
-    //         addresses,
-    //         27,
-    //         "0x0000000000000000000000000000000000000000",
-    //         "0x0000000000000000000000000000000000000000"
-    //     );
-    //     expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
-    // });
+        const result = await checkout.buy(
+            values,
+            addresses,
+            NONCE_HASH,
+            27,
+            "0x0000000000000000000000000000000000000000",
+            "0x0000000000000000000000000000000000000000"
+        );
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
+    });
 
-    // it("should log an error if the price does not match the signed price", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, NO_FEE];
-    //     const addresses = [ETHER_ADDRESS, NO_AFFILIATE];
+    it("should log an error if the price does not match the signed price", async () => {
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
-    //     const signature = getSignature(values, bob);
+        const signature = getSignature(values, MERCHANT);
 
-    //     // Set the price low to try to get the item for less
-    //     const fakeValues = [DIN, QUANTITY_ONE, 1, FUTURE_DATE, NO_FEE];
+        // Set the price low to try to get the item for less
+        const fakeValues = [
+            DIN,
+            QUANTITY_ONE,
+            1,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
 
-    //     const result = await checkout.buy(
-    //         fakeValues,
-    //         addresses,
-    //         signature.v,
-    //         signature.r,
-    //         signature.s
-    //     );
-    //     expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
-    // });
+        const result = await checkout.buy(
+            fakeValues,
+            addresses,
+            NONCE_HASH,
+            signature.v,
+            signature.r,
+            signature.s
+        );
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
+    });
 
-    // it("should validate a signature", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, NO_FEE];
-    //     const address = [ETHER_ADDRESS, NO_AFFILIATE];
-    //     const hashValues = [
-    //         DIN,
-    //         PRICE_ETHER,
-    //         ETHER_ADDRESS,
-    //         FUTURE_DATE,
-    //         NO_FEE
-    //     ];
+    it("should validate a signature", async () => {
+        const hashValues = [
+            DIN,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD,
+            NO_LOYALTY_TOKEN
+        ];
+        const signature = getSignature(hashValues);
+        const hash = getHash(hashValues);
 
-    //     const signature = getSignature(hashValues);
-    //     const hash = getHash(hashValues);
+        const result = await checkout.isValidSignature(
+            MERCHANT,
+            hash,
+            signature.v,
+            signature.r,
+            signature.s
+        );
+        expect(result).to.equal(true);
 
-    //     const result = await checkout.isValidSignature(
-    //         bob,
-    //         hash,
-    //         signature.v,
-    //         signature.r,
-    //         signature.s
-    //     );
-    //     expect(result).to.equal(true);
+        const fakeValues = [
+            DIN,
+            QUANTITY_ONE,
+            1,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const fakeHash = getHash(fakeValues);
+        const fakeResult = await checkout.isValidSignature(
+            MERCHANT,
+            fakeHash,
+            signature.v,
+            signature.r,
+            signature.s
+        );
+        expect(fakeResult).to.equal(false);
+    });
 
-    //     const fakeValues = [DIN, 1, ETHER_ADDRESS, FUTURE_DATE, NO_FEE];
-    //     const fakeHash = getHash(fakeValues);
-    //     const fakeResult = await checkout.isValidSignature(
-    //         bob,
-    //         fakeHash,
-    //         signature.v,
-    //         signature.r,
-    //         signature.s
-    //     );
-    //     expect(fakeResult).to.equal(false);
-    // });
+    it("should process a valid purchase", async () => {
+        const values = ORDER_VALUES;
+        const addresses = ORDER_ADDRESSES;
 
-    // it("should process a valid purchase with Ether", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, NO_FEE];
-    //     const addresses = [ETHER_ADDRESS, NO_AFFILIATE];
+        const beginIndex = await checkout.orderIndex();
+        const beginBalanceBuyer = await web3.eth.getBalance(BUYER);
+        const beginBalanceMerchant = await web3.eth.getBalance(MERCHANT);
 
-    //     const beginIndex = await checkout.orderIndex();
-    //     const beginBalanceBuyer = await web3.eth.getBalance(alice);
-    //     const beginBalanceMerchant = await web3.eth.getBalance(bob);
+        const result = await getBuyResult(values, addresses);
+        const gasUsed = result.receipt.gasUsed;
 
-    //     const result = await getBuyResult(values, addresses);
-    //     const gasUsed = result.receipt.gasUsed;
+        const endIndex = await checkout.orderIndex();
+        expect(endIndex.toNumber()).to.equal(beginIndex.toNumber() + 1);
 
-    //     const endIndex = await checkout.orderIndex();
-    //     expect(endIndex.toNumber()).to.equal(beginIndex.toNumber() + 1);
+        const endBalanceBuyer = await web3.eth.getBalance(BUYER);
+        const endBalanceMerchant = await web3.eth.getBalance(MERCHANT);
 
-    //     const endBalanceBuyer = await web3.eth.getBalance(alice);
-    //     const endBalanceMerchant = await web3.eth.getBalance(bob);
+        const expectedBuyer =
+            beginBalanceBuyer.toNumber() - PRICE - gasUsed * GAS_PRICE;
+        const expectedMerchant = beginBalanceMerchant.toNumber() + PRICE;
 
-    //     const expectedBuyer =
-    //         beginBalanceBuyer.toNumber() - PRICE_ETHER - (gasUsed * GAS_PRICE);
-    //     const expectedMerchant = beginBalanceMerchant.toNumber() + PRICE_ETHER;
+        expect(endBalanceBuyer.toNumber()).to.equal(expectedBuyer);
+        expect(endBalanceMerchant.toNumber()).to.equal(expectedMerchant);
+    });
 
-    //     expect(endBalanceBuyer.toNumber()).to.equal(expectedBuyer);
-    //     expect(endBalanceMerchant.toNumber()).to.equal(expectedMerchant);
-    // });
+    it("should not allow a buyer to set herself as the affiliate", async () => {
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [BUYER, NO_LOYALTY_TOKEN];
 
-    // it("should not allow a buyer to set herself as the affiliate", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, NO_FEE];
-    //     const addresses = [ETHER_ADDRESS, alice];
+        const result = await getBuyResult(values, addresses);
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_AFFILIATE);
+    });
 
-    //     const result = await getBuyResult(values, addresses);
-    //     expect(result.logs[0].args.error).to.equal(ERROR_INVALID_AFFILIATE);
-    // });
+    it("should reward a valid affiliate", async () => {
+        // MERCHANT will offer 1 MARK to any affiliate that sells his product for 5 ETH.
+        // AFFILIATE gets BUYER to purchase the product with her affiliate link.
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [AFFILIATE, NO_LOYALTY_TOKEN];
 
-    // it("should reward a valid affiliate", async () => {
-    //     // Bob will offer 1 MARK to any affiliate that sells his product for 5 ETH. 
-    //     // Carol is an affiliate who gets Alice to purchase the product on her website.
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, AFFILIATE_FEE];
-    //     const addresses = [ETHER_ADDRESS, carol];
+        // Ether beginning balances
+        const beginBalanceBuyerETH = await web3.eth.getBalance(BUYER);
+        const beginBalanceMerchantETH = await web3.eth.getBalance(MERCHANT);
 
-    //     // Ether beginning balances
-    //     const beginBalanceBuyerETH = await web3.eth.getBalance(alice);
-    //     const beginBalanceMerchantETH = await web3.eth.getBalance(bob);
+        // Market Token beginning balances
+        const beginBalanceMerchantMARK = await marketToken.balanceOf(MERCHANT);
+        const beginBalanceAffiliateMARK = await marketToken.balanceOf(AFFILIATE);
 
-    //     // Market Token beginning balances
-    //     const beginBalanceMerchantMARK = await marketToken.balanceOf(bob);
-    //     const beginBalanceAffiliateMARK = await marketToken.balanceOf(carol);
+        const result = await getBuyResult(values, addresses);
+        const gasUsed = result.receipt.gasUsed;
 
-    //     const result = await getBuyResult(values, addresses);
-    //     const gasUsed = result.receipt.gasUsed;
+        // Ether ending balances
+        const endBalanceBuyerETH = await web3.eth.getBalance(BUYER);
+        const endBalanceMerchantETH = await web3.eth.getBalance(MERCHANT);
 
-    //     // Ether ending balances
-    //     const endBalanceBuyerETH = await web3.eth.getBalance(alice);
-    //     const endBalanceMerchantETH = await web3.eth.getBalance(bob);
+        // Market Token beginning balances
+        const endBalanceMerchantMARK = await marketToken.balanceOf(MERCHANT);
+        const endBalanceAffiliateMARK = await marketToken.balanceOf(AFFILIATE);
 
-    //     // Market Token beginning balances
-    //     const endBalanceMerchantMARK = await marketToken.balanceOf(bob);
-    //     const endBalanceAffiliateMARK = await marketToken.balanceOf(carol);
+        // Expected values
+        const expectedEndBalanceBuyerETH = beginBalanceBuyerETH.toNumber() - PRICE - (gasUsed * GAS_PRICE);
+        const expectedEndBalanceMerchantETH = beginBalanceMerchantETH.toNumber() + PRICE;
+        const expectedEndBalanceMerchantMARK = beginBalanceMerchantMARK.toNumber() - AFFILIATE_REWARD;
+        const expectedEndBalanceAffiliateMARK = beginBalanceAffiliateMARK.toNumber() + AFFILIATE_REWARD;
 
-    //     // Expected values
-    //     const expectedEndBalanceBuyerETH = beginBalanceBuyerETH.toNumber() - PRICE_ETHER - (gasUsed * GAS_PRICE);
-    //     const expectedEndBalanceMerchantETH = beginBalanceMerchantETH.toNumber() + PRICE_ETHER;
-    //     const expectedEndBalanceMerchantMARK = beginBalanceMerchantMARK.toNumber() - AFFILIATE_FEE;
-    //     const expectedEndBalanceAffiliateMARK = beginBalanceAffiliateMARK.toNumber() + AFFILIATE_FEE;
+        expect(endBalanceBuyerETH.toNumber()).to.equal(expectedEndBalanceBuyerETH);
+        expect(endBalanceMerchantETH.toNumber()).to.equal(expectedEndBalanceMerchantETH);
+        expect(endBalanceMerchantMARK.toNumber()).to.equal(expectedEndBalanceMerchantMARK);
+        expect(endBalanceAffiliateMARK.toNumber()).to.equal(expectedEndBalanceAffiliateMARK);
+    });
 
-    //     expect(endBalanceBuyerETH.toNumber()).to.equal(expectedEndBalanceBuyerETH);
-    //     expect(endBalanceMerchantETH.toNumber()).to.equal(expectedEndBalanceMerchantETH);
-    //     expect(endBalanceMerchantMARK.toNumber()).to.equal(expectedEndBalanceMerchantMARK);
-    //     expect(endBalanceAffiliateMARK.toNumber()).to.equal(expectedEndBalanceAffiliateMARK);
+    it("should throw if the buyer does not have enough tokens", async () => {
+        const values = [DIN, QUANTITY_ONE, PRICE_TOO_HIGH, FUTURE_DATE, NO_AFFILIATE_REWARD, NO_LOYALTY_REWARD];
+        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
-    // });
-
-    // it("should throw if the buyer does not have enough tokens", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_TOO_HIGH, FUTURE_DATE, NO_FEE];
-    //     const addresses = [MARKET_TOKEN_ADDRESS, NO_AFFILIATE];
-
-    //     try {
-    //         await getBuyResult(values, addresses);
-    //     } catch (error) {
-    //         assert.include(
-    //             error.message,
-    //             "invalid opcode",
-    //             "Buying a product without enough tokens should throw an error."
-    //         );
-    //     }
-    // });
-
-    // it("should log an error for a currency besides Ether or Market Tokens", async () => {
-    //     const values = [DIN, QUANTITY_ONE, PRICE_ETHER, FUTURE_DATE, NO_FEE];
-    //     const addresses = [JESUS_COIN_ADDRESS, NO_AFFILIATE];
-
-    //     const result = await getBuyResult(values, addresses);
-    //     expect(result.logs[0].args.error).to.equal(ERROR_COMING_SOON);
-    // });
+        try {
+            await getBuyResult(values, addresses);
+        } catch (error) {
+            assert.include(
+                error.message,
+                "sender doesn\'t have enough funds to send tx",
+                "Buying a product without enough tokens should throw an error."
+            );
+        }
+    });
 
 });

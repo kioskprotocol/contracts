@@ -139,16 +139,16 @@ contract Checkout {
             LogError("Invalid price");
             msg.sender.transfer(msg.value);
             return 0;
-        }        
-
-        // Transfer Ether (ETH) from buyer to merchant.
-        merchant.transfer(msg.value);
+        }
 
         if (order.affiliate == msg.sender) {
             LogError("Invalid affiliate");
             msg.sender.transfer(msg.value);
             return 0;
         }
+
+        // Transfer Ether (ETH) from buyer to merchant.
+        merchant.transfer(msg.value);
 
         if (order.affiliateReward > 0) {
             // Transfer affiliate fee from DIN owner to affiliate.
