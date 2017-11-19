@@ -16,9 +16,6 @@ contract("StandardResolver", accounts => {
     before(async () => {
         resolver = await StandardResolver.deployed();
         registry = await DINRegistry.deployed();
-
-        // Alice will own DIN 10000000001.
-        // await DINRegistry.registerDIN({ from: alice });
     });
 
     it("should have the correct owner", async () => {
@@ -34,14 +31,6 @@ contract("StandardResolver", accounts => {
     it("should have the correct merchant", async () => {
         const merchant = await resolver.merchant(DIN);
         expect(merchant).to.equal(bob);
-    });
-
-    it("should let the DIN owner update product URL, merchant, and owner", async () => {
-        // await resolver.setMerchant(1000000001, "https://www.shopify.com/");
-    });
-
-    it("should throw if an unauthorized user tries to set product URL, merchant, or owner", async () => {
-        //
     });
 
 });

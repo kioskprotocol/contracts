@@ -29,7 +29,7 @@ module.exports = async (deployer, network, accounts) => {
             DINRegistry.address,
             accounts[0],
             productURL,
-            accounts[0]
+            accounts[1]
         );
         // Deploy MarketToken
         await deployer.deploy(MarketToken, initialSupply);
@@ -41,6 +41,8 @@ module.exports = async (deployer, network, accounts) => {
         );
         // Set the checkout contract on MarketToken
         await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
+        // Deploy Cart
+        await deployer.deploy(Cart);
     });
 };
 

@@ -25,5 +25,4 @@ contract("ResolverFactory", accounts => {
         const merchant = await resolver.merchant(1000000001);
         expect(merchant).to.equal(alice);
     });
-
 });

@@ -16,5 +16,4 @@ contract("Cart", accounts => {
         const event = result.logs[0].event;
         expect(event).to.equal("AddToCart");
     });
-
 });
