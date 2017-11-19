@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Kiosk protocol contracts",
   "author": "Rich McAteer",
+  "scripts": {
+    "migrate": "rm -rf ./build/contracts; truffle migrate --reset"
+  },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "bignumber.js": "^4.1.0",

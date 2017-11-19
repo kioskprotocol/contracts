@@ -11,9 +11,6 @@ contract Checkout {
     // The next order ID.
     uint256 public orderIndex = 0;
 
-    // Order ID => Fulfilled
-    mapping (uint256 => bool) public fulfilled;
-
     // Prevents Solidity "stack too deep" error.
     struct Order {
         uint256 DIN;
@@ -117,11 +114,6 @@ contract Checkout {
             return 0;
         }
 
-        // Prevent reentrancy
-        require(fulfilled[orderIndex] == false);
-
-        fulfilled[orderIndex] = true;
-
         // Untrusted call
         address merchant = Resolver(resolverAddr).merchant(order.DIN);
 
@@ -147,9 +139,7 @@ contract Checkout {
             LogError("Invalid price");
             msg.sender.transfer(msg.value);
             return 0;
-        }
-
-        // TODO: Automatically use the correct loyalty token if the user owns it
+        }        
 
         // Transfer Ether (ETH) from buyer to merchant.
         merchant.transfer(msg.value);

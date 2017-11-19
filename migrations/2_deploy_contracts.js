@@ -41,18 +41,17 @@ module.exports = async (deployer, network, accounts) => {
         );
         // Set the checkout contract on MarketToken
         await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
-        // Deploy Cart
-        await deployer.deploy(Cart);
-        // // Register 10 DINs
-        // await DINRegistrar.at(DINRegistrar.address).registerDINs(10);
-        // // Set resolver of first DIN
-        // await DINRegistry.at(DINRegistry.address).setResolver(1000000001, StandardResolver.address);
-        // // Set resolver of second DIN
-        // await DINRegistry.at(DINRegistry.address).setResolver(1000000002, StandardResolver.address);
-        // // Set resolver of third DIN
-        // await DINRegistry.at(DINRegistry.address).setResolver(1000000003, StandardResolver.address);
-        // // Add an item to the cart
-        // await Cart.at(Cart.address).addToCart(1000000001);
-        // await Cart.at(Cart.address).addToCart(1000000002);
     });
 };
+
+// // Register 10 DINs
+// await DINRegistrar.at(DINRegistrar.address).registerDINs(10);
+// // Set resolver of first DIN
+// await DINRegistry.at(DINRegistry.address).setResolver(1000000001, StandardResolver.address);
+// // Set resolver of second DIN
+// await DINRegistry.at(DINRegistry.address).setResolver(1000000002, StandardResolver.address);
+// // Set resolver of third DIN
+// await DINRegistry.at(DINRegistry.address).setResolver(1000000003, StandardResolver.address);
+// // Add an item to the cart
+// await Cart.at(Cart.address).addToCart(1000000001);
+// await Cart.at(Cart.address).addToCart(1000000002);

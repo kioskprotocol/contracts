@@ -53,7 +53,7 @@ contract MarketToken is StandardToken {
         owner = _owner;
     }
 
-    function setCheckout(address _checkout) only_owner {
+    function setCheckout(address _checkout) {
         checkout = _checkout;
     }
 
