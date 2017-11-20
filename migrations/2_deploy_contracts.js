@@ -1,6 +1,5 @@
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistrar = artifacts.require("DINRegistrar.sol");
-const PublicURLResolver = artifacts.require("PublicURLResolver.sol");
 const StandardResolver = artifacts.require("StandardResolver.sol");
 const ResolverFactory = artifacts.require("ResolverFactory.sol");
 const MarketToken = artifacts.require("MarketToken.sol");
@@ -19,8 +18,6 @@ module.exports = async (deployer, network, accounts) => {
         await DINRegistry.at(DINRegistry.address).setRegistrar(
             DINRegistrar.address
         );
-        // Deploy PublicURLResolver
-        await deployer.deploy(PublicURLResolver, DINRegistry.address);
         // Deploy ResolverFactory
         await deployer.deploy(ResolverFactory, DINRegistry.address);
         // Deploy a StandardResolver
