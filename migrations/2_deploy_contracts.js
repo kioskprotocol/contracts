@@ -8,7 +8,7 @@ const Checkout = artifacts.require("Checkout.sol");
 const Cart = artifacts.require("Cart.sol");
 const genesis = 1000000000; // The first DIN.
 const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
-const productURL = "https://www.google.com/";
+const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
     // Deploy DINRegistry

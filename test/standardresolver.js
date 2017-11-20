@@ -9,7 +9,7 @@ contract("StandardResolver", accounts => {
     const alice = accounts[0]; // DIN owner
     const bob = accounts[1]; // Merchant
     const carol = accounts[2]; // Unauthorized user
-    const productURL = "https://www.google.com/";
+    const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
     const DIN = 1000000001;
 
