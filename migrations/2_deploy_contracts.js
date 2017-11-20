@@ -5,11 +5,15 @@ const ResolverFactory = artifacts.require("ResolverFactory.sol");
 const MarketToken = artifacts.require("MarketToken.sol");
 const Checkout = artifacts.require("Checkout.sol");
 const Cart = artifacts.require("Cart.sol");
+const LoyaltyTokenFactory = artifacts.require("LoyaltyTokenFactory.sol");
+const LoyaltyToken = artifacts.require("LoyaltyToken.sol");
 const genesis = 1000000000; // The first DIN.
 const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
 const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
+    const merchant = accounts[0];
+
     // Deploy DINRegistry
     deployer.deploy(DINRegistry, genesis).then(async () => {
         // Deploy DINRegistrar
@@ -24,7 +28,7 @@ module.exports = async (deployer, network, accounts) => {
         await deployer.deploy(
             StandardResolver,
             DINRegistry.address,
-            accounts[0],
+            merchant,
             productURL,
             accounts[1]
         );
@@ -38,27 +42,27 @@ module.exports = async (deployer, network, accounts) => {
         );
         // Set the checkout contract on MarketToken
         await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
+        // Deploy LoyaltyTokenFactory
+        await deployer.deploy(LoyaltyTokenFactory);
+        // Set the checkout contract on LoyaltyTokenFactory
+        await LoyaltyTokenFactory.at(LoyaltyTokenFactory.address).setCheckout(Checkout.address);
+        // Create LoyaltyToken
+        await LoyaltyTokenFactory.at(LoyaltyTokenFactory.address).createToken(
+            "Ethereum Bookstore",
+            "BOOK",
+            merchant
+        );
         // Deploy Cart
         await deployer.deploy(Cart);
         // Register 10 DINs
-        await DINRegistrar.at(DINRegistrar.address).registerDINs(10);
-        // Set resolver of first DIN
-        await DINRegistry.at(DINRegistry.address).setResolver(
-            1000000001,
-            StandardResolver.address
-        );
-        // Set resolver of second DIN
-        await DINRegistry.at(DINRegistry.address).setResolver(
-            1000000002,
-            StandardResolver.address
-        );
-        // Set resolver of third DIN
-        await DINRegistry.at(DINRegistry.address).setResolver(
-            1000000003,
-            StandardResolver.address
-        );
-        // Add an item to the cart
-        await Cart.at(Cart.address).addToCart(1000000001);
-        await Cart.at(Cart.address).addToCart(1000000002);
+        await DINRegistrar.at(DINRegistrar.address).registerDINs(10, {
+            from: merchant
+        });
+        // Set resolver of registered DINs
+        for (let i = 1000000001; i <= 1000000003; i++) {
+            await DINRegistry.at(
+                DINRegistry.address
+            ).setResolver(i, StandardResolver.address, { from: merchant });
+        }
     });
 };

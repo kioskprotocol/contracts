@@ -3,6 +3,8 @@ pragma solidity ^0.4.11;
 import "./MarketToken.sol";
 import "./DINRegistry.sol";
 import "./Resolver.sol";
+import "./LoyaltyToken.sol";
+import "./LoyaltyTokenFactory.sol";
 
 contract Checkout {
     MarketToken public marketToken;
@@ -21,6 +23,12 @@ contract Checkout {
         address affiliate;
         uint256 loyaltyReward;
         address loyaltyToken;
+        address resolver;
+        address merchant;
+        address owner;
+        uint8 v;
+        bytes32 r;
+        bytes32 s;
     }
 
     // Logs Solidity errors
@@ -76,6 +84,18 @@ contract Checkout {
         public
         returns (uint256 orderID)
     {
+        // Get the resolver address from the DIN Registry.
+        address resolver = registry.resolver(orderValues[0]);
+
+        if (resolver == address(0x0)) {
+            LogError("Invalid resolver");
+            msg.sender.transfer(msg.value);
+            return 0;
+        }
+
+        // Untrusted call
+        address merchant = Resolver(resolver).merchant(orderValues[0]);
+
         Order memory order = Order({
             DIN: orderValues[0],
             quantity: orderValues[1],
@@ -84,75 +104,56 @@ contract Checkout {
             affiliateReward: orderValues[4],
             affiliate: orderAddresses[0],
             loyaltyReward: orderValues[5],
-            loyaltyToken: orderAddresses[1]
+            loyaltyToken: orderAddresses[1],
+            resolver: resolver,
+            merchant: merchant,
+            owner: registry.owner(orderValues[0]), // Get the DIN owner address from the DIN registry.
+            v: v,
+            r: r,
+            s: s
         });
-
-        if (block.timestamp > order.priceValidUntil) {
-            LogError("Offer expired");
-            msg.sender.transfer(msg.value);
-            return 0;
-        }
-
-        uint256 unitPrice = order.totalPrice / order.quantity;
 
         // Calculate the hash of the parameters provided by the buyer.
         bytes32 hash = keccak256(
             order.DIN,
-            unitPrice,
+            (order.totalPrice / order.quantity),
             order.priceValidUntil,
             order.affiliateReward, 
             order.loyaltyReward,
             order.loyaltyToken
         );
 
-        // Get the resolver address from the DIN Registry.
-        address resolverAddr = registry.resolver(order.DIN);
-
-        if (resolverAddr == address(0x0)) {
-            LogError("Invalid resolver");
-            msg.sender.transfer(msg.value);
-            return 0;
-        }
-
-        // Untrusted call
-        address merchant = Resolver(resolverAddr).merchant(order.DIN);
-
-        if (merchant == address(0x0)) {
-            LogError("Invalid merchant");
-            msg.sender.transfer(msg.value);
-            return 0;
-        }
-
-        // Get the DIN owner address from the DIN registry.
-        address owner = registry.owner(order.DIN);
-
-        // Verify that the DIN owner has signed the parameters provided by the buyer.
-        bool isValid = isValidSignature(owner, hash, v, r, s);
+        bool isValid = isValidOrder(
+            order.totalPrice,
+            order.priceValidUntil,
+            order.affiliateReward,
+            order.affiliate,
+            order.loyaltyReward,
+            order.loyaltyToken,
+            order.merchant,
+            order.owner,
+            hash,
+            order.v,
+            order.r,
+            order.s
+        );
 
         if (isValid == false) {
-            LogError("Invalid signature");
-            msg.sender.transfer(msg.value);
             return 0;
         }
 
-        if (msg.value != order.totalPrice) {
-            LogError("Invalid price");
-            msg.sender.transfer(msg.value);
-            return 0;
-        }
-
-        if (order.affiliate == msg.sender) {
-            LogError("Invalid affiliate");
-            msg.sender.transfer(msg.value);
-            return 0;
-        }
-
+        // TODO: Transfer a mix of Ether and loyalty token from buyer to merchant.
         // Transfer Ether (ETH) from buyer to merchant.
-        merchant.transfer(msg.value);
+        order.merchant.transfer(msg.value);
 
+        // Transfer affiliate reward from DIN owner to affiliate.
         if (order.affiliateReward > 0) {
-            // Transfer affiliate fee from DIN owner to affiliate.
-            marketToken.transferFromCheckout(owner, order.affiliate, order.affiliateReward);
+            marketToken.transferFromCheckout(order.owner, order.affiliate, order.affiliateReward);
+        }
+
+        // Transfer loyalty reward from DIN owner to buyer.
+        if (order.loyaltyReward > 0 && order.loyaltyToken != address(0x0)) {
+            LoyaltyToken(order.loyaltyToken).transferFromCheckout(order.owner, msg.sender, order.loyaltyReward);
         }
 
         // Increment the order index.
@@ -173,13 +174,77 @@ contract Checkout {
     }
 
     /**
+      * @dev Verifies that an order is valid.
+      * @return valid Validity of the order.
+      */
+    function isValidOrder(
+        uint256 totalPrice,
+        uint256 priceValidUntil,
+        uint256 affiliateReward,
+        address affiliate,
+        uint256 loyaltyReward,
+        address loyaltyToken,
+        address merchant,
+        address owner,
+        bytes32 hash,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) 
+        public 
+        constant 
+        returns (bool) 
+    {
+        if (block.timestamp > priceValidUntil) {
+            LogError("Offer expired");
+            msg.sender.transfer(msg.value);
+            return false;
+        }
+
+        if (merchant == address(0x0)) {
+            LogError("Invalid merchant");
+            msg.sender.transfer(msg.value);
+            return false;
+        }
+
+        if (affiliateReward > 0 && affiliate == msg.sender) {
+            LogError("Invalid affiliate");
+            msg.sender.transfer(msg.value);
+            return false;
+        }
+
+        // if (loyaltyReward > 0 && loyaltyToken != address(0x0)) {
+        //     if (factory.whitelist(loyaltyToken) == false) {
+        //         LogError("Invalid loyalty token");
+        //         msg.sender.transfer(msg.value);
+        //         return false;
+        //     }
+        // }
+
+        if (msg.value > totalPrice) {
+            LogError("Invalid price");
+            msg.sender.transfer(msg.value);
+            return false;
+        }
+
+        // Verify that the DIN owner has signed the provided inputs.
+        if (isValidSignature(owner, hash, v, r, s) == false) {
+            LogError("Invalid signature");
+            msg.sender.transfer(msg.value);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
       * @dev Verifies that an order signature is valid.
       * @param signer address of signer.
       * @param hash Signed Keccak-256 hash.
       * @param v ECDSA signature parameter v.
       * @param r ECDSA signature parameters r.
       * @param s ECDSA signature parameters s.
-      * @return valid Validity of order signature.
+      * @return valid Validity of the order signature.
       */
     function isValidSignature(
         address signer,

@@ -2,7 +2,7 @@ const Checkout = artifacts.require("Checkout.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistrar = artifacts.require("DINRegistrar.sol");
 const MarketToken = artifacts.require("MarketToken.sol");
-const PublicURLResolver = artifacts.require("PublicURLResolver.sol");
+const StandardResolver = artifacts.require("StandardResolver.sol");
 const Promise = require("bluebird");
 const chai = require("chai"),
     expect = chai.expect,
@@ -102,7 +102,6 @@ contract("Checkout", accounts => {
             console.log("HASH: " + hash);
         }
 
-        console.log(hash);
         const signedMessage = web3.eth.sign(account, hash);
 
         // https://ethereum.stackexchange.com/questions/1777/workflow-on-signing-a-string-with-private-key-followed-by-signature-verificatio/1794#1794
@@ -115,8 +114,6 @@ contract("Checkout", accounts => {
             r: r,
             s: s
         };
-
-        console.log(signature);
 
         if (IS_DEBUG === true) {
             console.log("SIGNATURE: " + signature);
@@ -163,7 +160,7 @@ contract("Checkout", accounts => {
         registry = await DINRegistry.deployed();
         registrar = await DINRegistrar.deployed();
         marketToken = await MarketToken.deployed();
-        resolver = await PublicURLResolver.deployed();
+        resolver = await StandardResolver.deployed();
 
         MARKET_TOKEN_ADDRESS = marketToken.address;
 
@@ -172,12 +169,9 @@ contract("Checkout", accounts => {
 
         // Set the resolver for the first two DINs.
         await registry.setResolver(DIN, resolver.address, { from: MERCHANT });
-        await registry.setResolver(DIN_NO_MERCHANT, resolver.address, {
+        await registry.setResolver(DIN_NO_MERCHANT, "0x1111111111111111111111111111111111111111", {
             from: MERCHANT
         });
-
-        // Set the merchant for the first DIN. MERCHANT is the DIN owner and merchant.
-        await resolver.setMerchant(DIN, MERCHANT, { from: MERCHANT });
 
         // Give MERCHANT some Market Tokens so he can promote his product by offering affiliate rewards.
         await marketToken.transfer(MERCHANT, AFFILIATE_REWARD * 5, { from: BUYER });
@@ -205,6 +199,7 @@ contract("Checkout", accounts => {
         const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
         const result = await getBuyResult(values, addresses);
+        console.log(result);
         expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
     });
 
