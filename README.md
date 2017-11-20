@@ -1,21 +1,21 @@
 # Kiosk
 
-Kiosk is a decentralized e-commerce platform that uses Ethereum smart contracts to manage products and orders.
+Kiosk is a decentralized e-commerce platform.
 
-Benefits for Merchants:
+**Kiosk for Merchants:**
 * Register a globally unique product identifier (DIN) for each of your products
 * Manage product information and pricing off-chain using your existing e-commerce backend
 * Sell products directly to buyers with no middlemen and no transaction fees
 * Create your own loyalty token to incentivize repeat purchases
 
-Benefits for Buyers:
+**Kiosk for Buyers:**
 * Purchase products online without a credit card
 * Earn loyalty tokens from merchants
 
-Benefits for Affiliates:
+**Kiosk for Affiliates:**
 * Earn Market Tokens from merchants for successful referrals
 
-Benefits for Developers:
+**Kiosk for Developers:**
 * Earn Market Tokens for contributions to the core protocol
 * Build your own e-commerce client
 
@@ -24,7 +24,6 @@ Benefits for Developers:
 Requirements:
 * Install [Node.js](https://nodejs.org/en/)
 * Install [Truffle](http://truffleframework.com/) 
-* Install [testrpc](https://github.com/ethereumjs/testrpc)
 
 Download the project and install its dependencies.
 ```
