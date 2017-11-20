@@ -1,6 +1,6 @@
 # Kiosk
 
-Kiosk is a decentralized e-commerce platform.
+Kiosk is a decentralized e-commerce platform built on Ethereum.
 
 **Kiosk for Merchants:**
 * Register a globally unique product identifier (DIN) for each of your products
