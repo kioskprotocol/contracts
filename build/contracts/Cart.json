@@ -33,15 +33,15 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x60606040523415600e57600080fd5b60d78061001c6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a72305820ce6b5abad84b88f8449d7efbd78d4409ca70cae5f335e644da04c33bbd3f82f10029",
-  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a72305820ce6b5abad84b88f8449d7efbd78d4409ca70cae5f335e644da04c33bbd3f82f10029",
+  "bytecode": "0x60606040523415600e57600080fd5b60d78061001c6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a723058208bfbbce7535348e4408dba8910978d78dd1f8f54678b1ed2bfc5a465cd60d9b00029",
+  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a723058208bfbbce7535348e4408dba8910978d78dd1f8f54678b1ed2bfc5a465cd60d9b00029",
   "sourceMap": "64:170:0:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "64:170:0:-;;;;;;;;;;;;;;;;;;;;;;;;150:82;;;;;;;;;;;;;;;;;;;;;;;;;;;214:10;199:26;;209:3;199:26;;;;;;;;;;150:82;:::o",
   "source": "pragma solidity ^0.4.11;\n\n/** @title Universal shopping cart */\ncontract Cart {\n    event AddToCart(uint256 indexed DIN, address indexed buyer);\n\n    function addToCart(uint256 DIN) public {\n        AddToCart(DIN, msg.sender);\n    }\n}\n",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Cart.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Cart.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Cart.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Cart.sol",
       "exportedSymbols": {
         "Cart": [
           20
@@ -286,7 +286,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1757,
+                                  "referencedDeclaration": 1948,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -335,29 +335,11 @@
   },
   "networks": {
     "4447": {
-      "events": {
-        "0xe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb5": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "name": "DIN",
-              "type": "uint256"
-            },
-            {
-              "indexed": true,
-              "name": "buyer",
-              "type": "address"
-            }
-          ],
-          "name": "AddToCart",
-          "type": "event"
-        }
-      },
+      "events": {},
       "links": {},
-      "address": "0x5d168adb7c410b94c524373c86b7c2ad5957bde0"
+      "address": "0xab3f882b6fa95519e9ee50ca9b9a571db2b4b77c"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-20T06:41:57.277Z"
+  "updatedAt": "2017-11-20T20:33:50.856Z"
 }

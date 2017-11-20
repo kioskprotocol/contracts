@@ -33,12 +33,12 @@ contract MarketToken is StandardToken {
         owner = msg.sender;
     }
 
-    function transferFromCheckout
-    (
+    function transferFromCheckout(
         address _from,
         address _to,
         uint256 _value
-    ) 
+    )
+        public 
         only_checkout
         returns (bool) 
     {
@@ -49,11 +49,11 @@ contract MarketToken is StandardToken {
         return true;
     }
 
-    function setOwner(address _owner) only_owner {
+    function setOwner(address _owner) public only_owner {
         owner = _owner;
     }
 
-    function setCheckout(address _checkout) only_owner {
+    function setCheckout(address _checkout) public only_owner {
         checkout = _checkout;
     }
 
