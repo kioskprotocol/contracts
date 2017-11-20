@@ -2,20 +2,20 @@
 
 Kiosk is a decentralized e-commerce platform built on Ethereum.
 
-**Kiosk for Merchants:**
+**For Merchants:**
 * Register a globally unique product identifier (DIN) for each of your products
 * Manage product information and pricing off-chain using your existing e-commerce backend
 * Sell products directly to buyers with no middlemen and no transaction fees
 * Create your own loyalty token to incentivize repeat purchases
 
-**Kiosk for Buyers:**
+**For Buyers:**
 * Purchase products online without a credit card
 * Earn loyalty tokens from merchants
 
-**Kiosk for Affiliates:**
+**For Affiliates:**
 * Earn Market Tokens from merchants for successful referrals
 
-**Kiosk for Developers:**
+**For Developers:**
 * Earn Market Tokens for contributions to the core protocol
 * Build your own e-commerce client
 
