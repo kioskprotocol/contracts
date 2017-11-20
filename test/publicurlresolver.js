@@ -12,7 +12,7 @@ contract("PublicURLResolver", accounts => {
     const alice = accounts[1];
     const bob = accounts[2];
     const productURL = "https://www.google.com/";
-    const DIN = 1000000001;
+    const DIN = 1000000011;
 
     before(async () => {
         registrar = await DINRegistrar.deployed();

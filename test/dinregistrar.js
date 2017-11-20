@@ -25,41 +25,42 @@ contract("DINRegistrar", accounts => {
     };
 
     it("should register a new DIN", async () => {
+        const index = await registrar.index()
         await registrar.registerDIN({ from: alice });
 
         // Get the DIN from the event log.
         const DIN = await getDINFromLog();
-        expect(DIN).to.equal(1000000001);
+        expect(DIN).to.equal(index.toNumber() + 1);
 
         // Alice should own the newly registered DIN.
         const owner = await registry.owner(DIN);
         expect(owner).to.equal(alice);
 
         // It should increment the current index.
-        const index = await registrar.index();
-        expect(index.toNumber()).to.equal(DIN);
+        const newIndex = await registrar.index();
+        expect(newIndex.toNumber()).to.equal(DIN);
     });
 
     it("should register multiple DINs", async () => {
         await registrar.registerDINs(10, { from: alice });
 
         // Alice should own the newly registered DINs.
-        const firstOwner = await registry.owner(1000000002);
+        const firstOwner = await registry.owner(1000000012);
         expect(firstOwner).to.equal(alice);
 
-        const secondOwner = await registry.owner(1000000003);
+        const secondOwner = await registry.owner(1000000013);
         expect(firstOwner).to.equal(alice);
 
-        const lastOwner = await registry.owner(1000000011);
+        const lastOwner = await registry.owner(1000000021);
         expect(lastOwner).to.equal(alice);
 
         // Expect an unregistered DIN to not be owned.
-        const unowned = await registry.owner(1000000012);
+        const unowned = await registry.owner(1000000022);
         expect(unowned).to.equal("0x0000000000000000000000000000000000000000");
 
         // It should advance the current index to the last owned DIN.
         const index = await registrar.index();
-        expect(index.toNumber()).to.equal(1000000011);
+        expect(index.toNumber()).to.equal(1000000021);
     });
 
     it("should not allow registering more than 10 DINs at once", async () => {
