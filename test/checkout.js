@@ -39,9 +39,9 @@ contract("Checkout", accounts => {
     const NO_AFFILIATE = "0x0000000000000000000000000000000000000000";
 
     // DINs
-    const DIN = 1000000001;
-    const DIN_NO_MERCHANT = 1000000002;
-    const DIN_NO_RESOLVER = 1000000003;
+    const DIN = 1000000011;
+    const DIN_NO_MERCHANT = 1000000012;
+    const DIN_NO_RESOLVER = 1000000013;
 
     // Price valid until
     const FUTURE_DATE = 1577836800; // 1/1/2020
@@ -102,6 +102,7 @@ contract("Checkout", accounts => {
             console.log("HASH: " + hash);
         }
 
+        console.log(hash);
         const signedMessage = web3.eth.sign(account, hash);
 
         // https://ethereum.stackexchange.com/questions/1777/workflow-on-signing-a-string-with-private-key-followed-by-signature-verificatio/1794#1794
@@ -114,6 +115,8 @@ contract("Checkout", accounts => {
             r: r,
             s: s
         };
+
+        console.log(signature);
 
         if (IS_DEBUG === true) {
             console.log("SIGNATURE: " + signature);

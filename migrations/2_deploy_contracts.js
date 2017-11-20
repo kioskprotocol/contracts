@@ -7,7 +7,7 @@ const Checkout = artifacts.require("Checkout.sol");
 const Cart = artifacts.require("Cart.sol");
 const genesis = 1000000000; // The first DIN.
 const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
-const productURL = "https://www.google.com/";
+const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
     // Deploy DINRegistry
@@ -40,17 +40,25 @@ module.exports = async (deployer, network, accounts) => {
         await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
         // Deploy Cart
         await deployer.deploy(Cart);
+        // Register 10 DINs
+        await DINRegistrar.at(DINRegistrar.address).registerDINs(10);
+        // Set resolver of first DIN
+        await DINRegistry.at(DINRegistry.address).setResolver(
+            1000000001,
+            StandardResolver.address
+        );
+        // Set resolver of second DIN
+        await DINRegistry.at(DINRegistry.address).setResolver(
+            1000000002,
+            StandardResolver.address
+        );
+        // Set resolver of third DIN
+        await DINRegistry.at(DINRegistry.address).setResolver(
+            1000000003,
+            StandardResolver.address
+        );
+        // Add an item to the cart
+        await Cart.at(Cart.address).addToCart(1000000001);
+        await Cart.at(Cart.address).addToCart(1000000002);
     });
 };
-
-// // Register 10 DINs
-// await DINRegistrar.at(DINRegistrar.address).registerDINs(10);
-// // Set resolver of first DIN
-// await DINRegistry.at(DINRegistry.address).setResolver(1000000001, StandardResolver.address);
-// // Set resolver of second DIN
-// await DINRegistry.at(DINRegistry.address).setResolver(1000000002, StandardResolver.address);
-// // Set resolver of third DIN
-// await DINRegistry.at(DINRegistry.address).setResolver(1000000003, StandardResolver.address);
-// // Add an item to the cart
-// await Cart.at(Cart.address).addToCart(1000000001);
-// await Cart.at(Cart.address).addToCart(1000000002);
