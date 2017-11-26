@@ -11,9 +11,6 @@ contract DINRegistrar {
     // The current DIN index. DINs are registered sequentially.
     uint256 public index;
 
-    // The maximum amount of DINs that can be registered in a single transaction.
-    uint256 public MAX_QUANTITY = 10;
-
     /** @dev Constructor.
       * @param _registry The DINRegistry contract.
       */
@@ -39,8 +36,6 @@ contract DINRegistrar {
      * @param quantity The amount of DINs to register.
      */
     function registerDINs(uint256 quantity) {
-        require(quantity <= MAX_QUANTITY);
-
         for (uint i = 0; i < quantity; i++) {
             registerDIN();
         }
