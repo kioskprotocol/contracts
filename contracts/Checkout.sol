@@ -16,6 +16,8 @@ contract Checkout {
     MarketToken public marketToken;
     LoyaltyTokenRegistry public loyaltyRegistry;
 
+    uint16 constant EXTERNAL_QUERY_GAS_LIMIT = 4999;  // Changes to state require at least 5000 gas
+
     // Prevent Solidity "stack too deep" error.
     struct Order {
         uint256 DIN;
@@ -92,8 +94,8 @@ contract Checkout {
             return 0;
         }
 
-        // Untrusted call
-        address merchant = Resolver(resolver).merchant(orderValues[0]);
+        // Untrusted external call. Limit gas to prevent changes to state on reentry.
+        address merchant = Resolver(resolver).merchant.gas(EXTERNAL_QUERY_GAS_LIMIT)(orderValues[0]);
 
         Order memory order = Order({
             DIN: orderValues[0],
