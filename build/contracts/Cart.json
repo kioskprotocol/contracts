@@ -286,7 +286,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1948,
+                                  "referencedDeclaration": 1970,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -337,9 +337,9 @@
     "4447": {
       "events": {},
       "links": {},
-      "address": "0xab3f882b6fa95519e9ee50ca9b9a571db2b4b77c"
+      "address": "0xedfcb732f7f17344d837a4d55b75d04687f17880"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-20T20:33:50.856Z"
+  "updatedAt": "2017-11-26T04:09:07.372Z"
 }

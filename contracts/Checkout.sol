@@ -9,6 +9,7 @@ import "./LoyaltyTokenFactory.sol";
 contract Checkout {
     MarketToken public marketToken;
     DINRegistry public registry;
+    LoyaltyTokenFactory public loyaltyFactory;
 
     // The next order ID.
     uint256 public orderIndex = 0;
@@ -49,10 +50,16 @@ contract Checkout {
     /** @dev Constructor.
       * @param _token The Market Token contract address.
       * @param _registry The DIN Registry contract address.
+      * @param _loyaltyFactory The Loyalty Token Factory contract address.
       */
-    function Checkout(MarketToken _token, DINRegistry _registry) public {
+    function Checkout(
+        MarketToken _token,
+        DINRegistry _registry,
+        LoyaltyTokenFactory _loyaltyFactory
+    ) public {
         marketToken = _token;
         registry = _registry;
+        loyaltyFactory = _loyaltyFactory;
     }
 
     /** @dev Buy a product.
@@ -213,13 +220,13 @@ contract Checkout {
             return false;
         }
 
-        // if (loyaltyReward > 0 && loyaltyToken != address(0x0)) {
-        //     if (factory.whitelist(loyaltyToken) == false) {
-        //         LogError("Invalid loyalty token");
-        //         msg.sender.transfer(msg.value);
-        //         return false;
-        //     }
-        // }
+        if (loyaltyReward > 0 && loyaltyToken != address(0x0)) {
+            if (loyaltyFactory.whitelist(loyaltyToken) == false) {
+                LogError("Invalid loyalty token");
+                msg.sender.transfer(msg.value);
+                return false;
+            }
+        }
 
         if (msg.value > totalPrice) {
             LogError("Invalid price");

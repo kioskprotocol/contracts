@@ -12,7 +12,8 @@ const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
 const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
-    const merchant = accounts[0];
+    const buyer = accounts[0];
+    const merchant = accounts[1];
 
     // Deploy DINRegistry
     deployer.deploy(DINRegistry, genesis).then(async () => {
@@ -30,20 +31,21 @@ module.exports = async (deployer, network, accounts) => {
             DINRegistry.address,
             merchant,
             productURL,
-            accounts[1]
+            merchant
         );
         // Deploy MarketToken
         await deployer.deploy(MarketToken, initialSupply);
+        // Deploy LoyaltyTokenFactory
+        await deployer.deploy(LoyaltyTokenFactory);
         // Deploy Checkout
         await deployer.deploy(
             Checkout,
             MarketToken.address,
-            DINRegistry.address
+            DINRegistry.address,
+            LoyaltyTokenFactory.address
         );
         // Set the checkout contract on MarketToken
         await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
-        // Deploy LoyaltyTokenFactory
-        await deployer.deploy(LoyaltyTokenFactory);
         // Set the checkout contract on LoyaltyTokenFactory
         await LoyaltyTokenFactory.at(LoyaltyTokenFactory.address).setCheckout(Checkout.address);
         // Create LoyaltyToken

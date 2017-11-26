@@ -5,9 +5,10 @@ import "./LoyaltyToken.sol";
 /** @title Merchants must use this factory contract to create loyalty tokens. */
 contract LoyaltyTokenFactory {
 
-    uint256 public TOKEN_SUPPLY = 1000000000; // Total supply of each loyalty token is 1 billion.
-    address public checkout;                  // Address of the Checkout contract.
-    address public owner;                     // The owner can update the Checkout contract.
+    uint256 public TOKEN_SUPPLY = 1000000000;  // Total supply of each loyalty token is 1 billion.
+    uint256 public decimals = 18;              // Amount of decimals for display purposes. 
+    address public checkout;                   // Address of the Checkout contract.
+    address public owner;                      // The owner can update the Checkout contract.
 
     // Loyalty token address => Valid
     mapping (address => bool) public whitelist;
@@ -37,7 +38,12 @@ contract LoyaltyTokenFactory {
     ) 
         public 
     {
-        LoyaltyToken token = new LoyaltyToken(name, symbol, merchant, TOKEN_SUPPLY);
+        LoyaltyToken token = new LoyaltyToken(
+            name,
+            symbol,
+            merchant,
+            TOKEN_SUPPLY * 10 ** decimals
+        );
         whitelist[token] = true;
         NewToken(name, symbol, merchant, token);
     }

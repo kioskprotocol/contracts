@@ -18,7 +18,7 @@ contract LoyaltyToken is StandardToken {
     function LoyaltyToken(
         string _name,
         string _symbol,
-        address merchant,
+        address _owner,
         uint256 _totalSupply
     ) 
         public
@@ -26,8 +26,9 @@ contract LoyaltyToken is StandardToken {
         name = _name;
         symbol = _symbol;
         factory = msg.sender;
-        // Give the initial balance to the contract deployer.
-        balances[merchant] = _totalSupply;
+
+        // Give the initial balance to the DIN owner.
+        balances[_owner] = _totalSupply;
         totalSupply = _totalSupply;            
     }
 
