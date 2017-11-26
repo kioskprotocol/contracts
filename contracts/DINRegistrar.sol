@@ -41,4 +41,50 @@ contract DINRegistrar {
         }
     }
 
+    /**
+     * @dev Register a new DIN to a different account.
+     * @param owner The account that will own the new DIN.
+     * @return DIN The newly registered DIN.
+     */
+    function registerDINFor(address owner) returns (uint256 DIN) {
+        index++;
+        registry.register(index, owner);
+        return index;
+    }
+
+    /**
+     * @dev Register multiple new DINs to a different account.
+     * @param owner The account that will own the new DINs.
+     * @param quantity The amount of DINs to register.
+     */
+    function registerDINsFor(address owner, uint256 quantity) {
+        for (uint i = 0; i < quantity; i++) {
+            registerDINFor(owner);
+        }
+    }
+
+    /**
+     * @dev Register a new DIN and set its resolver.
+     * @param owner The account that will own the new DIN.
+     * @param resolver The address of the resolver.
+     * @return DIN The newly registered DIN.
+     */
+    function registerDINWithResolver(address owner, address resolver) returns (uint256 DIN) {
+        index++;
+        registry.registerWithResolver(index, owner, resolver);
+        return index;
+    }
+
+    /**
+     * @dev Register multiple new DINs and set their resolvers.
+     * @param owner The account that will own the new DINs.
+     * @param resolver The address of the resolver.
+     * @param quantity The amount of DINs to register.
+     */
+    function registerDINsWithResolver(address owner, address resolver, uint256 quantity) {
+      for (uint i = 0; i < quantity; i++) {
+            registerDINWithResolver(owner, resolver);
+        }
+    }
+
 }

@@ -43,7 +43,7 @@ contract DINRegistry {
     /** @dev Constructor.
       * @param _genesis The first DIN registered.
       */
-    function DINRegistry(uint256 _genesis) {
+    function DINRegistry(uint256 _genesis) public {
         genesis = _genesis;
 
         // Register the genesis DIN to the account that deploys this contract.
@@ -53,57 +53,69 @@ contract DINRegistry {
     }
 
     // Get the owner of a specified DIN.
-    function owner(uint256 DIN) constant returns (address) {
-        return records[DIN].owner;
+    function owner(uint256 _DIN) public constant returns (address) {
+        return records[_DIN].owner;
     }
 
     /**
      * @dev Transfer ownership of a DIN.
-     * @param DIN The DIN to transfer.
-     * @param owner The address of the new owner.
+     * @param _DIN The DIN to transfer.
+     * @param _owner The address of the new owner.
      */
-    function setOwner(uint256 DIN, address owner) only_owner(DIN) {
-        records[DIN].owner = owner;
-        records[DIN].updated = block.timestamp;
-        NewOwner(DIN, owner);
+    function setOwner(uint256 _DIN, address _owner) public only_owner(_DIN) {
+        records[_DIN].owner = _owner;
+        records[_DIN].updated = block.timestamp;
+        NewOwner(_DIN, _owner);
     }
 
     // Get the resolver of a specified DIN.
-    function resolver(uint256 DIN) constant returns (address) {
-        return records[DIN].resolver;
+    function resolver(uint256 _DIN) public constant returns (address) {
+        return records[_DIN].resolver;
     }
 
     /**
      * @dev Set the resolver of a DIN.
-     * @param DIN The DIN to update.
-     * @param resolver The address of the resolver.
+     * @param _DIN The DIN to update.
+     * @param _resolver The address of the resolver.
      */
-    function setResolver(uint256 DIN, address resolver) only_owner(DIN) {
-        records[DIN].resolver = resolver;
-        records[DIN].updated = block.timestamp;
-        NewResolver(DIN, resolver);
+    function setResolver(uint256 _DIN, address _resolver) public only_owner(_DIN) {
+        records[_DIN].resolver = _resolver;
+        records[_DIN].updated = block.timestamp;
+        NewResolver(_DIN, _resolver);
     }
 
     // Get the time a specified DIN record was last updated.
-    function updated(uint256 DIN) constant returns (uint256) {
-        return records[DIN].updated;
+    function updated(uint256 _DIN) public constant returns (uint256) {
+        return records[_DIN].updated;
     } 
 
     /**
      * @dev Register a new DIN.
-     * @param owner The account that will own the DIN.
+     * @param _owner The account that will own the DIN.
      */
-    function register(uint256 DIN, address owner) only_registrar {
-        records[DIN].owner = owner;
-        records[DIN].updated = block.timestamp;
-        NewRegistration(DIN, owner);
+    function register(uint256 _DIN, address _owner) public only_registrar {
+        records[_DIN].owner = _owner;
+        records[_DIN].updated = block.timestamp;
+        NewRegistration(_DIN, _owner);
+    }
+
+    /**
+     * @dev Register a new DIN and set the resolver.
+     * @param _owner The account that will own the DIN.
+     * @param _resolver The address of the resolver.
+     */
+    function registerWithResolver(uint256 _DIN, address _owner, address _resolver) public only_registrar {
+        records[_DIN].owner = _owner;
+        records[_DIN].resolver = _resolver;
+        records[_DIN].updated = block.timestamp;
+        NewRegistration(_DIN, _owner);
     }
 
     /**
      * @dev Change the DINRegistrar contract.
      * @param _registrar The address of the new registrar.
      */
-    function setRegistrar(address _registrar) only_owner(genesis) {
+    function setRegistrar(address _registrar) public only_owner(genesis) {
         registrar = _registrar;
         NewRegistrar(_registrar);
     }

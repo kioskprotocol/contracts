@@ -144,6 +144,7 @@ contract Checkout {
         // Transfer Ether from buyer to merchant.
         merchant.transfer(msg.value);
 
+        // Calculate the remaining balance.
         uint256 loyaltyValue = order.totalPrice.sub(msg.value);
 
         // Transfer loyalty tokens from buyer to merchant if the total price was not paid in Ether.
