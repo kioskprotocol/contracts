@@ -5,8 +5,11 @@ import "./DINRegistry.sol";
 import "./Resolver.sol";
 import "./LoyaltyToken.sol";
 import "./LoyaltyTokenFactory.sol";
+import "zeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Checkout {
+    using SafeMath for uint256;
+
     MarketToken public marketToken;
     DINRegistry public registry;
     LoyaltyTokenFactory public loyaltyFactory;
@@ -24,7 +27,6 @@ contract Checkout {
         address affiliate;
         uint256 loyaltyReward;
         address loyaltyToken;
-        address resolver;
         address merchant;
         address owner;
         uint8 v;
@@ -112,7 +114,6 @@ contract Checkout {
             affiliate: orderAddresses[0],
             loyaltyReward: orderValues[5],
             loyaltyToken: orderAddresses[1],
-            resolver: resolver,
             merchant: merchant,
             owner: registry.owner(orderValues[0]), // Get the DIN owner address from the DIN registry.
             v: v,
@@ -120,17 +121,9 @@ contract Checkout {
             s: s
         });
 
-        // Calculate the hash of the parameters provided by the buyer.
-        bytes32 hash = keccak256(
-            order.DIN,
-            (order.totalPrice / order.quantity),
-            order.priceValidUntil,
-            order.affiliateReward, 
-            order.loyaltyReward,
-            order.loyaltyToken
-        );
-
         bool isValid = isValidOrder(
+            order.DIN,
+            order.quantity,
             order.totalPrice,
             order.priceValidUntil,
             order.affiliateReward,
@@ -139,7 +132,6 @@ contract Checkout {
             order.loyaltyToken,
             order.merchant,
             order.owner,
-            hash,
             order.v,
             order.r,
             order.s
@@ -149,9 +141,15 @@ contract Checkout {
             return 0;
         }
 
-        // TODO: Transfer a mix of Ether and loyalty token from buyer to merchant.
-        // Transfer Ether (ETH) from buyer to merchant.
-        order.merchant.transfer(msg.value);
+        // Transfer Ether from buyer to merchant.
+        merchant.transfer(msg.value);
+
+        uint256 loyaltyValue = order.totalPrice.sub(msg.value);
+
+        // Transfer loyalty tokens from buyer to merchant if the total price was not paid in Ether.
+        if (loyaltyValue > 0) {
+            LoyaltyToken(order.loyaltyToken).transferFromCheckout(msg.sender, merchant, loyaltyValue);
+        }
 
         // Transfer affiliate reward from DIN owner to affiliate.
         if (order.affiliateReward > 0) {
@@ -185,6 +183,8 @@ contract Checkout {
       * @return valid Validity of the order.
       */
     function isValidOrder(
+        uint256 DIN,
+        uint256 quantity,
         uint256 totalPrice,
         uint256 priceValidUntil,
         uint256 affiliateReward,
@@ -193,7 +193,6 @@ contract Checkout {
         address loyaltyToken,
         address merchant,
         address owner,
-        bytes32 hash,
         uint8 v,
         bytes32 r,
         bytes32 s
@@ -233,6 +232,18 @@ contract Checkout {
             msg.sender.transfer(msg.value);
             return false;
         }
+
+        uint256 unitPrice = totalPrice / quantity;
+
+        // Calculate the hash of the parameters provided by the buyer.
+        bytes32 hash = keccak256(
+            DIN,
+            unitPrice,
+            priceValidUntil,
+            affiliateReward, 
+            loyaltyReward,
+            loyaltyToken
+        );
 
         // Verify that the DIN owner has signed the provided inputs.
         if (isValidSignature(owner, hash, v, r, s) == false) {
