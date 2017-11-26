@@ -2,8 +2,8 @@ pragma solidity ^0.4.11;
 
 import "./LoyaltyToken.sol";
 
-/** @title Merchants must use this factory contract to create loyalty tokens. */
-contract LoyaltyTokenFactory {
+/** @title Creates loyalty tokens. */
+contract LoyaltyTokenRegistry {
 
     uint256 public TOKEN_SUPPLY = 1000000000;  // Total supply of each loyalty token is 1 billion.
     uint256 public decimals = 18;              // Amount of decimals for display purposes. 
@@ -26,7 +26,7 @@ contract LoyaltyTokenFactory {
     );
 
     // Constructor
-    function LoyaltyTokenFactory() public {
+    function LoyaltyTokenRegistry() public {
         owner = msg.sender;
     }
 

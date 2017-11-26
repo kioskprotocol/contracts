@@ -1,9 +1,10 @@
 const Checkout = artifacts.require("Checkout.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistrar = artifacts.require("DINRegistrar.sol");
+const Orders = artifacts.require("Orders.sol");
 const MarketToken = artifacts.require("MarketToken.sol");
 const LoyaltyToken = artifacts.require("LoyaltyToken");
-const LoyaltyTokenFactory = artifacts.require("LoyaltyTokenFactory.sol");
+const LoyaltyTokenRegistry = artifacts.require("LoyaltyTokenRegistry.sol");
 const StandardResolver = artifacts.require("StandardResolver.sol");
 const Promise = require("bluebird");
 const chai = require("chai"),
@@ -18,9 +19,10 @@ contract("Checkout", accounts => {
     let checkout;
     let registry;
     let registrar;
+    let orders;
     let resolver;
     let loyaltyToken;
-    let loyaltyTokenFactory;
+    let loyaltyTokenRegistry;
 
     // Accounts
     const BUYER = accounts[0];
@@ -84,7 +86,7 @@ contract("Checkout", accounts => {
     const ORDER_ADDRESSES = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
     const getLoyaltyTokenAddress = async () => {
-        const event = loyaltyTokenFactory.NewToken(
+        const event = loyaltyTokenRegistry.NewToken(
             {},
             { fromBlock: 0, toBlock: "latest" }
         );
@@ -165,8 +167,9 @@ contract("Checkout", accounts => {
         checkout = await Checkout.deployed();
         registry = await DINRegistry.deployed();
         registrar = await DINRegistrar.deployed();
+        orders = await Orders.deployed();
         marketToken = await MarketToken.deployed();
-        loyaltyTokenFactory = await LoyaltyTokenFactory.deployed();
+        loyaltyTokenRegistry = await LoyaltyTokenRegistry.deployed();
         resolver = await StandardResolver.deployed();
 
         LOYALTY_TOKEN = await getLoyaltyTokenAddress();
@@ -347,14 +350,14 @@ contract("Checkout", accounts => {
         const values = ORDER_VALUES;
         const addresses = ORDER_ADDRESSES;
 
-        const beginIndex = await checkout.orderIndex();
+        const beginIndex = await orders.orderIndex();
         const beginBalanceBuyer = await web3.eth.getBalance(BUYER);
         const beginBalanceMerchant = await web3.eth.getBalance(MERCHANT);
 
         const result = await getBuyResult(values, addresses);
         const gasUsed = result.receipt.gasUsed;
 
-        const endIndex = await checkout.orderIndex();
+        const endIndex = await orders.orderIndex();
         expect(endIndex.toNumber()).to.equal(beginIndex.toNumber() + 1);
 
         const endBalanceBuyer = await web3.eth.getBalance(BUYER);
@@ -493,6 +496,10 @@ contract("Checkout", accounts => {
         expect(endBalanceMerchantBOOK.toNumber()).to.equal(
             expectedEndBalanceMerchantBOOK
         );
+    });
+
+    it("should let a buyer use loyalty tokens in a purchase", async () => {
+        //
     });
 
     it("should throw if the buyer does not have enough tokens", async () => {

@@ -1,23 +1,22 @@
 pragma solidity ^0.4.11;
 
-import "./MarketToken.sol";
 import "./DINRegistry.sol";
+import "./MarketToken.sol";
+import "./Orders.sol";
 import "./Resolver.sol";
 import "./LoyaltyToken.sol";
-import "./LoyaltyTokenFactory.sol";
+import "./LoyaltyTokenRegistry.sol";
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Checkout {
     using SafeMath for uint256;
 
-    MarketToken public marketToken;
     DINRegistry public registry;
-    LoyaltyTokenFactory public loyaltyFactory;
+    Orders public orders;
+    MarketToken public marketToken;
+    LoyaltyTokenRegistry public loyaltyRegistry;
 
-    // The next order ID.
-    uint256 public orderIndex = 0;
-
-    // Prevents Solidity "stack too deep" error.
+    // Prevent Solidity "stack too deep" error.
     struct Order {
         uint256 DIN;
         uint256 quantity;
@@ -34,34 +33,25 @@ contract Checkout {
         bytes32 s;
     }
 
-    // Logs Solidity errors
+    // Log Solidity errors
     event LogError(string error);
 
-    // Logs new orders
-    event NewOrder(
-        uint256 indexed orderID,
-        bytes32 nonceHash,
-        address indexed buyer,
-        address indexed merchant,
-        uint256 DIN,
-        uint256 quantity,
-        uint256 totalPrice,
-        uint256 timestamp
-    );
-
     /** @dev Constructor.
-      * @param _token The Market Token contract address.
       * @param _registry The DIN Registry contract address.
-      * @param _loyaltyFactory The Loyalty Token Factory contract address.
+      * @param _orders The Orders contract address.
+      * @param _token The Market Token contract address.
+      * @param _loyaltyRegistry The Loyalty Token Registry contract address.
       */
     function Checkout(
-        MarketToken _token,
         DINRegistry _registry,
-        LoyaltyTokenFactory _loyaltyFactory
+        Orders _orders,
+        MarketToken _token,
+        LoyaltyTokenRegistry _loyaltyRegistry
     ) public {
-        marketToken = _token;
         registry = _registry;
-        loyaltyFactory = _loyaltyFactory;
+        orders = _orders;
+        marketToken = _token;
+        loyaltyRegistry = _loyaltyRegistry;
     }
 
     /** @dev Buy a product.
@@ -138,19 +128,13 @@ contract Checkout {
         );
 
         if (isValid == false) {
+            // Return Ether to buyer.
+            msg.sender.transfer(msg.value);
             return 0;
         }
 
-        // Transfer Ether from buyer to merchant.
-        merchant.transfer(msg.value);
-
-        // Calculate the remaining balance.
-        uint256 loyaltyValue = order.totalPrice.sub(msg.value);
-
-        // Transfer loyalty tokens from buyer to merchant if the total price was not paid in Ether.
-        if (loyaltyValue > 0) {
-            LoyaltyToken(order.loyaltyToken).transferFromCheckout(msg.sender, merchant, loyaltyValue);
-        }
+        // Transfer a mix of Ether and loyalty tokens (if applicable) from buyer to merchant.
+        payMerchant(merchant, order.totalPrice, order.loyaltyToken);
 
         // Transfer affiliate reward from DIN owner to affiliate.
         if (order.affiliateReward > 0) {
@@ -162,25 +146,38 @@ contract Checkout {
             LoyaltyToken(order.loyaltyToken).transferFromCheckout(order.owner, msg.sender, order.loyaltyReward);
         }
 
-        // Increment the order index.
-        orderIndex++;
-
-        NewOrder(
-            orderIndex,     // Order ID
+        // Create a new order and return the unique order ID.
+        return orders.createOrder(
             nonceHash,
-            msg.sender,     // Buyer
+            msg.sender, // Buyer
             merchant,
             order.DIN,
             order.quantity,
-            order.totalPrice,
-            block.timestamp
+            order.totalPrice
         );
-
-        return orderIndex;
     }
 
     /**
-      * @dev Verifies that an order is valid.
+      * @dev Transfer a mix of Ether and loyalty token from buyer to merchant.
+      * @param merchant The merchant address.
+      * @param totalPrice The total price of the purchase, in wei.
+      * @param loyaltyToken The address of the loyalty token specified by the DIN owner.
+      */
+    function payMerchant(address merchant, uint256 totalPrice, address loyaltyToken) private {
+        // Transfer Ether from buyer to merchant.
+        merchant.transfer(msg.value);
+
+        // Calculate the remaining balance.
+        uint256 loyaltyValue = totalPrice.sub(msg.value);
+
+        // Transfer loyalty tokens from buyer to merchant if the total price was not paid in Ether.
+        if (loyaltyValue > 0) {
+            LoyaltyToken(loyaltyToken).transferFromCheckout(msg.sender, merchant, loyaltyValue);
+        }
+    }
+
+    /**
+      * @dev Verify that an order is valid.
       * @return valid Validity of the order.
       */
     function isValidOrder(
@@ -204,33 +201,26 @@ contract Checkout {
     {
         if (block.timestamp > priceValidUntil) {
             LogError("Offer expired");
-            msg.sender.transfer(msg.value);
             return false;
         }
 
         if (merchant == address(0x0)) {
             LogError("Invalid merchant");
-            msg.sender.transfer(msg.value);
             return false;
         }
 
         if (affiliateReward > 0 && affiliate == msg.sender) {
             LogError("Invalid affiliate");
-            msg.sender.transfer(msg.value);
             return false;
         }
 
-        if (loyaltyReward > 0 && loyaltyToken != address(0x0)) {
-            if (loyaltyFactory.whitelist(loyaltyToken) == false) {
-                LogError("Invalid loyalty token");
-                msg.sender.transfer(msg.value);
-                return false;
-            }
+        if (loyaltyToken != address(0x0) && loyaltyRegistry.whitelist(loyaltyToken) == false) {
+            LogError("Invalid loyalty token");
+            return false;
         }
 
         if (msg.value > totalPrice) {
             LogError("Invalid price");
-            msg.sender.transfer(msg.value);
             return false;
         }
 
@@ -249,7 +239,6 @@ contract Checkout {
         // Verify that the DIN owner has signed the provided inputs.
         if (isValidSignature(owner, hash, v, r, s) == false) {
             LogError("Invalid signature");
-            msg.sender.transfer(msg.value);
             return false;
         }
 
@@ -257,7 +246,7 @@ contract Checkout {
     }
 
     /**
-      * @dev Verifies that an order signature is valid.
+      * @dev Verify that an order signature is valid.
       * @param signer address of signer.
       * @param hash Signed Keccak-256 hash.
       * @param v ECDSA signature parameter v.

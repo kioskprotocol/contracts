@@ -6,8 +6,7 @@ const chai = require("chai"),
 contract("StandardResolver", accounts => {
     let resolver;
     let registry;
-    const alice = accounts[0]; // DIN owner
-    const bob = accounts[1]; // Unauthorized user
+    const bob = accounts[1]; // DIN owner and merchant
     const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
     const DIN = 1000000001;
@@ -19,7 +18,7 @@ contract("StandardResolver", accounts => {
 
     it("should have the correct owner", async () => {
         const owner = await resolver.owner();
-        expect(owner).to.equal(alice);
+        expect(owner).to.equal(bob);
     });
 
     it("should have the correct product URL", async () => {

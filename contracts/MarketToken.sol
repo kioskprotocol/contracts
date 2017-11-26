@@ -2,6 +2,7 @@ pragma solidity ^0.4.11;
 
 import "zeppelin-solidity/contracts/token/StandardToken.sol";
 
+/** @title Used to pay affiliate rewards. */
 contract MarketToken is StandardToken {
     string public name = "Market Token";            // Set the name for display purposes.
     string public symbol = "MARK";                  // Set the symbol for display purposes.

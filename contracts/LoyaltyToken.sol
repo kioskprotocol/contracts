@@ -1,16 +1,17 @@
 pragma solidity ^0.4.11;
 
 import "zeppelin-solidity/contracts/token/StandardToken.sol";
-import "./LoyaltyTokenFactory.sol";
+import "./LoyaltyTokenRegistry.sol";
 
+/** @title Loyalty token that merchants can create and accept in place of Ether. */
 contract LoyaltyToken is StandardToken {
     string public name;                         // Set the name for display purposes.
     string public symbol;                       // Set the symbol for display purposes.
     uint256 public decimals = 18;               // Amount of decimals for display purposes.
-    address public factory;                     // The address of the factory used to create this contract.
+    address public registry;                    // The address of the registry used to create this contract.
 
     modifier only_checkout {
-        require(LoyaltyTokenFactory(factory).checkout() == msg.sender);
+        require(LoyaltyTokenRegistry(registry).checkout() == msg.sender);
         _;
     }
     
@@ -25,7 +26,7 @@ contract LoyaltyToken is StandardToken {
     {
         name = _name;
         symbol = _symbol;
-        factory = msg.sender;
+        registry = msg.sender;
 
         // Give the initial balance to the DIN owner.
         balances[_owner] = _totalSupply;
