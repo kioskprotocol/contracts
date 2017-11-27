@@ -51,7 +51,7 @@
       "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
-          1462
+          1485
         ]
       }
     },
@@ -65,7 +65,7 @@
             ".11"
           ]
         },
-        "id": 1447,
+        "id": 1470,
         "name": "PragmaDirective",
         "src": "0:24:9"
       },
@@ -81,10 +81,10 @@
           "documentation": "@title Base resolver contract ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1462
+            1485
           ],
           "name": "Resolver",
-          "scope": 1463
+          "scope": 1486
         },
         "children": [
           {
@@ -98,7 +98,7 @@
               ],
               "name": "supportsInterface",
               "payable": false,
-              "scope": 1462,
+              "scope": 1485,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -110,7 +110,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceID",
-                      "scope": 1454,
+                      "scope": 1477,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -123,17 +123,17 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 1448,
+                        "id": 1471,
                         "name": "ElementaryTypeName",
                         "src": "114:6:9"
                       }
                     ],
-                    "id": 1449,
+                    "id": 1472,
                     "name": "VariableDeclaration",
                     "src": "114:18:9"
                   }
                 ],
-                "id": 1450,
+                "id": 1473,
                 "name": "ParameterList",
                 "src": "113:20:9"
               },
@@ -143,7 +143,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1454,
+                      "scope": 1477,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -156,22 +156,22 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1451,
+                        "id": 1474,
                         "name": "ElementaryTypeName",
                         "src": "159:4:9"
                       }
                     ],
-                    "id": 1452,
+                    "id": 1475,
                     "name": "VariableDeclaration",
                     "src": "159:4:9"
                   }
                 ],
-                "id": 1453,
+                "id": 1476,
                 "name": "ParameterList",
                 "src": "158:6:9"
               }
             ],
-            "id": 1454,
+            "id": 1477,
             "name": "FunctionDefinition",
             "src": "87:78:9"
           },
@@ -186,7 +186,7 @@
               ],
               "name": "merchant",
               "payable": false,
-              "scope": 1462,
+              "scope": 1485,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -198,7 +198,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "DIN",
-                      "scope": 1461,
+                      "scope": 1484,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -211,17 +211,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1455,
+                        "id": 1478,
                         "name": "ElementaryTypeName",
                         "src": "188:7:9"
                       }
                     ],
-                    "id": 1456,
+                    "id": 1479,
                     "name": "VariableDeclaration",
                     "src": "188:11:9"
                   }
                 ],
-                "id": 1457,
+                "id": 1480,
                 "name": "ParameterList",
                 "src": "187:13:9"
               },
@@ -231,7 +231,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1461,
+                      "scope": 1484,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -244,32 +244,32 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 1458,
+                        "id": 1481,
                         "name": "ElementaryTypeName",
                         "src": "226:7:9"
                       }
                     ],
-                    "id": 1459,
+                    "id": 1482,
                     "name": "VariableDeclaration",
                     "src": "226:7:9"
                   }
                 ],
-                "id": 1460,
+                "id": 1483,
                 "name": "ParameterList",
                 "src": "225:9:9"
               }
             ],
-            "id": 1461,
+            "id": 1484,
             "name": "FunctionDefinition",
             "src": "170:65:9"
           }
         ],
-        "id": 1462,
+        "id": 1485,
         "name": "ContractDefinition",
         "src": "63:174:9"
       }
     ],
-    "id": 1463,
+    "id": 1486,
     "name": "SourceUnit",
     "src": "0:237:9"
   },
@@ -279,5 +279,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-27T01:29:00.898Z"
+  "updatedAt": "2017-11-27T20:34:42.699Z"
 }

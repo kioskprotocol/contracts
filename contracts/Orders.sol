@@ -8,8 +8,10 @@ contract Orders {
     event NewOrder(
         uint256 indexed orderID,
         bytes32 nonceHash,
+        address checkout,
+        address indexed buyer,
         address indexed merchant,
-        uint256 indexed DIN,
+        uint256 DIN,
         uint256 quantity,
         uint256 totalPrice,
         uint256 timestamp
@@ -17,13 +19,13 @@ contract Orders {
 
     function createOrder(
         bytes32 nonceHash,
+        address buyer,
         address merchant,
         uint256 DIN,
         uint256 quantity,
         uint256 totalPrice
     )
         public
-        // TODO: Only checkout
         returns (uint256 orderID)
     {
         // Increment the order index.
@@ -32,6 +34,8 @@ contract Orders {
         NewOrder(
             orderIndex,
             nonceHash,
+            msg.sender,
+            buyer,
             merchant,
             DIN,
             quantity,
