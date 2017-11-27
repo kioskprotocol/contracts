@@ -151,7 +151,6 @@ contract Checkout {
         // Create a new order and return the unique order ID.
         return orders.createOrder(
             nonceHash,
-            msg.sender, // Buyer
             merchant,
             order.DIN,
             order.quantity,
@@ -216,7 +215,7 @@ contract Checkout {
             return false;
         }
 
-        if (loyaltyToken != address(0x0) && loyaltyRegistry.whitelist(loyaltyToken) == false) {
+        if (loyaltyReward > 0 && loyaltyToken != address(0x0) && loyaltyRegistry.whitelist(loyaltyToken) == false) {
             LogError("Invalid loyalty token");
             return false;
         }

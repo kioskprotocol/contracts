@@ -45,13 +45,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n    function merchant(uint256 DIN) public constant returns (address);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
-          1453
+          1462
         ]
       }
     },
@@ -65,7 +65,7 @@
             ".11"
           ]
         },
-        "id": 1438,
+        "id": 1447,
         "name": "PragmaDirective",
         "src": "0:24:9"
       },
@@ -81,10 +81,10 @@
           "documentation": "@title Base resolver contract ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1453
+            1462
           ],
           "name": "Resolver",
-          "scope": 1454
+          "scope": 1463
         },
         "children": [
           {
@@ -98,7 +98,7 @@
               ],
               "name": "supportsInterface",
               "payable": false,
-              "scope": 1453,
+              "scope": 1462,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -110,7 +110,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceID",
-                      "scope": 1445,
+                      "scope": 1454,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -123,17 +123,17 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 1439,
+                        "id": 1448,
                         "name": "ElementaryTypeName",
                         "src": "114:6:9"
                       }
                     ],
-                    "id": 1440,
+                    "id": 1449,
                     "name": "VariableDeclaration",
                     "src": "114:18:9"
                   }
                 ],
-                "id": 1441,
+                "id": 1450,
                 "name": "ParameterList",
                 "src": "113:20:9"
               },
@@ -143,7 +143,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1445,
+                      "scope": 1454,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -156,22 +156,22 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1442,
+                        "id": 1451,
                         "name": "ElementaryTypeName",
                         "src": "159:4:9"
                       }
                     ],
-                    "id": 1443,
+                    "id": 1452,
                     "name": "VariableDeclaration",
                     "src": "159:4:9"
                   }
                 ],
-                "id": 1444,
+                "id": 1453,
                 "name": "ParameterList",
                 "src": "158:6:9"
               }
             ],
-            "id": 1445,
+            "id": 1454,
             "name": "FunctionDefinition",
             "src": "87:78:9"
           },
@@ -186,7 +186,7 @@
               ],
               "name": "merchant",
               "payable": false,
-              "scope": 1453,
+              "scope": 1462,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -198,7 +198,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "DIN",
-                      "scope": 1452,
+                      "scope": 1461,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -211,17 +211,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1446,
+                        "id": 1455,
                         "name": "ElementaryTypeName",
                         "src": "188:7:9"
                       }
                     ],
-                    "id": 1447,
+                    "id": 1456,
                     "name": "VariableDeclaration",
                     "src": "188:11:9"
                   }
                 ],
-                "id": 1448,
+                "id": 1457,
                 "name": "ParameterList",
                 "src": "187:13:9"
               },
@@ -231,7 +231,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1452,
+                      "scope": 1461,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -244,32 +244,32 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 1449,
+                        "id": 1458,
                         "name": "ElementaryTypeName",
                         "src": "226:7:9"
                       }
                     ],
-                    "id": 1450,
+                    "id": 1459,
                     "name": "VariableDeclaration",
                     "src": "226:7:9"
                   }
                 ],
-                "id": 1451,
+                "id": 1460,
                 "name": "ParameterList",
                 "src": "225:9:9"
               }
             ],
-            "id": 1452,
+            "id": 1461,
             "name": "FunctionDefinition",
             "src": "170:65:9"
           }
         ],
-        "id": 1453,
+        "id": 1462,
         "name": "ContractDefinition",
         "src": "63:174:9"
       }
     ],
-    "id": 1454,
+    "id": 1463,
     "name": "SourceUnit",
     "src": "0:237:9"
   },
@@ -279,5 +279,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-26T07:29:00.189Z"
+  "updatedAt": "2017-11-27T01:29:00.898Z"
 }

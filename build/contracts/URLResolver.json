@@ -64,13 +64,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.11;\n\nimport \"./Resolver.sol\";\n\n/** @title Resolver contract that specifies an API endpoint where product information can be retrieved */\ncontract URLResolver is Resolver {\n    function productURL(uint256 DIN) public constant returns (string);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/URLResolver.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/URLResolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/URLResolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/URLResolver.sol",
       "exportedSymbols": {
         "URLResolver": [
-          1659
+          1668
         ]
       }
     },
@@ -84,39 +84,39 @@
             ".11"
           ]
         },
-        "id": 1648,
+        "id": 1657,
         "name": "PragmaDirective",
         "src": "0:24:12"
       },
       {
         "attributes": {
-          "SourceUnit": 1454,
-          "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+          "SourceUnit": 1463,
+          "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
           "file": "./Resolver.sol",
-          "scope": 1660,
+          "scope": 1669,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1649,
+        "id": 1658,
         "name": "ImportDirective",
         "src": "26:24:12"
       },
       {
         "attributes": {
           "contractDependencies": [
-            1453
+            1462
           ],
           "contractKind": "contract",
           "documentation": "@title Resolver contract that specifies an API endpoint where product information can be retrieved ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1659,
-            1453
+            1668,
+            1462
           ],
           "name": "URLResolver",
-          "scope": 1660
+          "scope": 1669
         },
         "children": [
           {
@@ -130,15 +130,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "Resolver",
-                  "referencedDeclaration": 1453,
+                  "referencedDeclaration": 1462,
                   "type": "contract Resolver"
                 },
-                "id": 1650,
+                "id": 1659,
                 "name": "UserDefinedTypeName",
                 "src": "182:8:12"
               }
             ],
-            "id": 1651,
+            "id": 1660,
             "name": "InheritanceSpecifier",
             "src": "182:8:12"
           },
@@ -153,7 +153,7 @@
               ],
               "name": "productURL",
               "payable": false,
-              "scope": 1659,
+              "scope": 1668,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -165,7 +165,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "DIN",
-                      "scope": 1658,
+                      "scope": 1667,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -178,17 +178,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1652,
+                        "id": 1661,
                         "name": "ElementaryTypeName",
                         "src": "217:7:12"
                       }
                     ],
-                    "id": 1653,
+                    "id": 1662,
                     "name": "VariableDeclaration",
                     "src": "217:11:12"
                   }
                 ],
-                "id": 1654,
+                "id": 1663,
                 "name": "ParameterList",
                 "src": "216:13:12"
               },
@@ -198,7 +198,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1658,
+                      "scope": 1667,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "string memory",
@@ -211,32 +211,32 @@
                           "name": "string",
                           "type": "string storage pointer"
                         },
-                        "id": 1655,
+                        "id": 1664,
                         "name": "ElementaryTypeName",
                         "src": "255:6:12"
                       }
                     ],
-                    "id": 1656,
+                    "id": 1665,
                     "name": "VariableDeclaration",
                     "src": "255:6:12"
                   }
                 ],
-                "id": 1657,
+                "id": 1666,
                 "name": "ParameterList",
                 "src": "254:8:12"
               }
             ],
-            "id": 1658,
+            "id": 1667,
             "name": "FunctionDefinition",
             "src": "197:66:12"
           }
         ],
-        "id": 1659,
+        "id": 1668,
         "name": "ContractDefinition",
         "src": "158:107:12"
       }
     ],
-    "id": 1660,
+    "id": 1669,
     "name": "SourceUnit",
     "src": "0:265:12"
   },
@@ -246,5 +246,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-26T07:29:00.190Z"
+  "updatedAt": "2017-11-27T01:29:00.898Z"
 }

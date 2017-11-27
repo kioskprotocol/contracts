@@ -8,9 +8,8 @@ contract Orders {
     event NewOrder(
         uint256 indexed orderID,
         bytes32 nonceHash,
-        address indexed buyer,
         address indexed merchant,
-        uint256 DIN,
+        uint256 indexed DIN,
         uint256 quantity,
         uint256 totalPrice,
         uint256 timestamp
@@ -18,7 +17,6 @@ contract Orders {
 
     function createOrder(
         bytes32 nonceHash,
-        address buyer,
         address merchant,
         uint256 DIN,
         uint256 quantity,
@@ -34,7 +32,6 @@ contract Orders {
         NewOrder(
             orderIndex,
             nonceHash,
-            buyer,
             merchant,
             DIN,
             quantity,
