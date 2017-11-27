@@ -45,10 +45,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n    function merchant(uint256 DIN) public constant returns (address);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/Resolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
           1462
@@ -279,5 +279,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-27T01:29:00.898Z"
+  "updatedAt": "2017-11-27T02:22:38.603Z"
 }
