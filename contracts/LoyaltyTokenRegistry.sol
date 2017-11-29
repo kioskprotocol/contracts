@@ -42,7 +42,8 @@ contract LoyaltyTokenRegistry {
             name,
             symbol,
             merchant,
-            TOKEN_SUPPLY * 10 ** decimals
+            TOKEN_SUPPLY * 10 ** decimals,
+            this
         );
         whitelist[token] = true;
         NewToken(name, symbol, merchant, token);

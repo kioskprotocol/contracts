@@ -145,7 +145,7 @@ contract Checkout {
 
         // Transfer loyalty reward from DIN owner to buyer.
         if (order.loyaltyReward > 0 && order.loyaltyToken != address(0x0)) {
-            LoyaltyToken(order.loyaltyToken).transferFromCheckout(order.owner, msg.sender, order.loyaltyReward);
+            LoyaltyToken(order.loyaltyToken).reward(msg.sender, order.loyaltyReward);
         }
 
         // Create a new order and return the unique order ID.
@@ -174,7 +174,7 @@ contract Checkout {
 
         // Transfer loyalty tokens from buyer to merchant if the total price was not paid in Ether.
         if (loyaltyValue > 0) {
-            LoyaltyToken(loyaltyToken).transferFromCheckout(msg.sender, merchant, loyaltyValue);
+            LoyaltyToken(loyaltyToken).redeem(msg.sender, loyaltyValue);
         }
     }
 

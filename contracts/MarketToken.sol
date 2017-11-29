@@ -28,10 +28,11 @@ contract MarketToken is StandardToken {
     
     // Constructor
     function MarketToken(uint256 _totalSupply) {
-        // Give the initial balance to the contract deployer.
+        owner = msg.sender;
+        
+        // Give the initial balance to the owner.
         balances[msg.sender] = _totalSupply;
         totalSupply = _totalSupply;            
-        owner = msg.sender;
     }
 
     function transferFromCheckout(

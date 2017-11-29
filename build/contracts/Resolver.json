@@ -51,7 +51,7 @@
       "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
-          1453
+          1518
         ]
       }
     },
@@ -65,7 +65,7 @@
             ".11"
           ]
         },
-        "id": 1438,
+        "id": 1503,
         "name": "PragmaDirective",
         "src": "0:24:9"
       },
@@ -81,10 +81,10 @@
           "documentation": "@title Base resolver contract ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1453
+            1518
           ],
           "name": "Resolver",
-          "scope": 1454
+          "scope": 1519
         },
         "children": [
           {
@@ -98,7 +98,7 @@
               ],
               "name": "supportsInterface",
               "payable": false,
-              "scope": 1453,
+              "scope": 1518,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -110,7 +110,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceID",
-                      "scope": 1445,
+                      "scope": 1510,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -123,17 +123,17 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 1439,
+                        "id": 1504,
                         "name": "ElementaryTypeName",
                         "src": "114:6:9"
                       }
                     ],
-                    "id": 1440,
+                    "id": 1505,
                     "name": "VariableDeclaration",
                     "src": "114:18:9"
                   }
                 ],
-                "id": 1441,
+                "id": 1506,
                 "name": "ParameterList",
                 "src": "113:20:9"
               },
@@ -143,7 +143,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1445,
+                      "scope": 1510,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -156,22 +156,22 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1442,
+                        "id": 1507,
                         "name": "ElementaryTypeName",
                         "src": "159:4:9"
                       }
                     ],
-                    "id": 1443,
+                    "id": 1508,
                     "name": "VariableDeclaration",
                     "src": "159:4:9"
                   }
                 ],
-                "id": 1444,
+                "id": 1509,
                 "name": "ParameterList",
                 "src": "158:6:9"
               }
             ],
-            "id": 1445,
+            "id": 1510,
             "name": "FunctionDefinition",
             "src": "87:78:9"
           },
@@ -186,7 +186,7 @@
               ],
               "name": "merchant",
               "payable": false,
-              "scope": 1453,
+              "scope": 1518,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -198,7 +198,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "DIN",
-                      "scope": 1452,
+                      "scope": 1517,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -211,17 +211,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1446,
+                        "id": 1511,
                         "name": "ElementaryTypeName",
                         "src": "188:7:9"
                       }
                     ],
-                    "id": 1447,
+                    "id": 1512,
                     "name": "VariableDeclaration",
                     "src": "188:11:9"
                   }
                 ],
-                "id": 1448,
+                "id": 1513,
                 "name": "ParameterList",
                 "src": "187:13:9"
               },
@@ -231,7 +231,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1452,
+                      "scope": 1517,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -244,32 +244,32 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 1449,
+                        "id": 1514,
                         "name": "ElementaryTypeName",
                         "src": "226:7:9"
                       }
                     ],
-                    "id": 1450,
+                    "id": 1515,
                     "name": "VariableDeclaration",
                     "src": "226:7:9"
                   }
                 ],
-                "id": 1451,
+                "id": 1516,
                 "name": "ParameterList",
                 "src": "225:9:9"
               }
             ],
-            "id": 1452,
+            "id": 1517,
             "name": "FunctionDefinition",
             "src": "170:65:9"
           }
         ],
-        "id": 1453,
+        "id": 1518,
         "name": "ContractDefinition",
         "src": "63:174:9"
       }
     ],
-    "id": 1454,
+    "id": 1519,
     "name": "SourceUnit",
     "src": "0:237:9"
   },
@@ -279,5 +279,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-26T07:29:00.189Z"
+  "updatedAt": "2017-11-29T04:39:39.391Z"
 }
