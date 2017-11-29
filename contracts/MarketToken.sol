@@ -7,56 +7,36 @@ contract MarketToken is StandardToken {
     string public name = "Market Token";            // Set the name for display purposes.
     string public symbol = "MARK";                  // Set the symbol for display purposes.
     uint256 public decimals = 18;                   // Amount of decimals for display purposes.
-    address public checkout;                        // The address of the Checkout contract.
-    address public owner;
+    address public rewards;                         // The address of the Rewards contract.
 
-    modifier only_owner {
-        require(owner == msg.sender);
+    modifier only_rewards {
+        require(rewards == msg.sender);
         _;
     }
-
-    modifier only_checkout {
-        require(checkout == msg.sender);
-        _;
-    }
-
-    // Logged when the owner changes.
-    event NewOwner(address indexed owner);
-
-    // Logged when the Checkout contract changes.
-    event NewCheckout(address indexed checkout);
     
     // Constructor
-    function MarketToken(uint256 _totalSupply) {
-        owner = msg.sender;
-        
+    function MarketToken(address _rewards, uint256 _totalSupply) public { 
+        rewards = _rewards;
+
         // Give the initial balance to the owner.
         balances[msg.sender] = _totalSupply;
         totalSupply = _totalSupply;            
     }
 
-    function transferFromCheckout(
+    function transferFromRewards(
         address _from,
         address _to,
         uint256 _value
     )
         public 
-        only_checkout
+        only_rewards
         returns (bool) 
     {
-        // Allow the Checkout contract to spend a user's balance.
+        // Allow the Rewards contract to spend a user's balance.
         balances[_to] = balances[_to].add(_value);
         balances[_from] = balances[_from].sub(_value);
         Transfer(_from, _to, _value);
         return true;
-    }
-
-    function setOwner(address _owner) public only_owner {
-        owner = _owner;
-    }
-
-    function setCheckout(address _checkout) public only_owner {
-        checkout = _checkout;
     }
 
 }

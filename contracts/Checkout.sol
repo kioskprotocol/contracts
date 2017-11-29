@@ -1,10 +1,8 @@
 pragma solidity ^0.4.11;
 
 import "./DINRegistry.sol";
-import "./MarketToken.sol";
 import "./Orders.sol";
-import "./LoyaltyToken.sol";
-import "./LoyaltyTokenRegistry.sol";
+import "./Rewards.sol";
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Checkout {
@@ -12,8 +10,7 @@ contract Checkout {
 
     DINRegistry public registry;
     Orders public orders;
-    MarketToken public marketToken;
-    LoyaltyTokenRegistry public loyaltyRegistry;
+    Rewards public rewards;
 
     // Prevent Solidity "stack too deep" error.
     struct Order {
@@ -38,19 +35,16 @@ contract Checkout {
     /** @dev Constructor.
       * @param _registry The DIN Registry contract address.
       * @param _orders The Orders contract address.
-      * @param _token The Market Token contract address.
-      * @param _loyaltyRegistry The Loyalty Token Registry contract address.
+      * @param _rewards The Rewards contract address.
       */
     function Checkout(
         DINRegistry _registry,
         Orders _orders,
-        MarketToken _token,
-        LoyaltyTokenRegistry _loyaltyRegistry
+        Rewards _rewards
     ) public {
         registry = _registry;
         orders = _orders;
-        marketToken = _token;
-        loyaltyRegistry = _loyaltyRegistry;
+        rewards = _rewards;
     }
 
     /** @dev Buy a product.
@@ -109,12 +103,12 @@ contract Checkout {
 
         // Transfer affiliate reward from DIN owner to affiliate.
         if (order.affiliateReward > 0) {
-            marketToken.transferFromCheckout(order.owner, order.affiliate, order.affiliateReward);
+            rewards.sendAffiliateReward(order.owner, order.affiliate, order.affiliateReward);
         }
 
         // Transfer loyalty reward from DIN owner to buyer.
         if (order.loyaltyReward > 0 && order.loyaltyToken != address(0x0)) {
-            LoyaltyToken(order.loyaltyToken).reward(msg.sender, order.loyaltyReward);
+            rewards.sendLoyaltyReward(order.loyaltyToken, order.owner, msg.sender, order.loyaltyReward);
         }
 
         // Create a new order
@@ -143,11 +137,11 @@ contract Checkout {
         merchant.transfer(msg.value);
 
         // Calculate the remaining balance.
-        uint256 loyaltyValue = totalPrice.sub(msg.value);
+        uint256 remainingValue = totalPrice.sub(msg.value);
 
         // Transfer loyalty tokens from buyer to merchant if the total price was not paid in Ether.
-        if (loyaltyValue > 0) {
-            LoyaltyToken(loyaltyToken).redeem(msg.sender, loyaltyValue);
+        if (remainingValue > 0) {
+            rewards.redeemLoyaltyTokens(loyaltyToken, msg.sender, remainingValue);
         }
     }
 
@@ -168,11 +162,6 @@ contract Checkout {
 
         if (order.affiliateReward > 0 && order.affiliate == msg.sender) {
             LogError("Invalid affiliate");
-            return false;
-        }
-
-        if (order.loyaltyReward > 0 && order.loyaltyToken != address(0x0) && loyaltyRegistry.whitelist(order.loyaltyToken) == false) {
-            LogError("Invalid loyalty token");
             return false;
         }
 

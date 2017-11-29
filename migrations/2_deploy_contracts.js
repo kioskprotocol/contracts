@@ -55,6 +55,7 @@ module.exports = async (deployer, network, accounts) => {
         await LoyaltyTokenRegistry.at(LoyaltyTokenRegistry.address).createToken(
             "Ethereum Bookstore",
             "BOOK",
+            1000000, // Issue 1 million tokens to the merchant
             merchant
         );
         // Deploy Cart
