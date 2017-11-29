@@ -26,9 +26,4 @@ contract("StandardResolver", accounts => {
         expect(url).to.equal(productURL);
     });
 
-    it("should have the correct merchant", async () => {
-        const merchant = await resolver.merchant(DIN);
-        expect(merchant).to.equal(bob);
-    });
-
 });

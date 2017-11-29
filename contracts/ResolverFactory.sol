@@ -12,17 +12,16 @@ contract ResolverFactory {
     event NewResolver(
         address indexed resolver, 
         address indexed owner,
-        string productURL, 
-        address indexed merchant
+        string productURL 
     );
 
     function ResolverFactory(DINRegistry _registry) public {
         registry = _registry;
     }
 
-    function createResolver(string productURL, address merchant) public {
-        StandardResolver resolver = new StandardResolver(registry, msg.sender, productURL, merchant);
-        NewResolver(resolver, msg.sender, productURL, merchant);
+    function createResolver(string productURL) public {
+        StandardResolver resolver = new StandardResolver(registry, msg.sender, productURL);
+        NewResolver(resolver, msg.sender, productURL);
     }
 
 }

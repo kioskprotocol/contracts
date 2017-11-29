@@ -83,7 +83,7 @@ contract("Checkout", accounts => {
         NO_AFFILIATE_REWARD,
         NO_LOYALTY_REWARD
     ];
-    const ORDER_ADDRESSES = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
+    const ORDER_ADDRESSES = [MERCHANT, NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
     const getLoyaltyTokenAddress = async () => {
         const event = loyaltyTokenRegistry.NewToken(
@@ -142,7 +142,8 @@ contract("Checkout", accounts => {
             values[3], // priceValidUntil
             values[4], // affiliateReward
             values[5], // loyaltyReward
-            addresses[1] // loyaltyToken
+            addresses[2], // loyaltyToken
+            addresses[0], // merchant
         ];
         const signature = getSignature(hashValues, owner);
 
@@ -214,7 +215,7 @@ contract("Checkout", accounts => {
             NO_AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
+        const addresses = ORDER_ADDRESSES;
 
         const result = await getBuyResult(values, addresses);
         expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
@@ -229,7 +230,7 @@ contract("Checkout", accounts => {
             NO_AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
+        const addresses = ORDER_ADDRESSES;
 
         const result = await getBuyResult(values, addresses);
         expect(result.logs[0].args.error).to.equal(ERROR_INVALID_RESOLVER);
@@ -259,7 +260,7 @@ contract("Checkout", accounts => {
             NO_AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
+        const addresses = ORDER_ADDRESSES;
 
         const result = await checkout.buy(
             values,
@@ -281,7 +282,7 @@ contract("Checkout", accounts => {
             NO_AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
+        const addresses = ORDER_ADDRESSES;
 
         const signature = getSignature(values, MERCHANT);
 
@@ -380,7 +381,7 @@ contract("Checkout", accounts => {
             AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [BUYER, NO_LOYALTY_TOKEN];
+        const addresses = [MERCHANT, BUYER, NO_LOYALTY_TOKEN];
 
         const result = await getBuyResult(values, addresses);
         expect(result.logs[0].args.error).to.equal(ERROR_INVALID_AFFILIATE);
@@ -397,7 +398,7 @@ contract("Checkout", accounts => {
             AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [AFFILIATE, NO_LOYALTY_TOKEN];
+        const addresses = [MERCHANT, AFFILIATE, NO_LOYALTY_TOKEN];
 
         // Ether beginning balances
         const beginBalanceBuyerETH = await web3.eth.getBalance(BUYER);
@@ -453,7 +454,7 @@ contract("Checkout", accounts => {
             NO_AFFILIATE_REWARD,
             LOYALTY_REWARD
         ];
-        const addresses = [NO_AFFILIATE, LOYALTY_TOKEN];
+        const addresses = [MERCHANT, NO_AFFILIATE, LOYALTY_TOKEN];
 
         // Ether beginning balances
         const beginBalanceBuyerETH = await web3.eth.getBalance(BUYER);
@@ -498,9 +499,9 @@ contract("Checkout", accounts => {
         );
     });
 
-    it("should let a buyer use loyalty tokens in a purchase", async () => {
-        //
-    });
+    // it("should let a buyer use loyalty tokens in a purchase", async () => {
+    //     //
+    // });
 
     it("should throw if the buyer does not have enough tokens", async () => {
         const values = [
@@ -511,7 +512,7 @@ contract("Checkout", accounts => {
             NO_AFFILIATE_REWARD,
             NO_LOYALTY_REWARD
         ];
-        const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
+        const addresses = [MERCHANT, NO_AFFILIATE, NO_LOYALTY_TOKEN];
 
         try {
             await getBuyResult(values, addresses);

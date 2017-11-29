@@ -13,7 +13,7 @@ contract("ResolverFactory", accounts => {
     });
 
     it("should create a resolver", async () => {
-        const result = await factory.createResolver(productURL, alice);
+        const result = await factory.createResolver(productURL);
         expect(result.logs[0].event).to.equal("NewResolver");
 
         const resolverAddr = result.logs[0].args.resolver;
@@ -21,8 +21,5 @@ contract("ResolverFactory", accounts => {
 
         const url = await resolver.productURL(1000000001);
         expect(url).to.equal(productURL);
-
-        const merchant = await resolver.merchant(1000000001);
-        expect(merchant).to.equal(alice);
     });
 });

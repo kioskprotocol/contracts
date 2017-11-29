@@ -32,7 +32,6 @@ module.exports = async (deployer, network, accounts) => {
             DINRegistry.address,
             merchant,
             productURL,
-            merchant
         );
         // Deploy Orders
         await deployer.deploy(Orders);
