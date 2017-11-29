@@ -386,7 +386,7 @@
   "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/LoyaltyToken.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/LoyaltyToken.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/LoyaltyToken.sol",
       "exportedSymbols": {
         "LoyaltyToken": [
           1136

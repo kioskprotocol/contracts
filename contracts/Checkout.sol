@@ -38,6 +38,9 @@ contract Checkout {
     // Log Solidity errors
     event LogError(string error);
 
+    // Log new orders
+    event NewOrder(uint256 indexed orderID);
+
     /** @dev Constructor.
       * @param _registry The DIN Registry contract address.
       * @param _orders The Orders contract address.
@@ -83,7 +86,7 @@ contract Checkout {
     )
         payable
         public
-        returns (uint256 orderID)
+        returns (uint256)
     {
         // Get the resolver address from the DIN Registry.
         address resolver = registry.resolver(orderValues[0]);
@@ -148,8 +151,8 @@ contract Checkout {
             LoyaltyToken(order.loyaltyToken).reward(msg.sender, order.loyaltyReward);
         }
 
-        // Create a new order and return the unique order ID.
-        return orders.createOrder(
+        // Create a new order
+        uint256 orderID = orders.createOrder(
             nonceHash,
             msg.sender, // Buyer
             merchant,
@@ -157,6 +160,10 @@ contract Checkout {
             order.quantity,
             order.totalPrice
         );
+
+        // Log and return the unique order ID.
+        NewOrder(orderID);
+        return orderID;
     }
 
     /**
@@ -216,7 +223,7 @@ contract Checkout {
             return false;
         }
 
-        if (loyaltyToken != address(0x0) && loyaltyRegistry.whitelist(loyaltyToken) == false) {
+        if (loyaltyReward > 0 && loyaltyToken != address(0x0) && loyaltyRegistry.whitelist(loyaltyToken) == false) {
             LogError("Invalid loyalty token");
             return false;
         }

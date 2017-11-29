@@ -389,7 +389,7 @@
   "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/MarketToken.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/MarketToken.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/MarketToken.sol",
       "exportedSymbols": {
         "MarketToken": [
           1385

@@ -8,6 +8,7 @@ contract Orders {
     event NewOrder(
         uint256 indexed orderID,
         bytes32 nonceHash,
+        address checkout,
         address indexed buyer,
         address indexed merchant,
         uint256 DIN,
@@ -25,7 +26,6 @@ contract Orders {
         uint256 totalPrice
     )
         public
-        // TODO: Only checkout
         returns (uint256 orderID)
     {
         // Increment the order index.
@@ -34,6 +34,7 @@ contract Orders {
         NewOrder(
             orderIndex,
             nonceHash,
+            msg.sender,
             buyer,
             merchant,
             DIN,
