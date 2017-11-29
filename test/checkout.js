@@ -138,10 +138,10 @@ contract("Checkout", accounts => {
             values[0], // DIN
             values[2], // price
             values[3], // priceValidUntil
+            addresses[0], // merchant
             values[4], // affiliateReward
             values[5], // loyaltyReward
-            addresses[2], // loyaltyToken
-            addresses[0], // merchant
+            addresses[2] // loyaltyToken
         ];
         const signature = getSignature(hashValues, owner);
 

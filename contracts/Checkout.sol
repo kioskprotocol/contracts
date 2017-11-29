@@ -188,10 +188,10 @@ contract Checkout {
             order.DIN,
             unitPrice,
             order.priceValidUntil,
-            order.affiliateReward, 
+            order.merchant,
+            order.affiliateReward,
             order.loyaltyReward,
-            order.loyaltyToken,
-            order.merchant
+            order.loyaltyToken
         );
 
         // Verify that the DIN owner has signed the provided inputs.
