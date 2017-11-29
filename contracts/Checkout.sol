@@ -3,7 +3,6 @@ pragma solidity ^0.4.11;
 import "./DINRegistry.sol";
 import "./MarketToken.sol";
 import "./Orders.sol";
-import "./Resolver.sol";
 import "./LoyaltyToken.sol";
 import "./LoyaltyTokenRegistry.sol";
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
@@ -28,7 +27,6 @@ contract Checkout {
         address loyaltyToken;
         address merchant;
         address owner;
-        address resolver;
     }
 
     // Log Solidity errors
@@ -97,8 +95,7 @@ contract Checkout {
             loyaltyReward: orderValues[5],
             loyaltyToken: orderAddresses[2],
             merchant: merchant,
-            owner: registry.owner(orderValues[0]), // Get the DIN owner address from the DIN registry.
-            resolver: registry.resolver(orderValues[0]) // Get the resolver address from the DIN Registry.
+            owner: registry.owner(orderValues[0]) // Get the DIN owner address from the DIN registry.
         });
 
         if (isValidOrder(order, v, r, s) == false) {
@@ -161,11 +158,6 @@ contract Checkout {
     function isValidOrder(Order order, uint8 v, bytes32 r, bytes32 s) internal constant returns (bool) {
         if (block.timestamp > order.priceValidUntil) {
             LogError("Offer expired");
-            return false;
-        }
-
-        if (order.resolver == address(0x0)) {
-            LogError("Invalid resolver");
             return false;
         }
 

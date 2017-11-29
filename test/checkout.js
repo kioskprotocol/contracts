@@ -46,8 +46,6 @@ contract("Checkout", accounts => {
 
     // DINs
     const DIN = 1000000011;
-    const DIN_NO_MERCHANT = 1000000012;
-    const DIN_NO_RESOLVER = 1000000013;
 
     // Price valid until
     const FUTURE_DATE = 1577836800; // 1/1/2020
@@ -182,13 +180,6 @@ contract("Checkout", accounts => {
 
         // Set the resolver for the first two DINs.
         await registry.setResolver(DIN, resolver.address, { from: MERCHANT });
-        await registry.setResolver(
-            DIN_NO_MERCHANT,
-            "0x1111111111111111111111111111111111111111",
-            {
-                from: MERCHANT
-            }
-        );
 
         // Give MERCHANT some Market Tokens so he can promote his product by offering affiliate rewards.
         await marketToken.transfer(MERCHANT, AFFILIATE_REWARD * 5, {
@@ -220,36 +211,6 @@ contract("Checkout", accounts => {
         const result = await getBuyResult(values, addresses);
         expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
     });
-
-    it("should log an error if the resolver is not set", async () => {
-        const values = [
-            DIN_NO_RESOLVER,
-            QUANTITY_ONE,
-            PRICE,
-            FUTURE_DATE,
-            NO_AFFILIATE_REWARD,
-            NO_LOYALTY_REWARD
-        ];
-        const addresses = ORDER_ADDRESSES;
-
-        const result = await getBuyResult(values, addresses);
-        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_RESOLVER);
-    });
-
-    // it("should log an error if the merchant is not set", async () => {
-    //     const values = [
-    //         DIN_NO_MERCHANT,
-    //         QUANTITY_ONE,
-    //         PRICE,
-    //         FUTURE_DATE,
-    //         NO_AFFILIATE_REWARD,
-    //         NO_LOYALTY_REWARD
-    //     ];
-    //     const addresses = [NO_AFFILIATE, NO_LOYALTY_TOKEN];
-
-    //     const result = await getBuyResult(values, addresses);
-    //     expect(result.logs[0].args.error).to.equal(ERROR_INVALID_MERCHANT);
-    // });
 
     it("should log an error if the signature is invalid", async () => {
         const values = [
