@@ -181,11 +181,6 @@ contract("Checkout", accounts => {
 
         // Register 3 DINs.
         await registrar.registerDINWithResolver(MERCHANT, resolver.address);
-
-        // Give MERCHANT some Market Tokens so he can promote his product by offering affiliate rewards.
-        await marketToken.transfer(MERCHANT, AFFILIATE_REWARD * 5, {
-            from: BUYER
-        });
     });
 
     it("should have the correct registry address", async () => {

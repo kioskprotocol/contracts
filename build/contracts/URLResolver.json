@@ -45,10 +45,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.11;\n\nimport \"./Resolver.sol\";\n\n/** @title Resolver contract that specifies an API endpoint where product information can be retrieved */\ncontract URLResolver is Resolver {\n    function productURL(uint256 DIN) public constant returns (string);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/URLResolver.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/URLResolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/URLResolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/URLResolver.sol",
       "exportedSymbols": {
         "URLResolver": [
           1777
@@ -72,7 +72,7 @@
       {
         "attributes": {
           "SourceUnit": 1388,
-          "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+          "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
           "file": "./Resolver.sol",
           "scope": 1778,
           "symbolAliases": [
@@ -227,5 +227,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-30T05:36:08.375Z"
+  "updatedAt": "2017-11-30T23:27:39.065Z"
 }

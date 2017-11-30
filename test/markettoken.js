@@ -24,15 +24,15 @@ contract("MarketToken", accounts => {
 
     it("should let a user transfer tokens", async () => {
         const aliceBalance = await token.balanceOf(alice);
-        expect(aliceBalance.toNumber()).to.equal(initialSupply);
+        expect(aliceBalance.toNumber()).to.equal(0);
 
         const bobBalance = await token.balanceOf(bob);
-        expect(bobBalance.toNumber()).to.equal(0);
+        expect(bobBalance.toNumber()).to.equal(initialSupply);
 
         const amount = 20000 * Math.pow(10, 18); // Transfer 20,000 tokens
-        await token.transfer(bob, amount, { from: alice });
+        await token.transfer(alice, amount, { from: bob });
 
-        const newBalance = await token.balanceOf(bob);
+        const newBalance = await token.balanceOf(alice);
         expect(newBalance.toNumber()).to.equal(amount);
     });
 
