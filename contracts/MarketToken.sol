@@ -15,9 +15,7 @@ contract MarketToken is StandardToken {
     }
     
     // Constructor
-    function MarketToken(address _rewards, uint256 _totalSupply) public { 
-        rewards = _rewards;
-
+    function MarketToken(uint256 _totalSupply) public { 
         // Give the initial balance to the owner.
         balances[msg.sender] = _totalSupply;
         totalSupply = _totalSupply;            
@@ -37,6 +35,15 @@ contract MarketToken is StandardToken {
         balances[_from] = balances[_from].sub(_value);
         Transfer(_from, _to, _value);
         return true;
+    }
+
+    function setRewards(address _rewards) public returns (bool) {
+        // Only allow rewards to be set once.
+        if (rewards == address(0x0) && _rewards != address(0x0)) {
+            rewards = _rewards;
+            return true;
+        }
+        return false;
     }
 
 }

@@ -32,7 +32,7 @@
       "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
-          1474
+          1358
         ]
       }
     },
@@ -46,7 +46,7 @@
             ".11"
           ]
         },
-        "id": 1466,
+        "id": 1350,
         "name": "PragmaDirective",
         "src": "0:24:9"
       },
@@ -62,10 +62,10 @@
           "documentation": "@title Base resolver contract ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1474
+            1358
           ],
           "name": "Resolver",
-          "scope": 1475
+          "scope": 1359
         },
         "children": [
           {
@@ -79,7 +79,7 @@
               ],
               "name": "supportsInterface",
               "payable": false,
-              "scope": 1474,
+              "scope": 1358,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceID",
-                      "scope": 1473,
+                      "scope": 1357,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -104,17 +104,17 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 1467,
+                        "id": 1351,
                         "name": "ElementaryTypeName",
                         "src": "114:6:9"
                       }
                     ],
-                    "id": 1468,
+                    "id": 1352,
                     "name": "VariableDeclaration",
                     "src": "114:18:9"
                   }
                 ],
-                "id": 1469,
+                "id": 1353,
                 "name": "ParameterList",
                 "src": "113:20:9"
               },
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1473,
+                      "scope": 1357,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,32 +137,32 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1470,
+                        "id": 1354,
                         "name": "ElementaryTypeName",
                         "src": "159:4:9"
                       }
                     ],
-                    "id": 1471,
+                    "id": 1355,
                     "name": "VariableDeclaration",
                     "src": "159:4:9"
                   }
                 ],
-                "id": 1472,
+                "id": 1356,
                 "name": "ParameterList",
                 "src": "158:6:9"
               }
             ],
-            "id": 1473,
+            "id": 1357,
             "name": "FunctionDefinition",
             "src": "87:78:9"
           }
         ],
-        "id": 1474,
+        "id": 1358,
         "name": "ContractDefinition",
         "src": "63:104:9"
       }
     ],
-    "id": 1475,
+    "id": 1359,
     "name": "SourceUnit",
     "src": "0:167:9"
   },
@@ -172,5 +172,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-29T18:09:31.826Z"
+  "updatedAt": "2017-11-30T02:28:46.046Z"
 }

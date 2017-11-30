@@ -42,4 +42,13 @@ contract LoyaltyTokenRegistry {
         NewToken(name, symbol, merchant, token);
     }
 
+    function setRewards(address _rewards) public returns (bool) {
+        // Only allow rewards to be set once.
+        if (rewards == address(0x0) && _rewards != address(0x0)) {
+            rewards = _rewards;
+            return true;
+        }
+        return false;
+    }
+
 }

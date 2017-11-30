@@ -51,7 +51,7 @@
       "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/URLResolver.sol",
       "exportedSymbols": {
         "URLResolver": [
-          1637
+          1748
         ]
       }
     },
@@ -65,39 +65,39 @@
             ".11"
           ]
         },
-        "id": 1626,
+        "id": 1737,
         "name": "PragmaDirective",
-        "src": "0:24:12"
+        "src": "0:24:13"
       },
       {
         "attributes": {
-          "SourceUnit": 1475,
+          "SourceUnit": 1359,
           "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/single-product-page/src/kiosk.js/contracts/contracts/Resolver.sol",
           "file": "./Resolver.sol",
-          "scope": 1638,
+          "scope": 1749,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1627,
+        "id": 1738,
         "name": "ImportDirective",
-        "src": "26:24:12"
+        "src": "26:24:13"
       },
       {
         "attributes": {
           "contractDependencies": [
-            1474
+            1358
           ],
           "contractKind": "contract",
           "documentation": "@title Resolver contract that specifies an API endpoint where product information can be retrieved ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1637,
-            1474
+            1748,
+            1358
           ],
           "name": "URLResolver",
-          "scope": 1638
+          "scope": 1749
         },
         "children": [
           {
@@ -111,17 +111,17 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "Resolver",
-                  "referencedDeclaration": 1474,
+                  "referencedDeclaration": 1358,
                   "type": "contract Resolver"
                 },
-                "id": 1628,
+                "id": 1739,
                 "name": "UserDefinedTypeName",
-                "src": "182:8:12"
+                "src": "182:8:13"
               }
             ],
-            "id": 1629,
+            "id": 1740,
             "name": "InheritanceSpecifier",
-            "src": "182:8:12"
+            "src": "182:8:13"
           },
           {
             "attributes": {
@@ -134,7 +134,7 @@
               ],
               "name": "productURL",
               "payable": false,
-              "scope": 1637,
+              "scope": 1748,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -146,7 +146,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "DIN",
-                      "scope": 1636,
+                      "scope": 1747,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -159,19 +159,19 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1630,
+                        "id": 1741,
                         "name": "ElementaryTypeName",
-                        "src": "217:7:12"
+                        "src": "217:7:13"
                       }
                     ],
-                    "id": 1631,
+                    "id": 1742,
                     "name": "VariableDeclaration",
-                    "src": "217:11:12"
+                    "src": "217:11:13"
                   }
                 ],
-                "id": 1632,
+                "id": 1743,
                 "name": "ParameterList",
-                "src": "216:13:12"
+                "src": "216:13:13"
               },
               {
                 "children": [
@@ -179,7 +179,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1636,
+                      "scope": 1747,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "string memory",
@@ -192,34 +192,34 @@
                           "name": "string",
                           "type": "string storage pointer"
                         },
-                        "id": 1633,
+                        "id": 1744,
                         "name": "ElementaryTypeName",
-                        "src": "255:6:12"
+                        "src": "255:6:13"
                       }
                     ],
-                    "id": 1634,
+                    "id": 1745,
                     "name": "VariableDeclaration",
-                    "src": "255:6:12"
+                    "src": "255:6:13"
                   }
                 ],
-                "id": 1635,
+                "id": 1746,
                 "name": "ParameterList",
-                "src": "254:8:12"
+                "src": "254:8:13"
               }
             ],
-            "id": 1636,
+            "id": 1747,
             "name": "FunctionDefinition",
-            "src": "197:66:12"
+            "src": "197:66:13"
           }
         ],
-        "id": 1637,
+        "id": 1748,
         "name": "ContractDefinition",
-        "src": "158:107:12"
+        "src": "158:107:13"
       }
     ],
-    "id": 1638,
+    "id": 1749,
     "name": "SourceUnit",
-    "src": "0:265:12"
+    "src": "0:265:13"
   },
   "compiler": {
     "name": "solc",
@@ -227,5 +227,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-29T18:09:31.826Z"
+  "updatedAt": "2017-11-30T02:28:46.047Z"
 }

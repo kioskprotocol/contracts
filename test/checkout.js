@@ -2,6 +2,7 @@ const Checkout = artifacts.require("Checkout.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistrar = artifacts.require("DINRegistrar.sol");
 const Orders = artifacts.require("Orders.sol");
+const Rewards = artifacts.require("Rewards.sol");
 const MarketToken = artifacts.require("MarketToken.sol");
 const LoyaltyToken = artifacts.require("LoyaltyToken");
 const LoyaltyTokenRegistry = artifacts.require("LoyaltyTokenRegistry.sol");
@@ -20,6 +21,7 @@ contract("Checkout", accounts => {
     let registry;
     let registrar;
     let orders;
+    let rewards;
     let resolver;
     let loyaltyToken;
     let loyaltyTokenRegistry;
@@ -43,6 +45,7 @@ contract("Checkout", accounts => {
 
     // Addresses
     const NO_AFFILIATE = "0x0000000000000000000000000000000000000000";
+    const NO_MERCHANT = "0x0000000000000000000000000000000000000000";
 
     // DINs
     const DIN = 1000000011;
@@ -61,7 +64,7 @@ contract("Checkout", accounts => {
 
     // Loyalty Reward
     const NO_LOYALTY_REWARD = 0;
-    const LOYALTY_REWARD = 1 * Math.pow(10, 16); // 0.01 BOOK (Loyalty token) = 2% Loyalty on 0.5 ETH price
+    const LOYALTY_REWARD = 1 * Math.pow(10, 16); // 0.01 LOYALTY (Loyalty token) = 2% Loyalty on 0.5 ETH price
 
     // Quantity
     const QUANTITY_ONE = 1;
@@ -167,6 +170,7 @@ contract("Checkout", accounts => {
         registry = await DINRegistry.deployed();
         registrar = await DINRegistrar.deployed();
         orders = await Orders.deployed();
+        rewards = await Rewards.deployed();
         marketToken = await MarketToken.deployed();
         loyaltyTokenRegistry = await LoyaltyTokenRegistry.deployed();
         resolver = await StandardResolver.deployed();
@@ -176,10 +180,7 @@ contract("Checkout", accounts => {
         loyaltyToken = LoyaltyToken.at(LOYALTY_TOKEN);
 
         // Register 3 DINs.
-        await registrar.registerDINs(3, { from: MERCHANT });
-
-        // Set the resolver for the first two DINs.
-        await registry.setResolver(DIN, resolver.address, { from: MERCHANT });
+        await registrar.registerDINWithResolver(MERCHANT, resolver.address);
 
         // Give MERCHANT some Market Tokens so he can promote his product by offering affiliate rewards.
         await marketToken.transfer(MERCHANT, AFFILIATE_REWARD * 5, {
@@ -187,17 +188,22 @@ contract("Checkout", accounts => {
         });
     });
 
-    it("should have the correct market token", async () => {
-        const checkoutToken = await checkout.marketToken();
-        expect(checkoutToken).to.equal(marketToken.address);
-    });
-
-    it("should have the correct registry", async () => {
+    it("should have the correct registry address", async () => {
         const checkoutRegistry = await checkout.registry();
         expect(checkoutRegistry).to.equal(registry.address);
     });
 
-    it("should log an error if the expiration time has passed", async () => {
+    it("should have the correct orders address", async () => {
+        const checkoutOrders = await checkout.orders();
+        expect(checkoutOrders).to.equal(orders.address);
+    });
+
+    it("should have the correct rewards address", async () => {
+        const checkoutRewards = await checkout.rewards();
+        expect(checkoutRewards).to.equal(rewards.address);
+    });
+
+    it("should log an error if priceValidUntil has expired", async () => {
         const values = [
             DIN,
             QUANTITY_ONE,
@@ -210,6 +216,69 @@ contract("Checkout", accounts => {
 
         const result = await getBuyResult(values, addresses);
         expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
+    });
+
+    it("should log an error if the merchant is invalid", async () => {
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [NO_MERCHANT, NO_AFFILIATE, NO_LOYALTY_TOKEN];
+
+        const result = await getBuyResult(values, addresses);
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_MERCHANT);
+    });
+
+    it("should log an error if the affiliate is the buyer", async () => {
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = [MERCHANT, BUYER, NO_LOYALTY_TOKEN];
+
+        const result = await getBuyResult(values, addresses);
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_AFFILIATE);
+    });
+
+    it("should log an error if input values are not correct", async () => {
+        const values = [
+            DIN,
+            QUANTITY_ONE,
+            PRICE,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+        const addresses = ORDER_ADDRESSES;
+        const signature = getSignature(values, MERCHANT);
+
+        // Set the price low to try to get the item for less
+        const fakeValues = [
+            DIN,
+            QUANTITY_ONE,
+            1,
+            FUTURE_DATE,
+            NO_AFFILIATE_REWARD,
+            NO_LOYALTY_REWARD
+        ];
+
+        const result = await checkout.buy(
+            fakeValues,
+            addresses,
+            NONCE_HASH,
+            signature.v,
+            signature.r,
+            signature.s
+        );
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
     });
 
     it("should log an error if the signature is invalid", async () => {
@@ -230,40 +299,6 @@ contract("Checkout", accounts => {
             27,
             "0x0000000000000000000000000000000000000000",
             "0x0000000000000000000000000000000000000000"
-        );
-        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
-    });
-
-    it("should log an error if the price does not match the signed price", async () => {
-        const values = [
-            DIN,
-            QUANTITY_ONE,
-            PRICE,
-            FUTURE_DATE,
-            NO_AFFILIATE_REWARD,
-            NO_LOYALTY_REWARD
-        ];
-        const addresses = ORDER_ADDRESSES;
-
-        const signature = getSignature(values, MERCHANT);
-
-        // Set the price low to try to get the item for less
-        const fakeValues = [
-            DIN,
-            QUANTITY_ONE,
-            1,
-            FUTURE_DATE,
-            NO_AFFILIATE_REWARD,
-            NO_LOYALTY_REWARD
-        ];
-
-        const result = await checkout.buy(
-            fakeValues,
-            addresses,
-            NONCE_HASH,
-            signature.v,
-            signature.r,
-            signature.s
         );
         expect(result.logs[0].args.error).to.equal(ERROR_INVALID_SIGNATURE);
     });
@@ -331,21 +366,6 @@ contract("Checkout", accounts => {
 
         expect(endBalanceBuyer.toNumber()).to.equal(expectedBuyer);
         expect(endBalanceMerchant.toNumber()).to.equal(expectedMerchant);
-    });
-
-    it("should not allow a buyer to set herself as the affiliate", async () => {
-        const values = [
-            DIN,
-            QUANTITY_ONE,
-            PRICE,
-            FUTURE_DATE,
-            AFFILIATE_REWARD,
-            NO_LOYALTY_REWARD
-        ];
-        const addresses = [MERCHANT, BUYER, NO_LOYALTY_TOKEN];
-
-        const result = await getBuyResult(values, addresses);
-        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_AFFILIATE);
     });
 
     it("should reward a valid affiliate", async () => {
@@ -422,8 +442,8 @@ contract("Checkout", accounts => {
         const beginBalanceMerchantETH = await web3.eth.getBalance(MERCHANT);
 
         // Loyalty token beginning balances
-        const beginBalanceBuyerBOOK = await loyaltyToken.balanceOf(BUYER);
-        const beginBalanceMerchantBOOK = await loyaltyToken.balanceOf(MERCHANT);
+        const beginBalanceBuyerLOYALTY = await loyaltyToken.balanceOf(BUYER);
+        const beginBalanceMerchantLOYALTY = await loyaltyToken.balanceOf(MERCHANT);
 
         const result = await getBuyResult(values, addresses);
         const gasUsed = result.receipt.gasUsed;
@@ -433,18 +453,18 @@ contract("Checkout", accounts => {
         const endBalanceMerchantETH = await web3.eth.getBalance(MERCHANT);
 
         // Loyalty token ending balances
-        const endBalanceBuyerBOOK = await loyaltyToken.balanceOf(BUYER);
-        const endBalanceMerchantBOOK = await loyaltyToken.balanceOf(MERCHANT);
+        const endBalanceBuyerLOYALTY = await loyaltyToken.balanceOf(BUYER);
+        const endBalanceMerchantLOYALTY = await loyaltyToken.balanceOf(MERCHANT);
 
         // Expected values
         const expectedEndBalanceBuyerETH =
             beginBalanceBuyerETH.toNumber() - PRICE - gasUsed * GAS_PRICE;
         const expectedEndBalanceMerchantETH =
             beginBalanceMerchantETH.toNumber() + PRICE;
-        const expectedEndBalanceBuyerBOOK =
-            beginBalanceBuyerBOOK.toNumber() + LOYALTY_REWARD;
-        const expectedEndBalanceMerchantBOOK =
-            beginBalanceMerchantBOOK.toNumber() - LOYALTY_REWARD;
+        const expectedEndBalanceBuyerLOYALTY =
+            beginBalanceBuyerLOYALTY.toNumber() + LOYALTY_REWARD;
+        const expectedEndBalanceMerchantLOYALTY =
+            beginBalanceMerchantLOYALTY.toNumber() - LOYALTY_REWARD;
 
         expect(endBalanceBuyerETH.toNumber()).to.equal(
             expectedEndBalanceBuyerETH
@@ -452,11 +472,8 @@ contract("Checkout", accounts => {
         expect(endBalanceMerchantETH.toNumber()).to.equal(
             expectedEndBalanceMerchantETH
         );
-        expect(endBalanceBuyerBOOK.toNumber()).to.equal(
-            expectedEndBalanceBuyerBOOK
-        );
-        expect(endBalanceMerchantBOOK.toNumber()).to.equal(
-            expectedEndBalanceMerchantBOOK
+        expect(endBalanceBuyerLOYALTY.toNumber()).to.equal(
+            expectedEndBalanceBuyerLOYALTY
         );
     });
 

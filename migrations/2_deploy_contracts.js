@@ -4,6 +4,7 @@ const StandardResolver = artifacts.require("StandardResolver.sol");
 const ResolverFactory = artifacts.require("ResolverFactory.sol");
 const MarketToken = artifacts.require("MarketToken.sol");
 const Orders = artifacts.require("Orders.sol");
+const Rewards = artifacts.require("Rewards.sol");
 const Checkout = artifacts.require("Checkout.sol");
 const Cart = artifacts.require("Cart.sol");
 const LoyaltyTokenRegistry = artifacts.require("LoyaltyTokenRegistry.sol");
@@ -39,18 +40,21 @@ module.exports = async (deployer, network, accounts) => {
         await deployer.deploy(MarketToken, initialSupply);
         // Deploy LoyaltyTokenRegistry
         await deployer.deploy(LoyaltyTokenRegistry);
+        // Deploy Rewards
+        await deployer.deploy(Rewards, MarketToken.address, LoyaltyTokenRegistry.address);
+        // Set rewards on Market Token
+        await MarketToken.at(MarketToken.address).setRewards(Rewards.address);
+        // Set rewards on LoyaltyTokenRegistry
+        await LoyaltyTokenRegistry.at(LoyaltyTokenRegistry.address).setRewards(Rewards.address);
         // Deploy Checkout
         await deployer.deploy(
             Checkout,
             DINRegistry.address,
             Orders.address,
-            MarketToken.address,
-            LoyaltyTokenRegistry.address
+            Rewards.address
         );
-        // Set the checkout contract on MarketToken
-        await MarketToken.at(MarketToken.address).setCheckout(Checkout.address);
-        // Set the checkout contract on LoyaltyTokenRegistry
-        await LoyaltyTokenRegistry.at(LoyaltyTokenRegistry.address).setCheckout(Checkout.address);
+        // Add checkout to Rewards
+        await Rewards.at(Rewards.address).addCheckout(Checkout.address);
         // Create LoyaltyToken
         await LoyaltyTokenRegistry.at(LoyaltyTokenRegistry.address).createToken(
             "Ethereum Bookstore",
@@ -60,15 +64,7 @@ module.exports = async (deployer, network, accounts) => {
         );
         // Deploy Cart
         await deployer.deploy(Cart);
-        // Register 10 DINs
-        await DINRegistrar.at(DINRegistrar.address).registerDINs(10, {
-            from: merchant
-        });
-        // Set resolver of registered DINs
-        for (let i = 1000000001; i <= 1000000003; i++) {
-            await DINRegistry.at(
-                DINRegistry.address
-            ).setResolver(i, StandardResolver.address, { from: merchant });
-        }
+        // Register 10 DINs and set their resolvers
+        await DINRegistrar.at(DINRegistrar.address).registerDINsWithResolver(merchant, StandardResolver.address, 10);
     });
 };
