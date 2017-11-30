@@ -63,8 +63,7 @@ contract Rewards {
     }
 
     function isValidLoyaltyReward(address token, address owner) public constant returns (bool) {
-        return true;
-        // return (registry.whitelist(token) == true && LoyaltyToken(token).owner() == owner);
+        return (registry.whitelist(token) == true && LoyaltyToken(token).owner() == owner);
     }
 
     function addCheckout(address checkout) public only_owner returns (bool) {

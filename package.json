@@ -4,7 +4,8 @@
   "description": "Kiosk protocol contracts",
   "author": "Rich McAteer",
   "scripts": {
-    "migrate": "rm -rf ./build/contracts; truffle migrate --reset"
+    "test": "rm -rf ./build/contracts && truffle test",
+    "migrate": "rm -rf ./build/contracts && truffle migrate --reset"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
