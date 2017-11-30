@@ -1,0 +1,176 @@
+{
+  "contractName": "Resolver",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "interfaceID",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n}",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+      "exportedSymbols": {
+        "Resolver": [
+          1387
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 1379,
+        "name": "PragmaDirective",
+        "src": "0:24:9"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": "@title Base resolver contract ",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            1387
+          ],
+          "name": "Resolver",
+          "scope": 1388
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "supportsInterface",
+              "payable": false,
+              "scope": 1387,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "interfaceID",
+                      "scope": 1386,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes4",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes4",
+                          "type": "bytes4"
+                        },
+                        "id": 1380,
+                        "name": "ElementaryTypeName",
+                        "src": "114:6:9"
+                      }
+                    ],
+                    "id": 1381,
+                    "name": "VariableDeclaration",
+                    "src": "114:18:9"
+                  }
+                ],
+                "id": 1382,
+                "name": "ParameterList",
+                "src": "113:20:9"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 1386,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 1383,
+                        "name": "ElementaryTypeName",
+                        "src": "159:4:9"
+                      }
+                    ],
+                    "id": 1384,
+                    "name": "VariableDeclaration",
+                    "src": "159:4:9"
+                  }
+                ],
+                "id": 1385,
+                "name": "ParameterList",
+                "src": "158:6:9"
+              }
+            ],
+            "id": 1386,
+            "name": "FunctionDefinition",
+            "src": "87:78:9"
+          }
+        ],
+        "id": 1387,
+        "name": "ContractDefinition",
+        "src": "63:104:9"
+      }
+    ],
+    "id": 1388,
+    "name": "SourceUnit",
+    "src": "0:167:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-30T05:36:08.374Z"
+}
