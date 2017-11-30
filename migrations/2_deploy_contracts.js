@@ -37,7 +37,7 @@ module.exports = async (deployer, network, accounts) => {
         // Deploy Orders
         await deployer.deploy(Orders);
         // Deploy MarketToken
-        await deployer.deploy(MarketToken, initialSupply);
+        await deployer.deploy(MarketToken, initialSupply, { from: merchant });
         // Deploy LoyaltyTokenRegistry
         await deployer.deploy(LoyaltyTokenRegistry);
         // Deploy Rewards
