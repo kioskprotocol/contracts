@@ -36,9 +36,9 @@ contract("MarketToken", accounts => {
         expect(newBalance.toNumber()).to.equal(amount);
     });
 
-    it("should throw if an account calls transferFromCheckout", async () => {
+    it("should throw if an account calls transferFromRewards", async () => {
         try {
-            await token.transferFromCheckout(alice, bob, 50000, { from: alice });
+            await token.transferFromRewards(alice, bob, 50000, { from: alice });
         } catch (error) {
             assert.include(
                 error.message,
@@ -48,14 +48,11 @@ contract("MarketToken", accounts => {
         }
     });
 
-    it("should throw if an unauthorized account tries to set the checkout contract address", async () => {
-        const owner = await token.owner();
-        expect(owner).to.equal(alice);
-
-        const newCheckout = "0x1111111111111111111111111111111111111111";
+    it("should throw if an account calls setRewards", async () => {
+        const newRewards = "0x1111111111111111111111111111111111111111";
 
         try {
-            await token.setCheckout(newCheckout, { from: bob });
+            await token.setRewards(newRewards, { from: alice });
         } catch (error) {
             assert.include(
                 error.message,
@@ -65,35 +62,4 @@ contract("MarketToken", accounts => {
         }
     });
 
-    it("should let the owner set the checkout contract address", async () => {
-        const checkoutAddr = await token.checkout();
-        expect(checkoutAddr).to.equal(checkout.address);
-
-        const newCheckout = "0x1111111111111111111111111111111111111111";
-        await token.setCheckout(newCheckout, { from: alice });
-
-        const newCheckoutAddr = await token.checkout();
-        expect(newCheckoutAddr).to.equal(newCheckout);
-    });
-
-    it("should throw if an unauthorized account tries to set the owner", async () => {
-        const newOwner = "0x1111111111111111111111111111111111111111";
-
-        try {
-            await token.setOwner(newOwner, { from: bob });
-        } catch (error) {
-            assert.include(
-                error.message,
-                "invalid opcode",
-                "Trying to set the owner from an unauthorized account should throw an error."
-            );
-        }
-    });
-
-    it("should let the owner set a new owner", async () => {
-        const newOwner = "0x1111111111111111111111111111111111111111";
-        await token.setOwner(newOwner, { from: alice });
-        const owner = await token.owner();
-        expect(owner).to.equal(newOwner);
-    });
 });
