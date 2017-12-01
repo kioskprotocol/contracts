@@ -102,7 +102,7 @@ contract Checkout {
         payMerchant(merchant, order.totalPrice, order.loyaltyToken);
 
         // Transfer affiliate reward from DIN owner to affiliate.
-        if (order.affiliateReward > 0 && affiliate != address(0x0)) {
+        if (order.affiliateReward > 0 && order.affiliate != address(0x0)) {
             rewards.sendAffiliateReward(order.owner, order.affiliate, order.affiliateReward);
         }
 
