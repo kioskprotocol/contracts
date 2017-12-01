@@ -20,7 +20,7 @@ contract LoyaltyToken is StandardToken {
         require(rewards == msg.sender);
         _;
     }
-    
+        
     // Constructor
     function LoyaltyToken(
         string _name,
@@ -41,9 +41,22 @@ contract LoyaltyToken is StandardToken {
         totalSupply = _totalSupply;            
     }
 
+    function transfer(address _to, uint256 _value) public returns (bool) {
+        // Prevent Sybil attacks
+        require(balanceOf(_to) == 0);
+        BasicToken.transfer(_to, _value);
+    }
+
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
+        // Prevent Sybil attacks
+        require(balanceOf(_to) == 0);
+        StandardToken.transferFrom(_from, _to, _value);
+    }
+
     function redeem(address _from, uint256 _value) public only_rewards returns (bool) {
         balances[_from] = balances[_from].sub(_value);
         Transfer(_from, address(0x0), _value);
+        return true;
     }
 
     function reward(address _who, uint256 _value) public only_rewards returns (bool) {

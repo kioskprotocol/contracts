@@ -9,7 +9,10 @@ contract Rewards {
     LoyaltyTokenRegistry public registry;
     address public owner;
 
-    mapping (address => bool) public checkouts;
+    // Checkout address => Valid
+    mapping (address => bool) public validCheckouts;
+
+    event LogError(string error);
 
     modifier only_owner {
         require(owner == msg.sender);
@@ -17,7 +20,7 @@ contract Rewards {
     }
 
     modifier only_checkout {
-        require(checkouts[msg.sender] == true);
+        require(validCheckouts[msg.sender] == true);
         _;
     }
 
@@ -39,40 +42,37 @@ contract Rewards {
     function sendLoyaltyReward(address token, address from, address to, uint256 amount) 
         public
         only_checkout
-        returns (bool) 
+        returns (bool)
     {
-        if (isValidLoyaltyReward(token, from) == true) {
-            LoyaltyToken(token).reward(to, amount);
-            return true;
+        if (registry.whitelist(token) == false || LoyaltyToken(token).owner() != from) {
+            return false;
         }
 
-        return false;
+        LoyaltyToken(token).reward(to, amount);
+        return true;
     }
 
     function redeemLoyaltyTokens(address token, address buyer, uint256 amount)
         public
         only_checkout
-        returns (bool) 
+        returns (bool)
     {
-        if (registry.whitelist(token) == true) {
-            LoyaltyToken(token).redeem(buyer, amount);
-            return true;
+        if (registry.whitelist(token) == false) {
+            LogError("Invalid loyalty token");
+            return false;
         }
 
-        return false;
-    }
-
-    function isValidLoyaltyReward(address token, address owner) public constant returns (bool) {
-        return (registry.whitelist(token) == true && LoyaltyToken(token).owner() == owner);
-    }
-
-    function addCheckout(address checkout) public only_owner returns (bool) {
-        checkouts[checkout] = true;
+        LoyaltyToken(token).redeem(buyer, amount);
         return true;
     }
 
-    function removeCheckout(address checkout) public only_owner returns (bool) {
-        checkouts[checkout] = false;
+    function addCheckout(address _checkout) public only_owner returns (bool) {
+        validCheckouts[_checkout] = true;
+        return true;
+    }
+
+    function removeCheckout(address _checkout) public only_owner returns (bool) {
+        validCheckouts[_checkout] = false;
         return true;
     }
 
