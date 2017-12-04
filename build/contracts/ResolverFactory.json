@@ -751,11 +751,34 @@
   },
   "networks": {
     "4447": {
-      "events": {},
+      "events": {
+        "0x4e711d2c743df1ff864b535c850ed1574202eb7da4b4495fd1406c4c92863284": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "resolver",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "productURL",
+              "type": "string"
+            }
+          ],
+          "name": "NewResolver",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0x7d50ad3dde49fd30976fb899182acaa1ad2dca22"
+      "address": "0xde5bb8b8961faef05b2ab38a70c81bdbc91add29"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-04T01:21:17.902Z"
+  "updatedAt": "2017-12-04T02:09:37.116Z"
 }

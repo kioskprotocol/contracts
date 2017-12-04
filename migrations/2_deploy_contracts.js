@@ -27,12 +27,13 @@ module.exports = async (deployer, network, accounts) => {
         // Deploy ResolverFactory
         await deployer.deploy(ResolverFactory, DINRegistry.address);
         // Deploy a StandardResolver
-        await deployer.deploy(
-            StandardResolver,
-            DINRegistry.address,
-            merchant,
-            productURL,
-        );
+        // await deployer.deploy(
+        //     StandardResolver,
+        //     DINRegistry.address,
+        //     merchant,
+        //     productURL,
+        // );
+        await ResolverFactory.at(ResolverFactory.address).createResolver(productURL);
         // Deploy Orders
         await deployer.deploy(Orders);
         // Deploy MarketToken

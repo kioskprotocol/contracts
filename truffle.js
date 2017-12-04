@@ -6,6 +6,11 @@ var token = process.env.INFURA_ACCESS_TOKEN;
 
 module.exports = {
     networks: {
+        development: {
+            host: "localhost",
+            port: 9545,
+            network_id: "*" // Match any network id
+        },
         ropsten: {
             provider: function() {
                 return new HDWalletProvider(
@@ -19,16 +24,10 @@ module.exports = {
             provider: function() {
                 return new HDWalletProvider(
                     mnemonic,
-                    "https://kovan.infura.io/" + token,
-                    0 // 0x0011...
+                    "https://kovan.infura.io/" + token
                 );
             },
             network_id: 42
-        },
-        development: {
-            host: "localhost",
-            port: 9545,
-            network_id: "*" // Match any network id
         }
     }
 };
