@@ -27,8 +27,8 @@ contract("Checkout", accounts => {
     let loyaltyTokenRegistry;
 
     // Accounts
-    const BUYER = accounts[0];
-    const MERCHANT = accounts[1];
+    const MERCHANT = accounts[0];
+    const BUYER = accounts[1];
     const AFFILIATE = accounts[2];
 
     // Errors

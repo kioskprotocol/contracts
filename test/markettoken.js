@@ -9,8 +9,8 @@ contract("MarketToken", accounts => {
     let token;
     let checkout;
     const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
-    const alice = accounts[0];
-    const bob = accounts[1];
+    const alice = accounts[1];
+    const bob = accounts[0];
 
     before(async () => {
         token = await MarketToken.deployed();

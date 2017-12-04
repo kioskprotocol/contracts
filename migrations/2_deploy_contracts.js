@@ -14,8 +14,7 @@ const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
 const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
-    const buyer = accounts[0];
-    const merchant = accounts[1];
+    const merchant = accounts[0];
 
     // Deploy DINRegistry
     deployer.deploy(DINRegistry, genesis).then(async () => {
@@ -37,7 +36,7 @@ module.exports = async (deployer, network, accounts) => {
         // Deploy Orders
         await deployer.deploy(Orders);
         // Deploy MarketToken
-        await deployer.deploy(MarketToken, initialSupply, { from: merchant });
+        await deployer.deploy(MarketToken, initialSupply);
         // Deploy LoyaltyTokenRegistry
         await deployer.deploy(LoyaltyTokenRegistry);
         // Deploy Rewards
