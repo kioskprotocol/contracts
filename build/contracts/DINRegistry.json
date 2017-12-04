@@ -535,7 +535,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2266,
+                              "referencedDeclaration": 2319,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -590,7 +590,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2263,
+                                      "referencedDeclaration": 2316,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -702,7 +702,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2266,
+                              "referencedDeclaration": 2319,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -803,7 +803,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2263,
+                                      "referencedDeclaration": 2316,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1311,7 +1311,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2263,
+                                  "referencedDeclaration": 2316,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -1425,7 +1425,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2255,
+                                  "referencedDeclaration": 2308,
                                   "type": "block",
                                   "value": "block"
                                 },
@@ -1520,7 +1520,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2263,
+                                  "referencedDeclaration": 2316,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2025,7 +2025,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2255,
+                                  "referencedDeclaration": 2308,
                                   "type": "block",
                                   "value": "block"
                                 },
@@ -2608,7 +2608,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2255,
+                                  "referencedDeclaration": 2308,
                                   "type": "block",
                                   "value": "block"
                                 },
@@ -3182,7 +3182,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2255,
+                                  "referencedDeclaration": 2308,
                                   "type": "block",
                                   "value": "block"
                                 },
@@ -3715,7 +3715,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2255,
+                                  "referencedDeclaration": 2308,
                                   "type": "block",
                                   "value": "block"
                                 },
@@ -4056,6 +4056,75 @@
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {
+    "42": {
+      "events": {
+        "0x4c5d8ccfd4f32dad0c449108334c94e0bada87b1453ad71e79e233545f4c48a6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "DIN",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "name": "NewOwner",
+          "type": "event"
+        },
+        "0xcbae0978f0621ebb4707a96540f8d3a937104526ceef2cdf1cf07b25c5e48cd4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "DIN",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "resolver",
+              "type": "address"
+            }
+          ],
+          "name": "NewResolver",
+          "type": "event"
+        },
+        "0xef8ea3d0ef6bf7f673a09aa675838d76573d86e5a9fc235846ac3f54195d7217": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "DIN",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "name": "NewRegistration",
+          "type": "event"
+        },
+        "0x442a494f290ba8ec799a59dc05bf4eab5b97fd9d86156de0f0919a42b12ed0cd": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "registrar",
+              "type": "address"
+            }
+          ],
+          "name": "NewRegistrar",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x3ae575c2b4f837c7749f5f119753830fd5bf25cf"
+    },
     "4447": {
       "events": {
         "0x4c5d8ccfd4f32dad0c449108334c94e0bada87b1453ad71e79e233545f4c48a6": {
@@ -4123,9 +4192,9 @@
         }
       },
       "links": {},
-      "address": "0x66078a97def9d40b2ca7abb44733dd897ec6231d"
+      "address": "0x8602fb26775de7467769821ffa111d2f2a62f979"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-04T02:09:37.111Z"
+  "updatedAt": "2017-12-04T17:17:01.000Z"
 }

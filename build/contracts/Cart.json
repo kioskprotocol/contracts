@@ -286,7 +286,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2263,
+                                  "referencedDeclaration": 2316,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -334,12 +334,17 @@
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {
+    "42": {
+      "events": {},
+      "links": {},
+      "address": "0x0a681f78c2a99bfb114b036a903f9eb240824d4f"
+    },
     "4447": {
       "events": {},
       "links": {},
-      "address": "0xaa862ddac09f6736a61e1124040fd883a6533c19"
+      "address": "0x447db080264bed6ed21d3a082ae4cdd7ebfe4e32"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-04T02:09:37.126Z"
+  "updatedAt": "2017-12-04T17:17:01.021Z"
 }
