@@ -9,7 +9,7 @@ Kiosk is a decentralized e-commerce platform built on Ethereum.
 * Create your own loyalty token to incentivize repeat purchases
 
 **For Buyers:**
-* Purchase products online without a credit card
+* Purchase products online with Ether and ERC20 loyalty tokens
 * Earn loyalty tokens from merchants
 
 **For Affiliates:**
