@@ -29,9 +29,6 @@ contract Checkout {
     // Log Solidity errors
     event LogError(string error);
 
-    // Log new orders
-    event NewOrder(uint256 indexed orderID);
-
     /** @dev Constructor.
       * @param _registry The DIN Registry contract address.
       * @param _orders The Orders contract address.
@@ -121,8 +118,7 @@ contract Checkout {
             order.totalPrice
         );
 
-        // Log and return the unique order ID.
-        NewOrder(orderID);
+        // Return the unique order ID.
         return orderID;
     }
 
