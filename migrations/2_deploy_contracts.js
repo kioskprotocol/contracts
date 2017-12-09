@@ -14,7 +14,6 @@ const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
 const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
-    console.log(accounts);
     const merchant = accounts[0];
 
     // Deploy DINRegistry

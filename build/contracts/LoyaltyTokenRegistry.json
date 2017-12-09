@@ -1581,7 +1581,41 @@
     "name": "solc",
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "4": {
+      "events": {
+        "0x00468d968ce005648b0bbb417b46644d5bb8bcb9f3060c7cfc4a26cf0a0af618": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "merchant",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "NewToken",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xa8720c4fea23f76da98eccc9f66277480a4251b4"
+    }
+  },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-09T04:05:51.733Z"
+  "updatedAt": "2017-12-09T04:27:24.278Z"
 }
