@@ -27,7 +27,8 @@ module.exports = {
                     "https://kovan.infura.io/" + token
                 );
             },
-            network_id: 42
+            network_id: 42,
+            gas: 4000000
         }
     }
 };

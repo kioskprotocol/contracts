@@ -26,13 +26,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/Resolver.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/Resolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
-          1449
+          1441
         ]
       }
     },
@@ -46,7 +46,7 @@
             ".11"
           ]
         },
-        "id": 1441,
+        "id": 1433,
         "name": "PragmaDirective",
         "src": "0:24:9"
       },
@@ -62,10 +62,10 @@
           "documentation": "@title Base resolver contract ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1449
+            1441
           ],
           "name": "Resolver",
-          "scope": 1450
+          "scope": 1442
         },
         "children": [
           {
@@ -79,7 +79,7 @@
               ],
               "name": "supportsInterface",
               "payable": false,
-              "scope": 1449,
+              "scope": 1441,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceID",
-                      "scope": 1448,
+                      "scope": 1440,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -104,17 +104,17 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 1442,
+                        "id": 1434,
                         "name": "ElementaryTypeName",
                         "src": "114:6:9"
                       }
                     ],
-                    "id": 1443,
+                    "id": 1435,
                     "name": "VariableDeclaration",
                     "src": "114:18:9"
                   }
                 ],
-                "id": 1444,
+                "id": 1436,
                 "name": "ParameterList",
                 "src": "113:20:9"
               },
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1448,
+                      "scope": 1440,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,32 +137,32 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1445,
+                        "id": 1437,
                         "name": "ElementaryTypeName",
                         "src": "159:4:9"
                       }
                     ],
-                    "id": 1446,
+                    "id": 1438,
                     "name": "VariableDeclaration",
                     "src": "159:4:9"
                   }
                 ],
-                "id": 1447,
+                "id": 1439,
                 "name": "ParameterList",
                 "src": "158:6:9"
               }
             ],
-            "id": 1448,
+            "id": 1440,
             "name": "FunctionDefinition",
             "src": "87:78:9"
           }
         ],
-        "id": 1449,
+        "id": 1441,
         "name": "ContractDefinition",
         "src": "63:104:9"
       }
     ],
-    "id": 1450,
+    "id": 1442,
     "name": "SourceUnit",
     "src": "0:167:9"
   },
@@ -172,5 +172,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-08T18:09:44.430Z"
+  "updatedAt": "2017-12-09T04:05:51.734Z"
 }

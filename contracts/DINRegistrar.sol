@@ -14,7 +14,7 @@ contract DINRegistrar {
     /** @dev Constructor.
       * @param _registry The DINRegistry contract.
       */
-    function DINRegistrar(DINRegistry _registry, uint256 _genesis) {
+    function DINRegistrar(DINRegistry _registry, uint256 _genesis) public {
         registry = _registry;
 
         // Set the current index to the genesis DIN.
@@ -25,7 +25,7 @@ contract DINRegistrar {
      * @dev Register a new DIN.
      * @return DIN The newly registered DIN.
      */
-    function registerDIN() returns (uint256 DIN) {
+    function registerDIN() public returns (uint256 DIN) {
         index++;
         registry.register(index, msg.sender);
         return index;
@@ -35,7 +35,7 @@ contract DINRegistrar {
      * @dev Register multiple new DINs.
      * @param quantity The amount of DINs to register.
      */
-    function registerDINs(uint256 quantity) {
+    function registerDINs(uint256 quantity) public {
         for (uint i = 0; i < quantity; i++) {
             registerDIN();
         }
@@ -57,7 +57,7 @@ contract DINRegistrar {
      * @param owner The account that will own the new DINs.
      * @param quantity The amount of DINs to register.
      */
-    function registerDINsFor(address owner, uint256 quantity) {
+    function registerDINsFor(address owner, uint256 quantity) public {
         for (uint i = 0; i < quantity; i++) {
             registerDINFor(owner);
         }
@@ -69,7 +69,7 @@ contract DINRegistrar {
      * @param resolver The address of the resolver.
      * @return DIN The newly registered DIN.
      */
-    function registerDINWithResolver(address owner, address resolver) returns (uint256 DIN) {
+    function registerDINWithResolver(address owner, address resolver) public returns (uint256 DIN) {
         index++;
         registry.registerWithResolver(index, owner, resolver);
         return index;
@@ -81,7 +81,7 @@ contract DINRegistrar {
      * @param resolver The address of the resolver.
      * @param quantity The amount of DINs to register.
      */
-    function registerDINsWithResolver(address owner, address resolver, uint256 quantity) {
+    function registerDINsWithResolver(address owner, address resolver, uint256 quantity) public {
       for (uint i = 0; i < quantity; i++) {
             registerDINWithResolver(owner, resolver);
         }

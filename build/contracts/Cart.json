@@ -33,15 +33,15 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x60606040523415600e57600080fd5b60d78061001c6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a72305820263a845259f4e126d634c5ff89325e8685da4fcc3b0e6d7c6ba04120af30aae80029",
-  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a72305820263a845259f4e126d634c5ff89325e8685da4fcc3b0e6d7c6ba04120af30aae80029",
+  "bytecode": "0x60606040523415600e57600080fd5b60d78061001c6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a723058208bfbbce7535348e4408dba8910978d78dd1f8f54678b1ed2bfc5a465cd60d9b00029",
+  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063702742b0146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506064565b005b3373ffffffffffffffffffffffffffffffffffffffff16817fe54a65a2b8d3b508e92630237d1cc2f902b5f28137e975ea8be7ffbad6654bb560405160405180910390a3505600a165627a7a723058208bfbbce7535348e4408dba8910978d78dd1f8f54678b1ed2bfc5a465cd60d9b00029",
   "sourceMap": "64:170:0:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "64:170:0:-;;;;;;;;;;;;;;;;;;;;;;;;150:82;;;;;;;;;;;;;;;;;;;;;;;;;;;214:10;199:26;;209:3;199:26;;;;;;;;;;150:82;:::o",
   "source": "pragma solidity ^0.4.11;\n\n/** @title Universal shopping cart */\ncontract Cart {\n    event AddToCart(uint256 indexed DIN, address indexed buyer);\n\n    function addToCart(uint256 DIN) public {\n        AddToCart(DIN, msg.sender);\n    }\n}\n",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/Cart.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Cart.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/Cart.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Cart.sol",
       "exportedSymbols": {
         "Cart": [
           20
@@ -286,7 +286,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2316,
+                                  "referencedDeclaration": 2308,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -333,23 +333,7 @@
     "name": "solc",
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
-  "networks": {
-    "42": {
-      "events": {},
-      "links": {},
-      "address": "0x0a681f78c2a99bfb114b036a903f9eb240824d4f"
-    },
-    "4447": {
-      "events": {},
-      "links": {},
-      "address": "0x447db080264bed6ed21d3a082ae4cdd7ebfe4e32"
-    },
-    "5777": {
-      "events": {},
-      "links": {},
-      "address": "0xebf3c3b116fc39b05a4b6e24acb3c7c5e604d07b"
-    }
-  },
+  "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-09T02:37:13.255Z"
+  "updatedAt": "2017-12-09T04:05:51.729Z"
 }

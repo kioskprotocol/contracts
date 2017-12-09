@@ -14,6 +14,7 @@ const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
 const productURL = "https://kiosk-shopify.herokuapp.com/products/";
 
 module.exports = async (deployer, network, accounts) => {
+    console.log(accounts);
     const merchant = accounts[0];
 
     // Deploy DINRegistry
@@ -61,8 +62,6 @@ module.exports = async (deployer, network, accounts) => {
             1000000, // Issue 1 million tokens to the merchant
             merchant
         );
-        // Deploy Cart
-        await deployer.deploy(Cart);
         // Register 10 DINs and set their resolvers
         await DINRegistrar.at(DINRegistrar.address).registerDINsWithResolver(merchant, StandardResolver.address, 10);
     });
