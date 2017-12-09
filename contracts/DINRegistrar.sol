@@ -46,7 +46,7 @@ contract DINRegistrar {
      * @param owner The account that will own the new DIN.
      * @return DIN The newly registered DIN.
      */
-    function registerDINFor(address owner) returns (uint256 DIN) {
+    function registerDINFor(address owner) public returns (uint256 DIN) {
         index++;
         registry.register(index, owner);
         return index;
