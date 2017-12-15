@@ -33,7 +33,7 @@ contract("DINRegistrar", accounts => {
         } catch (error) {
             assert.include(
                 error.message,
-                "invalid opcode",
+                "VM Exception",
                 "Trying to change the resolver of a DIN you don't own should throw an error."
             );
         }
@@ -70,7 +70,7 @@ contract("DINRegistrar", accounts => {
         } catch (error) {
             assert.include(
                 error.message,
-                "invalid opcode",
+                "VM Exception",
                 "Trying to change the owner of a DIN you don't own should throw an error."
             );
         }
@@ -104,7 +104,7 @@ contract("DINRegistrar", accounts => {
         } catch (error) {
             assert.include(
                 error.message,
-                "invalid opcode",
+                "VM Exception",
                 "Trying to change registrar without owning the genesis DIN should throw an error."
             );
         }

@@ -63,15 +63,4 @@ contract("DINRegistrar", accounts => {
         expect(index.toNumber()).to.equal(1000000021);
     });
 
-    it("should not allow registering more than 10 DINs at once", async () => {
-        try {
-            await registrar.registerDINs(11, { from: alice });
-        } catch (error) {
-            assert.include(
-                error.message,
-                "invalid opcode",
-                "Registering more than 10 DINs should throw an error."
-            );
-        }
-    });
 });

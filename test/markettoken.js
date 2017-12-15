@@ -42,7 +42,7 @@ contract("MarketToken", accounts => {
         } catch (error) {
             assert.include(
                 error.message,
-                "invalid opcode",
+                "VM Exception",
                 "Trying to call transferFromCheckout should throw an error."
             );
         }
@@ -56,7 +56,7 @@ contract("MarketToken", accounts => {
         } catch (error) {
             assert.include(
                 error.message,
-                "invalid opcode",
+                "VM Exception",
                 "Trying to set the checkout contract from an unauthorized account should throw an error."
             );
         }

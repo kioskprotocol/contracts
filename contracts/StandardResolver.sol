@@ -8,7 +8,6 @@ contract StandardResolver is URLResolver {
     bytes4 constant INTERFACE_META_ID = 0x01ffc9a7;         // bytes4(keccak256("supportsInterface(bytes4)"))
     bytes4 constant PRODUCT_URL_INTERFACE_ID = 0xaf655719;  // bytes4(keccak256("productURL(uint256)"))
 
-    DINRegistry public registry;
     string url;
     address public owner;
 
@@ -17,15 +16,8 @@ contract StandardResolver is URLResolver {
         _;
     }
 
-    function StandardResolver(
-        DINRegistry _registry,
-        address _owner,
-        string _productURL
-    ) 
-        public
-    {
+    function StandardResolver(address _owner, string _productURL) public {
         owner = _owner;
-        registry = _registry;
         url = _productURL;
     }
 

@@ -6,7 +6,6 @@ const MarketToken = artifacts.require("MarketToken.sol");
 const Orders = artifacts.require("Orders.sol");
 const Rewards = artifacts.require("Rewards.sol");
 const Checkout = artifacts.require("Checkout.sol");
-const Cart = artifacts.require("Cart.sol");
 const LoyaltyTokenRegistry = artifacts.require("LoyaltyTokenRegistry.sol");
 const LoyaltyToken = artifacts.require("LoyaltyToken.sol");
 const genesis = 1000000000; // The first DIN.
@@ -25,11 +24,10 @@ module.exports = async (deployer, network, accounts) => {
             DINRegistrar.address
         );
         // Deploy ResolverFactory
-        await deployer.deploy(ResolverFactory, DINRegistry.address);
+        await deployer.deploy(ResolverFactory);
         // Deploy a StandardResolver
         await deployer.deploy(
             StandardResolver,
-            DINRegistry.address,
             merchant,
             productURL,
         );
