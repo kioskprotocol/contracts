@@ -1,7 +1,6 @@
 pragma solidity ^0.4.11;
 
 import "./URLResolver.sol";
-import "./DINRegistry.sol";
 
 /** @title A resolver contract that can be used for a single merchant with many products */
 contract StandardResolver is URLResolver {
