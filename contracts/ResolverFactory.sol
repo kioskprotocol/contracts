@@ -4,7 +4,6 @@ import "./StandardResolver.sol";
 
 /** @title Resolver factory. Creates new resolver contracts */
 contract ResolverFactory {
-
     // Logged when a new resolver contract is created.
     event NewResolver(
         address indexed resolver, 
@@ -16,5 +15,4 @@ contract ResolverFactory {
         StandardResolver resolver = new StandardResolver(msg.sender, productURL);
         NewResolver(resolver, msg.sender, productURL);
     }
-
 }
