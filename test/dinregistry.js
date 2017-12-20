@@ -1,4 +1,3 @@
-const DINRegistrar = artifacts.require("DINRegistrar.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const Promise = require("bluebird");
 const chai = require("chai"),
@@ -6,7 +5,6 @@ const chai = require("chai"),
     should = chai.should();
 
 contract("DINRegistrar", accounts => {
-    let registrar;
     let registry;
     const genesis = 1000000000;
     const DIN = 1000000011;

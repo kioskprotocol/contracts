@@ -42,7 +42,7 @@ contract Orders {
             totalPrice,
             block.timestamp
         );
-
+        
         return orderIndex;
     }
 }

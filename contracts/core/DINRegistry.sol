@@ -12,13 +12,16 @@ contract DINRegistry {
     // DIN => Record
     mapping (uint256 => Record) records;
 
-    // The address of DINRegistrar.
-    address public registrar;
-
     // The first DIN registered.
     uint256 public genesis;
 
+    // The current DIN.
     uint256 public index;
+
+    modifier only_owner(uint256 DIN) {
+        require(records[DIN].owner == msg.sender);
+        _;
+    }
 
     // Logged when the owner of a DIN transfers ownership to a new account.
     event NewOwner(uint256 indexed DIN, address indexed owner);
@@ -83,29 +86,60 @@ contract DINRegistry {
         index++;
         records[index].owner = msg.sender;
         records[index].updated = block.timestamp;
-        NewRegistration(_DIN, _owner);
+        NewRegistration(index, msg.sender);
+        return index;
     }
 
     function selfRegisterDINs(uint256 _amount) public returns (uint256 minDIN, uint256 maxDIN) {
+        uint256 startIndex = index + 1;
+        for (uint i = 0; i < _amount; i++) {
+            selfRegisterDIN();
+        }
+        return (startIndex, index);
     }
 
     function selfRegisterDINWithResolver(address _resolver) public returns (uint256 DIN) {
+        index++;
+        records[index].owner = msg.sender;
+        records[index].resolver = _resolver;
+        records[index].updated = block.timestamp;
+        NewRegistration(index, msg.sender);
+        NewResolver(index, _resolver);
+        return index;
     }
 
-    function selfRegisterDINsWithResolver(uint256 _amount, address _resolver) public {
+    function selfRegisterDINsWithResolver(address _resolver, uint256 _amount) 
+        public 
+        returns (uint256 minDIN, uint256 maxDIN) 
+    {
+        uint256 startIndex = index + 1;
+        for (uint i = 0; i < _amount; i++) {
+            selfRegisterDINWithResolver(_resolver);
+        }
+        return (startIndex, index);
     }
 
     /**
      * @dev Register a new DIN.
      * @param _owner The account that will own the DIN.
      */
-    function registerDIN(address _owner) public {
-        records[_DIN].owner = _owner;
-        records[_DIN].updated = block.timestamp;
-        NewRegistration(_DIN, _owner);
+    function registerDIN(address _owner) public returns (uint256 DIN) {
+        index++;
+        records[index].owner = _owner;
+        records[index].updated = block.timestamp;
+        NewRegistration(index, _owner);
+        return index;
     }
 
-    function registerDINs(address _owner, uint256 _amount) public {
+    function registerDINs(address _owner, uint256 _amount) 
+        public 
+        returns (uint256 minDIN, uint256 maxDIN) 
+    {
+        uint256 startIndex = index + 1;
+        for (uint i = 0; i < _amount; i++) {
+            registerDIN(_owner);
+        }
+        return (startIndex, index);
     }
 
     /**
@@ -113,15 +147,25 @@ contract DINRegistry {
      * @param _owner The account that will own the DIN.
      * @param _resolver The address of the resolver.
      */
-    function registerDINWithResolver(address _owner, address _resolver) public {
-        records[_DIN].owner = _owner;
-        records[_DIN].resolver = _resolver;
-        records[_DIN].updated = block.timestamp;
-        NewRegistration(_DIN, _owner);
-        NewResolver(_DIN, _resolver);
+    function registerDINWithResolver(address _owner, address _resolver) public returns (uint256 DIN) {
+        index++;
+        records[index].owner = _owner;
+        records[index].resolver = _resolver;
+        records[index].updated = block.timestamp;
+        NewRegistration(index, _owner);
+        NewResolver(index, _resolver);
+        return index;
     }
 
-    function registerDINsWithResolver(address _owner, uint256 _amount, address _resolver) public {
+    function registerDINsWithResolver(address _owner, address _resolver, uint256 _amount) 
+        public 
+        returns (uint256 minDIN, uint256 maxDIN)
+    {
+        uint256 startIndex = index + 1;
+        for (uint i = 0; i < _amount; i++) {
+            registerDINWithResolver(_owner, _resolver);
+        }
+        return (startIndex, index);
     }
 
 }

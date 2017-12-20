@@ -25,14 +25,14 @@
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+  "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    // https://github.com/ethereum/EIPs/issues/165\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n}",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/resolver/Resolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/Resolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/resolver/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
-          1441
+          827
         ]
       }
     },
@@ -46,9 +46,9 @@
             ".11"
           ]
         },
-        "id": 1433,
+        "id": 819,
         "name": "PragmaDirective",
-        "src": "0:24:9"
+        "src": "0:24:3"
       },
       {
         "attributes": {
@@ -62,10 +62,10 @@
           "documentation": "@title Base resolver contract ",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1441
+            827
           ],
           "name": "Resolver",
-          "scope": 1442
+          "scope": 828
         },
         "children": [
           {
@@ -79,7 +79,7 @@
               ],
               "name": "supportsInterface",
               "payable": false,
-              "scope": 1441,
+              "scope": 827,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceID",
-                      "scope": 1440,
+                      "scope": 826,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -104,19 +104,19 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 1434,
+                        "id": 820,
                         "name": "ElementaryTypeName",
-                        "src": "114:6:9"
+                        "src": "165:6:3"
                       }
                     ],
-                    "id": 1435,
+                    "id": 821,
                     "name": "VariableDeclaration",
-                    "src": "114:18:9"
+                    "src": "165:18:3"
                   }
                 ],
-                "id": 1436,
+                "id": 822,
                 "name": "ParameterList",
-                "src": "113:20:9"
+                "src": "164:20:3"
               },
               {
                 "children": [
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1440,
+                      "scope": 826,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,34 +137,34 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1437,
+                        "id": 823,
                         "name": "ElementaryTypeName",
-                        "src": "159:4:9"
+                        "src": "210:4:3"
                       }
                     ],
-                    "id": 1438,
+                    "id": 824,
                     "name": "VariableDeclaration",
-                    "src": "159:4:9"
+                    "src": "210:4:3"
                   }
                 ],
-                "id": 1439,
+                "id": 825,
                 "name": "ParameterList",
-                "src": "158:6:9"
+                "src": "209:6:3"
               }
             ],
-            "id": 1440,
+            "id": 826,
             "name": "FunctionDefinition",
-            "src": "87:78:9"
+            "src": "138:78:3"
           }
         ],
-        "id": 1441,
+        "id": 827,
         "name": "ContractDefinition",
-        "src": "63:104:9"
+        "src": "63:155:3"
       }
     ],
-    "id": 1442,
+    "id": 828,
     "name": "SourceUnit",
-    "src": "0:167:9"
+    "src": "0:218:3"
   },
   "compiler": {
     "name": "solc",
@@ -172,5 +172,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-09T04:05:51.734Z"
+  "updatedAt": "2017-12-20T00:48:36.980Z"
 }
