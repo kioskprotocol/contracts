@@ -4,43 +4,34 @@ contract Orders {
     // The next order ID.
     uint256 public orderIndex = 0;
 
-    // Logs new orders
+    // Log new orders
     event NewOrder(
         uint256 indexed orderID,
-        bytes32 nonceHash,
         address checkout,
-        address indexed buyer,
-        address indexed merchant,
-        uint256 DIN,
-        uint256 quantity,
-        uint256 totalPrice,
-        uint256 timestamp
+        bytes32 nonceHash,
+        uint256[] DINs,
+        uint256[] quantities
     );
 
     function createOrder(
         bytes32 nonceHash,
-        address buyer,
-        address merchant,
-        uint256 DIN,
-        uint256 quantity,
-        uint256 totalPrice
-    )
-        public
-        returns (uint256 orderID)
+        uint256[] DINs,
+        uint256[] quantities
+    ) 
+        public 
+        returns (uint256 orderID) 
     {
+        require(DINs.length == quantities.length);
+        
         // Increment the order index.
         orderIndex++;
 
         NewOrder(
             orderIndex,
-            nonceHash,
             msg.sender,
-            buyer,
-            merchant,
-            DIN,
-            quantity,
-            totalPrice,
-            block.timestamp
+            nonceHash,
+            DINs,
+            quantities
         );
         
         return orderIndex;

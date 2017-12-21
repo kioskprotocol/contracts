@@ -7,7 +7,7 @@ contract("StandardResolver", accounts => {
     let resolver;
     let registry;
     const alice = accounts[0]; // DIN owner and merchant
-    const productURL = "https://kiosk-shopify.herokuapp.com/products/";
+    const productURL = "https://api.examplestore.com/products/";
 
     const DIN = 1000000001;
 
