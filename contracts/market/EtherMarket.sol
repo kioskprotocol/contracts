@@ -163,6 +163,11 @@ contract EtherMarket is Market {
             return false;
         }
 
+        if (order.totalPrice > msg.value) {
+            LogError("Value too low");
+            return false;
+        }
+
         uint256 unitPrice = order.totalPrice / order.quantity;
 
         // Calculate the hash of the parameters provided by the buyer.
