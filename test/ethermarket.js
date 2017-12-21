@@ -147,6 +147,7 @@ contract("EtherMarket", accounts => {
     };
 
     const decodeOrderResult = result => {
+        // Exclude the indexed parameter "orderID"
         return ABI.decodeParameters(
             [
                 { type: "address", name: "market" },
@@ -265,7 +266,6 @@ contract("EtherMarket", accounts => {
         expect(result.receipt.logs[0].topics[0]).to.equal(
             web3.sha3("NewOrder(uint256,address,bytes32,uint256[],uint256[])")
         );
-        // Exclude the indexed parameter "orderID"
         const order = decodeOrderResult(result);
         expect(parseInt(order.DINs[0], 10)).to.equal(DIN1);
         expect(parseInt(order.quantities[0], 10)).to.equal(quantity);
@@ -286,8 +286,11 @@ contract("EtherMarket", accounts => {
             priceValidUntil: FUTURE_DATE,
             merchant: MERCHANT
         };
-        const result = await buyProducts([product1, product2], [1, 1]);
+        const result = await buyProducts([product1, product2], [1, 3]);
         const order = decodeOrderResult(result);
-        console.log(order);
+        expect(parseInt(order.DINs[0], 10)).to.equal(DIN1);
+        expect(parseInt(order.DINs[1], 10)).to.equal(DIN2);
+        expect(parseInt(order.quantities[0], 10)).to.equal(1);
+        expect(parseInt(order.quantities[1], 10)).to.equal(3);
     });
 });
