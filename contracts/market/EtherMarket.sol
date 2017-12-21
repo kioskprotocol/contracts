@@ -53,9 +53,9 @@ contract EtherMarket is Market {
         bool success = buy(orderValues, orderAddresses, v, r, s);
 
         if (success) {
+            // http://solidity.readthedocs.io/en/develop/types.html#array-literals-inline-arrays
             uint256[] memory DINs = new uint256[](1);
             uint256[] memory quantities = new uint256[](1);
-
             DINs[0] = orderValues[0];
             quantities[0] = orderValues[1];
 

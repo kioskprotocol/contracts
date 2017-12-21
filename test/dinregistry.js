@@ -1,8 +1,7 @@
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const StandardResolver = artifacts.require("StandardResolver.sol");
 const chai = require("chai"),
-    expect = chai.expect,
-    should = chai.should();
+    expect = chai.expect
 
 contract("DINRegistry", accounts => {
     let registry;
@@ -114,4 +113,5 @@ contract("DINRegistry", accounts => {
         const newUpdated = await registry.updated(DIN);
         expect(newUpdated.toNumber()).to.equal(updated.toNumber() + time);
     });
+
 });

@@ -7,7 +7,7 @@ contract Orders {
     // Log new orders
     event NewOrder(
         uint256 indexed orderID,
-        address checkout,
+        address market,
         bytes32 nonceHash,
         uint256[] DINs,
         uint256[] quantities
