@@ -1,6 +1,5 @@
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const StandardResolver = artifacts.require("StandardResolver.sol");
-const Promise = require("bluebird");
 const chai = require("chai"),
     expect = chai.expect,
     should = chai.should();
@@ -113,7 +112,6 @@ contract("DINRegistry", accounts => {
         // Alice previously transferred ownership to Bob. Transfer it back here.
         await registry.setOwner(DIN, alice, { from: bob });
         const newUpdated = await registry.updated(DIN);
-
         expect(newUpdated.toNumber()).to.equal(updated.toNumber() + time + 1);
     });
 });
