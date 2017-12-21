@@ -1,11 +1,13 @@
 const EtherMarket = artifacts.require("EtherMarket.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
+const DINRegistryUtils = artifacts.require("DINRegistryUtils.sol");
 const Orders = artifacts.require("Orders.sol");
 const chai = require("chai"),
     expect = chai.expect,
     should = chai.should();
 const Account = require("eth-lib/lib/account");
 const Utils = require("web3-utils");
+const ABI = require("web3-eth-abi");
 
 contract("EtherMarket", accounts => {
     let market;
@@ -15,12 +17,17 @@ contract("EtherMarket", accounts => {
     const MERCHANT = accounts[0];
     const BUYER = accounts[1];
 
+    const NO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
     // The merchant needs to sign off-chain inputs (price, priceValidUntil, etc.)
     const MERCHANT_PRIVATE_KEY =
         "0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3";
 
-    let DIN;
+    let DIN1;
+    let DIN2;
+
     const UNIT_PRICE = web3.toWei(1, "ether");
+    const LOW_UNIT_PRICE = web3.toWei(0.03, "ether");
 
     const EXPIRED_DATE = 1483228800; // 1/1/2017
     const FUTURE_DATE = 1577836800; // 1/1/2020
@@ -39,9 +46,14 @@ contract("EtherMarket", accounts => {
         registry = await DINRegistry.deployed();
         orders = await Orders.deployed();
 
-        // Register a new DIN to the merchant
-        const result = await registry.selfRegisterDIN();
-        DIN = parseInt(result.logs[0].args.DIN, 10);
+        const registryUtils = await DINRegistryUtils.deployed();
+
+        // Register 2 new DINs to the merchant
+        const result = await registryUtils.selfRegisterDINs(2);
+        const logs = result.receipt.logs;
+
+        DIN1 = parseInt(ABI.decodeParameter("uint256", logs[0].topics[1]), 10);
+        DIN2 = parseInt(ABI.decodeParameter("uint256", logs[1].topics[1]), 10);
     });
 
     const sign = (product, privateKey) => {
@@ -101,6 +113,51 @@ contract("EtherMarket", accounts => {
         return result;
     };
 
+    const buyProducts = async (products, quantities) => {
+        let valuesArray = [];
+        let addressesArray = [];
+        let vArray = [];
+        let rArray = [];
+        let sArray = [];
+        let totalPrice = 0;
+        for (let i = 0; i < products.length; i++) {
+            const values = orderValues(products[i], quantities[i]);
+            valuesArray.push(values);
+            const addresses = orderAddresses(products[i]);
+            addressesArray.push(addresses);
+            const signature = sign(products[i], MERCHANT_PRIVATE_KEY);
+            vArray.push(signature.v);
+            rArray.push(signature.r);
+            sArray.push(signature.s);
+            totalPrice += products[i].unitPrice * quantities[i];
+        }
+        const result = await market.buyProducts(
+            valuesArray,
+            addressesArray,
+            NONCE_HASH,
+            vArray,
+            rArray,
+            sArray,
+            {
+                from: BUYER,
+                value: totalPrice
+            }
+        );
+        return result;
+    };
+
+    const decodeOrderResult = result => {
+        return ABI.decodeParameters(
+            [
+                { type: "address", name: "market" },
+                { type: "bytes32", name: "nonceHash" },
+                { type: "uint256[]", name: "DINs" },
+                { type: "uint256[]", name: "quantities" }
+            ],
+            result.receipt.logs[0].data
+        );
+    };
+
     it("should have the correct registry address", async () => {
         const registryAddr = await market.registry();
         expect(registryAddr).to.equal(registry.address);
@@ -114,7 +171,7 @@ contract("EtherMarket", accounts => {
     it("should validate a signature", async () => {
         const product = {
             market: market.address,
-            DIN: DIN,
+            DIN: DIN1,
             unitPrice: UNIT_PRICE,
             priceValidUntil: FUTURE_DATE,
             merchant: MERCHANT
@@ -134,7 +191,7 @@ contract("EtherMarket", accounts => {
     it("should log an error if priceValidUntil has expired", async () => {
         const product = {
             market: market.address,
-            DIN: DIN,
+            DIN: DIN1,
             unitPrice: UNIT_PRICE,
             priceValidUntil: EXPIRED_DATE,
             merchant: MERCHANT
@@ -143,17 +200,27 @@ contract("EtherMarket", accounts => {
         expect(result.logs[0].args.error).to.equal(ERROR_OFFER_EXPIRED);
     });
 
-    // it("should log an error if the merchant is null", async () => {});
+    it("should log an error if the merchant is null", async () => {
+        const product = {
+            market: market.address,
+            DIN: DIN1,
+            unitPrice: UNIT_PRICE,
+            priceValidUntil: FUTURE_DATE,
+            merchant: NO_ADDRESS
+        };
+        const result = await buyProduct(product);
+        expect(result.logs[0].args.error).to.equal(ERROR_INVALID_MERCHANT);
+    });
 
     it("should log an error if the value is too low", async () => {
         const product = {
             market: market.address,
-            DIN: DIN,
+            DIN: DIN1,
             unitPrice: UNIT_PRICE,
             priceValidUntil: FUTURE_DATE,
             merchant: MERCHANT
         };
-        const values = orderValues(product);
+        const values = orderValues(product, 1);
         const addresses = orderAddresses(product);
         const signature = sign(product, MERCHANT_PRIVATE_KEY);
         const result = await market.buyProduct(
@@ -174,7 +241,7 @@ contract("EtherMarket", accounts => {
     it("should buy a product", async () => {
         const product = {
             market: market.address,
-            DIN: DIN,
+            DIN: DIN1,
             unitPrice: UNIT_PRICE,
             priceValidUntil: FUTURE_DATE,
             merchant: MERCHANT
@@ -189,7 +256,7 @@ contract("EtherMarket", accounts => {
         const quantity = 5;
         const product = {
             market: market.address,
-            DIN: DIN,
+            DIN: DIN1,
             unitPrice: UNIT_PRICE,
             priceValidUntil: FUTURE_DATE,
             merchant: MERCHANT
@@ -198,6 +265,29 @@ contract("EtherMarket", accounts => {
         expect(result.receipt.logs[0].topics[0]).to.equal(
             web3.sha3("NewOrder(uint256,address,bytes32,uint256[],uint256[])")
         );
-        console.log(result.receipt.logs);
+        // Exclude the indexed parameter "orderID"
+        const order = decodeOrderResult(result);
+        expect(parseInt(order.DINs[0], 10)).to.equal(DIN1);
+        expect(parseInt(order.quantities[0], 10)).to.equal(quantity);
+    });
+
+    it("should buy multiple products in a single order", async () => {
+        const product1 = {
+            market: market.address,
+            DIN: DIN1,
+            unitPrice: UNIT_PRICE,
+            priceValidUntil: FUTURE_DATE,
+            merchant: MERCHANT
+        };
+        const product2 = {
+            market: market.address,
+            DIN: DIN2,
+            unitPrice: LOW_UNIT_PRICE,
+            priceValidUntil: FUTURE_DATE,
+            merchant: MERCHANT
+        };
+        const result = await buyProducts([product1, product2], [1, 1]);
+        const order = decodeOrderResult(result);
+        console.log(order);
     });
 });

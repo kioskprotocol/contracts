@@ -50,9 +50,7 @@ contract EtherMarket is Market {
         public
         returns (uint256 orderID)
     {
-        bool success = buy(orderValues, orderAddresses, v, r, s);
-
-        if (success) {
+        if (buy(orderValues, orderAddresses, v, r, s) == true) {
             // http://solidity.readthedocs.io/en/develop/types.html#array-literals-inline-arrays
             uint256[] memory DINs = new uint256[](1);
             uint256[] memory quantities = new uint256[](1);
@@ -135,7 +133,7 @@ contract EtherMarket is Market {
             return false;
         }
 
-        // Transfer Ether to the merchant.
+        // // Transfer Ether to the merchant.
         merchant.transfer(orderValues[2]);
         return true;
     }
