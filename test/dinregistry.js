@@ -112,6 +112,6 @@ contract("DINRegistry", accounts => {
         // Alice previously transferred ownership to Bob. Transfer it back here.
         await registry.setOwner(DIN, alice, { from: bob });
         const newUpdated = await registry.updated(DIN);
-        expect(newUpdated.toNumber()).to.equal(updated.toNumber() + time + 1);
+        expect(newUpdated.toNumber()).to.equal(updated.toNumber() + time);
     });
 });

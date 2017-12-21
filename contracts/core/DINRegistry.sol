@@ -123,7 +123,7 @@ contract DINRegistry {
     /**
      * @dev Register a new DIN and set the resolver.
      * @param _owner Account that will own the DIN.
-     * @param _resolver The address of the resolver.
+     * @param _resolver Address of the resolver.
      * @return _DIN The DIN that is registered.
      */
     function registerDINWithResolver(address _owner, address _resolver) public returns (uint256 _DIN) {
