@@ -20,6 +20,7 @@ contract Market {
       * @param s ECDSA signature parameters s.
       * @return valid Validity of the order signature.
       */
+    // Attribution: 0x - https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol#L447
     function isValidSignature(
         address signer,
         bytes32 hash,

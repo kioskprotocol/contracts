@@ -133,7 +133,7 @@ contract EtherMarket is Market {
             return false;
         }
 
-        // // Transfer Ether to the merchant.
+        // Transfer Ether to the merchant.
         merchant.transfer(orderValues[2]);
         return true;
     }

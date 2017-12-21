@@ -1,3 +1,5 @@
+// Attribution: Ethereum Name Service (ENS) - https://github.com/ethereum/ens/blob/master/contracts/ENS.sol
+
 pragma solidity ^0.4.11;
 
 /** @title Decentralized Identification Number (DIN) registry. */
