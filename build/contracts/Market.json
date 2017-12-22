@@ -77,18 +77,18 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b6103088061001e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634fb764c91461005c5780637b103999146100b15780638163681e14610106575b600080fd5b341561006757600080fd5b61006f61018a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156100bc57600080fd5b6100c46101b0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561011157600080fd5b610170600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356000191690602001909190803560ff1690602001909190803560001916906020019091908035600019169060200190919050506101d5565b604051808215151515815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600060018560405180807f19457468657265756d205369676e6564204d6573736167653a0a333200000000815250601c0182600019166000191681526020019150506040518091039020858585604051600081526020016040526000604051602001526040518085600019166000191681526020018460ff1660ff16815260200183600019166000191681526020018260001916600019168152602001945050505050602060405160208103908084039060008661646e5a03f1151561029a57600080fd5b50506020604051035173ffffffffffffffffffffffffffffffffffffffff168673ffffffffffffffffffffffffffffffffffffffff16149050959450505050505600a165627a7a72305820788ea9c987f5a827423a5956c700d1ef36d73deb980c36fa908d7df903cbcd100029",
-  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634fb764c91461005c5780637b103999146100b15780638163681e14610106575b600080fd5b341561006757600080fd5b61006f61018a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156100bc57600080fd5b6100c46101b0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561011157600080fd5b610170600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356000191690602001909190803560ff1690602001909190803560001916906020019091908035600019169060200190919050506101d5565b604051808215151515815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600060018560405180807f19457468657265756d205369676e6564204d6573736167653a0a333200000000815250601c0182600019166000191681526020019150506040518091039020858585604051600081526020016040526000604051602001526040518085600019166000191681526020018460ff1660ff16815260200183600019166000191681526020018260001916600019168152602001945050505050602060405160208103908084039060008661646e5a03f1151561029a57600080fd5b50506020604051035173ffffffffffffffffffffffffffffffffffffffff168673ffffffffffffffffffffffffffffffffffffffff16149050959450505050505600a165627a7a72305820788ea9c987f5a827423a5956c700d1ef36d73deb980c36fa908d7df903cbcd100029",
-  "sourceMap": "141:855:4:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "141:855:4:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;196:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;163:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;636:357;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;196:20;;;;;;;;;;;;;:::o;163:27::-;;;;;;;;;;;;;:::o;636:357::-;814:10;857:129;926:4;880:51;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;945:1;960;975;857:129;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;847:139;;:6;:139;;;840:146;;636:357;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.17;\n\nimport \"../core/DINRegistry.sol\";\nimport \"../core/Orders.sol\";\n\n/** @title A market generates orders from DINs. */\ncontract Market {\n    DINRegistry public registry;\n    Orders public orders;\n\n    // Log Solidity errors\n    event LogError(string error);\n\n    /**\n      * @dev Verify that an order signature is valid.\n      * @param signer address of signer.\n      * @param hash Signed Keccak-256 hash.\n      * @param v ECDSA signature parameter v.\n      * @param r ECDSA signature parameters r.\n      * @param s ECDSA signature parameters s.\n      * @return valid Validity of the order signature.\n      */\n    function isValidSignature(\n        address signer,\n        bytes32 hash,\n        uint8 v,\n        bytes32 r,\n        bytes32 s\n    )\n        public\n        pure\n        returns (bool valid)\n    {\n        return signer == ecrecover(\n            keccak256(\"\\x19Ethereum Signed Message:\\n32\", hash),\n            v,\n            r,\n            s\n        );\n    }\n\n}",
+  "bytecode": "0x6060604052341561000f57600080fd5b6103088061001e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634fb764c91461005c5780637b103999146100b15780638163681e14610106575b600080fd5b341561006757600080fd5b61006f61018a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156100bc57600080fd5b6100c46101b0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561011157600080fd5b610170600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356000191690602001909190803560ff1690602001909190803560001916906020019091908035600019169060200190919050506101d5565b604051808215151515815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600060018560405180807f19457468657265756d205369676e6564204d6573736167653a0a333200000000815250601c0182600019166000191681526020019150506040518091039020858585604051600081526020016040526000604051602001526040518085600019166000191681526020018460ff1660ff16815260200183600019166000191681526020018260001916600019168152602001945050505050602060405160208103908084039060008661646e5a03f1151561029a57600080fd5b50506020604051035173ffffffffffffffffffffffffffffffffffffffff168673ffffffffffffffffffffffffffffffffffffffff16149050959450505050505600a165627a7a72305820ea90961145df5ff8d3f2bd76b8c437a4e28abfac063cc5248756fbe5b3070af20029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634fb764c91461005c5780637b103999146100b15780638163681e14610106575b600080fd5b341561006757600080fd5b61006f61018a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156100bc57600080fd5b6100c46101b0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561011157600080fd5b610170600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356000191690602001909190803560ff1690602001909190803560001916906020019091908035600019169060200190919050506101d5565b604051808215151515815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600060018560405180807f19457468657265756d205369676e6564204d6573736167653a0a333200000000815250601c0182600019166000191681526020019150506040518091039020858585604051600081526020016040526000604051602001526040518085600019166000191681526020018460ff1660ff16815260200183600019166000191681526020018260001916600019168152602001945050505050602060405160208103908084039060008661646e5a03f1151561029a57600080fd5b50506020604051035173ffffffffffffffffffffffffffffffffffffffff168673ffffffffffffffffffffffffffffffffffffffff16149050959450505050505600a165627a7a72305820ea90961145df5ff8d3f2bd76b8c437a4e28abfac063cc5248756fbe5b3070af20029",
+  "sourceMap": "141:959:4:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "141:959:4:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;196:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;163:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;740:357;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;196:20;;;;;;;;;;;;;:::o;163:27::-;;;;;;;;;;;;;:::o;740:357::-;918:10;961:129;1030:4;984:51;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1049:1;1064;1079;961:129;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;951:139;;:6;:139;;;944:146;;740:357;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.17;\n\nimport \"../core/DINRegistry.sol\";\nimport \"../core/Orders.sol\";\n\n/** @title A market generates orders from DINs. */\ncontract Market {\n    DINRegistry public registry;\n    Orders public orders;\n\n    // Log Solidity errors\n    event LogError(string error);\n\n    /**\n      * @dev Verify that an order signature is valid.\n      * @param signer address of signer.\n      * @param hash Signed Keccak-256 hash.\n      * @param v ECDSA signature parameter v.\n      * @param r ECDSA signature parameters r.\n      * @param s ECDSA signature parameters s.\n      * @return valid Validity of the order signature.\n      */\n    // Attribution: 0x - https://github.com/0xProject/contracts/blob/master/contracts/Exchange.sol#L447\n    function isValidSignature(\n        address signer,\n        bytes32 hash,\n        uint8 v,\n        bytes32 r,\n        bytes32 s\n    )\n        public\n        pure\n        returns (bool valid)\n    {\n        return signer == ecrecover(\n            keccak256(\"\\x19Ethereum Signed Message:\\n32\", hash),\n            v,\n            r,\n            s\n        );\n    }\n\n}",
   "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/market/Market.sol",
   "ast": {
     "attributes": {
       "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/market/Market.sol",
       "exportedSymbols": {
         "Market": [
-          850
+          1226
         ]
       }
     },
@@ -102,37 +102,37 @@
             ".17"
           ]
         },
-        "id": 811,
+        "id": 1187,
         "name": "PragmaDirective",
         "src": "0:24:4"
       },
       {
         "attributes": {
-          "SourceUnit": 351,
+          "SourceUnit": 294,
           "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/core/DINRegistry.sol",
           "file": "../core/DINRegistry.sol",
-          "scope": 851,
+          "scope": 1227,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 812,
+        "id": 1188,
         "name": "ImportDirective",
         "src": "26:33:4"
       },
       {
         "attributes": {
-          "SourceUnit": 407,
+          "SourceUnit": 350,
           "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/core/Orders.sol",
           "file": "../core/Orders.sol",
-          "scope": 851,
+          "scope": 1227,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 813,
+        "id": 1189,
         "name": "ImportDirective",
         "src": "60:28:4"
       },
@@ -148,17 +148,17 @@
           "documentation": "@title A market generates orders from DINs. ",
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            850
+            1226
           ],
           "name": "Market",
-          "scope": 851
+          "scope": 1227
         },
         "children": [
           {
             "attributes": {
               "constant": false,
               "name": "registry",
-              "scope": 850,
+              "scope": 1226,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "contract DINRegistry",
@@ -170,15 +170,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "DINRegistry",
-                  "referencedDeclaration": 350,
+                  "referencedDeclaration": 293,
                   "type": "contract DINRegistry"
                 },
-                "id": 814,
+                "id": 1190,
                 "name": "UserDefinedTypeName",
                 "src": "163:11:4"
               }
             ],
-            "id": 815,
+            "id": 1191,
             "name": "VariableDeclaration",
             "src": "163:27:4"
           },
@@ -186,7 +186,7 @@
             "attributes": {
               "constant": false,
               "name": "orders",
-              "scope": 850,
+              "scope": 1226,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "contract Orders",
@@ -198,15 +198,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "Orders",
-                  "referencedDeclaration": 406,
+                  "referencedDeclaration": 349,
                   "type": "contract Orders"
                 },
-                "id": 816,
+                "id": 1192,
                 "name": "UserDefinedTypeName",
                 "src": "196:6:4"
               }
             ],
-            "id": 817,
+            "id": 1193,
             "name": "VariableDeclaration",
             "src": "196:20:4"
           },
@@ -223,7 +223,7 @@
                       "constant": false,
                       "indexed": false,
                       "name": "error",
-                      "scope": 821,
+                      "scope": 1197,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "string memory",
@@ -236,22 +236,22 @@
                           "name": "string",
                           "type": "string storage pointer"
                         },
-                        "id": 818,
+                        "id": 1194,
                         "name": "ElementaryTypeName",
                         "src": "265:6:4"
                       }
                     ],
-                    "id": 819,
+                    "id": 1195,
                     "name": "VariableDeclaration",
                     "src": "265:12:4"
                   }
                 ],
-                "id": 820,
+                "id": 1196,
                 "name": "ParameterList",
                 "src": "264:14:4"
               }
             ],
-            "id": 821,
+            "id": 1197,
             "name": "EventDefinition",
             "src": "250:29:4"
           },
@@ -265,7 +265,7 @@
               ],
               "name": "isValidSignature",
               "payable": false,
-              "scope": 850,
+              "scope": 1226,
               "stateMutability": "pure",
               "superFunction": null,
               "visibility": "public"
@@ -277,7 +277,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "signer",
-                      "scope": 849,
+                      "scope": 1225,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -290,20 +290,20 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 822,
+                        "id": 1198,
                         "name": "ElementaryTypeName",
-                        "src": "671:7:4"
+                        "src": "775:7:4"
                       }
                     ],
-                    "id": 823,
+                    "id": 1199,
                     "name": "VariableDeclaration",
-                    "src": "671:14:4"
+                    "src": "775:14:4"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "hash",
-                      "scope": 849,
+                      "scope": 1225,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -316,20 +316,20 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 824,
+                        "id": 1200,
                         "name": "ElementaryTypeName",
-                        "src": "695:7:4"
+                        "src": "799:7:4"
                       }
                     ],
-                    "id": 825,
+                    "id": 1201,
                     "name": "VariableDeclaration",
-                    "src": "695:12:4"
+                    "src": "799:12:4"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "v",
-                      "scope": 849,
+                      "scope": 1225,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint8",
@@ -342,20 +342,20 @@
                           "name": "uint8",
                           "type": "uint8"
                         },
-                        "id": 826,
+                        "id": 1202,
                         "name": "ElementaryTypeName",
-                        "src": "717:5:4"
+                        "src": "821:5:4"
                       }
                     ],
-                    "id": 827,
+                    "id": 1203,
                     "name": "VariableDeclaration",
-                    "src": "717:7:4"
+                    "src": "821:7:4"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "r",
-                      "scope": 849,
+                      "scope": 1225,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -368,20 +368,20 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 828,
+                        "id": 1204,
                         "name": "ElementaryTypeName",
-                        "src": "734:7:4"
+                        "src": "838:7:4"
                       }
                     ],
-                    "id": 829,
+                    "id": 1205,
                     "name": "VariableDeclaration",
-                    "src": "734:9:4"
+                    "src": "838:9:4"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "s",
-                      "scope": 849,
+                      "scope": 1225,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -394,19 +394,19 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 830,
+                        "id": 1206,
                         "name": "ElementaryTypeName",
-                        "src": "753:7:4"
+                        "src": "857:7:4"
                       }
                     ],
-                    "id": 831,
+                    "id": 1207,
                     "name": "VariableDeclaration",
-                    "src": "753:9:4"
+                    "src": "857:9:4"
                   }
                 ],
-                "id": 832,
+                "id": 1208,
                 "name": "ParameterList",
-                "src": "661:107:4"
+                "src": "765:107:4"
               },
               {
                 "children": [
@@ -414,7 +414,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "valid",
-                      "scope": 849,
+                      "scope": 1225,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -427,25 +427,25 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 833,
+                        "id": 1209,
                         "name": "ElementaryTypeName",
-                        "src": "814:4:4"
+                        "src": "918:4:4"
                       }
                     ],
-                    "id": 834,
+                    "id": 1210,
                     "name": "VariableDeclaration",
-                    "src": "814:10:4"
+                    "src": "918:10:4"
                   }
                 ],
-                "id": 835,
+                "id": 1211,
                 "name": "ParameterList",
-                "src": "813:12:4"
+                "src": "917:12:4"
               },
               {
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 835
+                      "functionReturnParameters": 1211
                     },
                     "children": [
                       {
@@ -469,13 +469,13 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 823,
+                              "referencedDeclaration": 1199,
                               "type": "address",
                               "value": "signer"
                             },
-                            "id": 836,
+                            "id": 1212,
                             "name": "Identifier",
-                            "src": "847:6:4"
+                            "src": "951:6:4"
                           },
                           {
                             "attributes": {
@@ -515,13 +515,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1103,
+                                  "referencedDeclaration": 1303,
                                   "type": "function (bytes32,uint8,bytes32,bytes32) pure returns (address)",
                                   "value": "ecrecover"
                                 },
-                                "id": 837,
+                                "id": 1213,
                                 "name": "Identifier",
-                                "src": "857:9:4"
+                                "src": "961:9:4"
                               },
                               {
                                 "attributes": {
@@ -553,13 +553,13 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1104,
+                                      "referencedDeclaration": 1304,
                                       "type": "function () pure returns (bytes32)",
                                       "value": "keccak256"
                                     },
-                                    "id": 838,
+                                    "id": 1214,
                                     "name": "Identifier",
-                                    "src": "880:9:4"
+                                    "src": "984:9:4"
                                   },
                                   {
                                     "attributes": {
@@ -574,9 +574,9 @@
                                       "type": "literal_string \"\u0019Ethereum Signed Message:\n32\"",
                                       "value": "\u0019Ethereum Signed Message:\n32"
                                     },
-                                    "id": 839,
+                                    "id": 1215,
                                     "name": "Literal",
-                                    "src": "890:34:4"
+                                    "src": "994:34:4"
                                   },
                                   {
                                     "attributes": {
@@ -584,18 +584,18 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 825,
+                                      "referencedDeclaration": 1201,
                                       "type": "bytes32",
                                       "value": "hash"
                                     },
-                                    "id": 840,
+                                    "id": 1216,
                                     "name": "Identifier",
-                                    "src": "926:4:4"
+                                    "src": "1030:4:4"
                                   }
                                 ],
-                                "id": 841,
+                                "id": 1217,
                                 "name": "FunctionCall",
-                                "src": "880:51:4"
+                                "src": "984:51:4"
                               },
                               {
                                 "attributes": {
@@ -603,13 +603,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 827,
+                                  "referencedDeclaration": 1203,
                                   "type": "uint8",
                                   "value": "v"
                                 },
-                                "id": 842,
+                                "id": 1218,
                                 "name": "Identifier",
-                                "src": "945:1:4"
+                                "src": "1049:1:4"
                               },
                               {
                                 "attributes": {
@@ -617,13 +617,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 829,
+                                  "referencedDeclaration": 1205,
                                   "type": "bytes32",
                                   "value": "r"
                                 },
-                                "id": 843,
+                                "id": 1219,
                                 "name": "Identifier",
-                                "src": "960:1:4"
+                                "src": "1064:1:4"
                               },
                               {
                                 "attributes": {
@@ -631,48 +631,48 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 831,
+                                  "referencedDeclaration": 1207,
                                   "type": "bytes32",
                                   "value": "s"
                                 },
-                                "id": 844,
+                                "id": 1220,
                                 "name": "Identifier",
-                                "src": "975:1:4"
+                                "src": "1079:1:4"
                               }
                             ],
-                            "id": 845,
+                            "id": 1221,
                             "name": "FunctionCall",
-                            "src": "857:129:4"
+                            "src": "961:129:4"
                           }
                         ],
-                        "id": 846,
+                        "id": 1222,
                         "name": "BinaryOperation",
-                        "src": "847:139:4"
+                        "src": "951:139:4"
                       }
                     ],
-                    "id": 847,
+                    "id": 1223,
                     "name": "Return",
-                    "src": "840:146:4"
+                    "src": "944:146:4"
                   }
                 ],
-                "id": 848,
+                "id": 1224,
                 "name": "Block",
-                "src": "830:163:4"
+                "src": "934:163:4"
               }
             ],
-            "id": 849,
+            "id": 1225,
             "name": "FunctionDefinition",
-            "src": "636:357:4"
+            "src": "740:357:4"
           }
         ],
-        "id": 850,
+        "id": 1226,
         "name": "ContractDefinition",
-        "src": "141:855:4"
+        "src": "141:959:4"
       }
     ],
-    "id": 851,
+    "id": 1227,
     "name": "SourceUnit",
-    "src": "0:996:4"
+    "src": "0:1100:4"
   },
   "compiler": {
     "name": "solc",
@@ -680,5 +680,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-21T21:19:52.025Z"
+  "updatedAt": "2017-12-22T05:31:32.130Z"
 }
