@@ -25,8 +25,9 @@ contract StandardResolver is URLResolver {
                interfaceID == PRODUCT_URL_INTERFACE_ID;
     }
 
-    function productURL(uint256 DIN) public constant returns (string) {
-        return url;
+    function productURL(uint256 DIN) public constant returns (string baseURL, uint256 productId) {
+        baseURL = url;
+        productId = DIN;
     }
 
     function setProductURL(string _productURL) public only_owner {
