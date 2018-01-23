@@ -1,4 +1,4 @@
-const EtherMarket = artifacts.require("EtherMarket.sol");
+const StandardMarket = artifacts.require("StandardMarket.sol");
 const DINRegistry = artifacts.require("DINRegistry.sol");
 const DINRegistryUtils = artifacts.require("DINRegistryUtils.sol");
 const Orders = artifacts.require("Orders.sol");
@@ -9,7 +9,7 @@ const Account = require("eth-lib/lib/account");
 const Utils = require("web3-utils");
 const ABI = require("web3-eth-abi");
 
-contract("EtherMarket", accounts => {
+contract("StandardMarket", accounts => {
     let market;
     let registry;
     let orders;
@@ -42,7 +42,7 @@ contract("EtherMarket", accounts => {
     const ERROR_INVALID_SIGNATURE = "Invalid signature";
 
     before(async () => {
-        market = await EtherMarket.deployed();
+        market = await StandardMarket.deployed();
         registry = await DINRegistry.deployed();
         orders = await Orders.deployed();
 

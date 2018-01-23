@@ -7,9 +7,9 @@ contract("StandardResolver", accounts => {
     let resolver;
     let registry;
     const alice = accounts[0]; // DIN owner and merchant
-    const productURL = "https://api.examplestore.com/products/";
-
     const DIN = 1000000001;
+    const baseURL = "https://api.examplestore.com/products/";
+    const productURL = "https://api.examplestore.com/products/1000000001";
 
     before(async () => {
         resolver = await StandardResolver.deployed();
@@ -22,7 +22,10 @@ contract("StandardResolver", accounts => {
     });
 
     it("should have the correct product URL", async () => {
-        const url = await resolver.productURL(DIN);
+        const tuple = await resolver.productURL(DIN);
+        const base = tuple[0];
+        const product = tuple[1].toNumber();
+        const url = base + product;
         expect(url).to.equal(productURL);
     });
 

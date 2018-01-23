@@ -3,7 +3,7 @@ const DINRegistryUtils = artifacts.require("DINRegistryUtils.sol");
 const StandardResolver = artifacts.require("StandardResolver.sol");
 const ResolverFactory = artifacts.require("ResolverFactory.sol");
 const Orders = artifacts.require("Orders.sol");
-const EtherMarket = artifacts.require("EtherMarket.sol");
+const StandardMarket = artifacts.require("StandardMarket.sol");
 const genesis = 1000000000; // The first DIN.
 const initialSupply = 50000000 * Math.pow(10, 18); // 50 million tokens.
 const productURL = "https://api.examplestore.com/products/";
@@ -27,7 +27,7 @@ module.exports = async (deployer, network, accounts) => {
         await deployer.deploy(Orders);
         // Deploy Checkout
         await deployer.deploy(
-            EtherMarket,
+            StandardMarket,
             DINRegistry.address,
             Orders.address
         );
