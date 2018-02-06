@@ -26,10 +26,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.11;\n\n/** @title Base resolver contract */\ncontract Resolver {\n    // https://github.com/ethereum/EIPs/issues/165\n    function supportsInterface(bytes4 interfaceID) public constant returns (bool);\n}",
-  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/resolver/Resolver.sol",
+  "sourcePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/resolver/Resolver.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/contracts/contracts/resolver/Resolver.sol",
+      "absolutePath": "/Users/richardmcateer/Developer/Ethereum/kiosk/kiosk.js/contracts/contracts/resolver/Resolver.sol",
       "exportedSymbols": {
         "Resolver": [
           858
@@ -172,5 +172,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-01-23T17:06:03.914Z"
+  "updatedAt": "2018-02-06T19:11:02.459Z"
 }
